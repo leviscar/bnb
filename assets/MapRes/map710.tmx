@@ -72,7 +72,4 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="5" name="roles">
-  <object id="7" name="role1" gid="51" x="33" y="321" width="32" height="32"/>
- </objectgroup>
 </map>

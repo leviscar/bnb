@@ -1,15 +1,22 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+var MoveDirection = cc.Enum({
+    NONE: 0,
+    UP: 1,
+    DOWN: 2,
+    LEFT: 3,
+    RIGHT: 4
+});
+
+var minTilesCount = 2;
+var mapMoveStep = 1;
+var minMoveValue = 32;
 
 cc.Class({
     extends: cc.Component,
+
+    // import cc.TileMap component
+    editor: {
+        requireComponent: cc.TiledMap
+    },
 
     properties: {
         // foo: {
@@ -29,6 +36,15 @@ cc.Class({
         // },
     },
 
+    // this function is for initiallization
+    onLoad: function(){
+
+    },
+
+    // this function is for destroy
+    onDestroy: function(){
+
+    },
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},

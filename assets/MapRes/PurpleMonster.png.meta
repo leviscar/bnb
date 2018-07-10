@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "aafef402-d7ea-4ad3-b0e8-4b6e64c716e6",
+  "uuid": "45e03cb6-5301-4686-8864-c77c9611b6ce",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "TownBox": {
+    "PurpleMonster": {
       "ver": "1.0.3",
-      "uuid": "42ac8663-ed20-4a1b-bfdb-04e5aa129f35",
-      "rawTextureUuid": "aafef402-d7ea-4ad3-b0e8-4b6e64c716e6",
+      "uuid": "f6fc2881-7c57-499f-afc6-bacde27aea46",
+      "rawTextureUuid": "45e03cb6-5301-4686-8864-c77c9611b6ce",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 29,
-      "height": 32,
-      "rawWidth": 29,
-      "rawHeight": 32,
+      "width": 78,
+      "height": 67,
+      "rawWidth": 78,
+      "rawHeight": 67,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
