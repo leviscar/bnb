@@ -43,19 +43,19 @@ cc.Class({
             switch(event.keyCode) {
                 case cc.KEY.a:
                     // 左移
-                    moveAction(MoveDirection.LEFT);
+                    this.moveAction(MoveDirection.LEFT);
                     break;
                 case cc.KEY.d:
                     // 右移
-                    moveAction(MoveDirection.RIGHT);
+                    this.moveAction(MoveDirection.RIGHT);
                     break;
                 case cc.KEY.w:
                     // 上移
-                    moveAction(MoveDirection.UP);
+                    this.moveAction(MoveDirection.UP);
                     break;
                 case cc.KEY.s:
                     // 下移
-                    moveAction(MoveDirection.DOWN);
+                    this.moveAction(MoveDirection.DOWN);
                     break;
             }
         });
