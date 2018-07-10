@@ -27,25 +27,28 @@ var rooms = {};
 // var role2 = new Role('challenger');
 // role2.setPosition(400,400);
 
-var clientCallback = function(role1,role2){
+var clientCallback = function(room){
     var msg = [];
     msg.push(
         {
-            name:role1.name,
+            name:room.masterRole.name,
             position:{
-                x:role1.position.X,
-                y:role1.position.Y
+                x:room.masterRole.position.X,
+                y:room.masterRole.position.Y
             }
         });
     msg.push(
         {
-            name:role2.name,
+            name:room.challengerRole.name,
             position:{
-                x:role2.position.X,
-                y:role2.position.Y
+                x:room.challengerRole.position.X,
+                y:room.challengerRole.position.Y
             }
         });
+    room.master.emit("roleInfo",msg);
+    room.challenger.emit("roleInfo",msg);
     console.log(msg);
+
     msg = [];
 };
 
@@ -71,7 +74,7 @@ io.on('connection', function (socket) {
             room.challengerRole = role;
 
             setInterval(function(){
-                clientCallback(room.masterRole,room.challengerRole)
+                clientCallback(room)
             },1000);
 
             // var role = new Role();

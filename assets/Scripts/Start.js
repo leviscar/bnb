@@ -1,22 +1,7 @@
-var MoveDirection = cc.Enum({
-    NONE: 0,
-    UP: 1,
-    DOWN: 2,
-    LEFT: 3,
-    RIGHT: 4
-});
-
-var minTilesCount = 2;
-var mapMoveStep = 1;
-var minMoveValue = 32;
+var com  = require('Common');
 
 cc.Class({
     extends: cc.Component,
-
-    // import cc.TileMap component
-    editor: {
-        requireComponent: cc.TiledMap
-    },
 
     properties: {
         // foo: {
@@ -34,17 +19,31 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+        
+        NewRoom: cc.Button,
+        JoinRoom: cc.Button
     },
-
-    // this function is for initiallization
     onLoad: function(){
+        var socket = window.io("http://localhost:4000");
+        com.socket = socket;       
 
+        this.NewRoom.node.on('click',this.newRoom,this);
+        this.JoinRoom.node.on('click',this.joinRoom,this);
+
+        // socket.on("roleInfo",function(data){
+        //     console.log(data);
+        // })
+    },
+    newRoom: function(event){
+        console.log("newRoom");
+        com.socket.emit("newRoom",{name:666});
+    },
+    joinRoom: function(event){
+        console.log("joinRoom");
+        com.socket.emit("joinRoom",666);
+        cc.director.loadScene("map");
     },
 
-    // this function is for destroy
-    onDestroy: function(){
-
-    },
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
