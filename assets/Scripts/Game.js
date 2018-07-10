@@ -30,8 +30,11 @@ cc.Class({
     },
 
     onLoad: function(){
+        var socket = window.io;
         this._player = this.node.getChildByName("player");
+
         console.log("game start");
+        console.log(socket);
 
     },
     // LIFE-CYCLE CALLBACKS:

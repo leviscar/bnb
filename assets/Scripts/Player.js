@@ -1,3 +1,10 @@
+var MoveDirection = cc.Enum({
+    NONE: 0,
+    UP: 1,
+    DOWN: 2,
+    LEFT: 3,
+    RIGHT: 4
+});
 
 cc.Class({
     extends: cc.Component,
@@ -11,6 +18,23 @@ cc.Class({
         isLive: true
     },
 
+    moveAction: function(direct){
+        switch(direct){
+            case MoveDirection.UP:
+            console.log("up");
+            break;
+            case MoveDirection.LEFT:
+            console.log("left");
+            break;
+            case MoveDirection.RIGHT:
+            console.log("right");
+            break;
+            case MoveDirection.DOWN:
+            console.log("down");
+            break;
+        }
+    },
+
     setInputControl: function(){
         var self = this;
         // 添加键盘事件监听
@@ -19,19 +43,19 @@ cc.Class({
             switch(event.keyCode) {
                 case cc.KEY.a:
                     // 左移
-                    console.log("left");
+                    moveAction(MoveDirection.LEFT);
                     break;
                 case cc.KEY.d:
                     // 右移
-                    console.log("right");
+                    moveAction(MoveDirection.RIGHT);
                     break;
                 case cc.KEY.w:
                     // 上移
-                    console.log("up");
+                    moveAction(MoveDirection.UP);
                     break;
                 case cc.KEY.s:
                     // 下移
-                    console.log("down");
+                    moveAction(MoveDirection.DOWN);
                     break;
             }
         });
