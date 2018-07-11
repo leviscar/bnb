@@ -27,8 +27,9 @@ var rooms = {};
 // var role2 = new Role('challenger');
 // role2.setPosition(400,400);
 
-var clientCallback = function(room){
+var clientCallback = function(roomname){
     var msg = [];
+    var room = rooms[roomname];
     msg.push(
         {
             name:room.masterRole.name,
@@ -45,8 +46,10 @@ var clientCallback = function(room){
                 y:room.challengerRole.position.Y
             }
         });
-    room.master.emit("roleInfo",msg);
-    room.challenger.emit("roleInfo",msg);
+    // room.master.emit("roleInfo",msg);
+    // room.challenger.emit("roleInfo",msg);
+
+    io.to(roomname).emit("roleInfo",msg);
     console.log(msg);
 
     msg = [];
@@ -68,19 +71,20 @@ io.on('connection', function (socket) {
             socket.roomname = roomname;
             socket.role = 'challenger';
             room.challenger = socket;
+            socket.join(roomname);
 
             var role = new Role('challenger');
             role.setPosition(400,400);
             room.challengerRole = role;
 
             setInterval(function(){
-                clientCallback(room)
+                clientCallback(roomname);
             },20);
 
             // var role = new Role();
-            var RandomSeed = Math.random();
-            room.master.emit("start", {role: "master", seed: RandomSeed});
-            room.challenger.emit("start", {role: "challenger", seed: RandomSeed} )
+            // var RandomSeed = Math.random();
+            // room.master.emit("start", {role: "master", seed: RandomSeed});
+            // room.challenger.emit("start", {role: "challenger", seed: RandomSeed} );
        
         }
 
@@ -107,6 +111,7 @@ io.on('connection', function (socket) {
             msg = {'ret': 1};
             socket.roomname = roomname;
             socket.role = 'master';
+            socket.join(roomname);
         }
         socket.emit('newRooms', msg);
     });
