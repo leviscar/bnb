@@ -17,7 +17,7 @@ var Role = function(name, point){
     this.name = name;
     this.position = new Point(0,0);
     // this.Direction = 1; //down
-    this.MoveStep = 5;
+    this.MoveStep = 32;
 
     this.setPosition = function(x, y){
         this.position.X = x;
