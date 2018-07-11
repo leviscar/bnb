@@ -17,7 +17,7 @@ var Role = function(name, point){
     this.name = name;
     this.position = new Point(0,0);
     // this.Direction = 1; //down
-    this.MoveStep = 20;
+    this.MoveStep = 32;
 
     this.setPosition = function(x, y){
         this.position.X = x;
@@ -37,6 +37,8 @@ var Role = function(name, point){
         // this.Stop();
         if(directionnum==this.currentDirection &&
             this.isKeyDown) return;
+        
+        this.Stop();
 
         this.currentDirection = directionnum;
         this.isKeyDown = true;
@@ -53,10 +55,10 @@ var Role = function(name, point){
             console.log(1);
             switch (directionnum) {
                 case Direction.Up:
-                    t.position.Y -= t.MoveStep;
+                    t.position.Y += t.MoveStep;
                     break;
                 case Direction.Down:
-                    t.position.Y += t.MoveStep;
+                    t.position.Y -= t.MoveStep;
                     break;
                 case Direction.Left:
                     t.position.X -= t.MoveStep;
@@ -65,11 +67,15 @@ var Role = function(name, point){
                     t.position.X += t.MoveStep;
                     break;
             }
-        }, 500);
+        }, 40);
     }
         
     //停止移动
-    this.Stop = function() {
+    this.Stop = function(directionnum) {
+        if(directionnum != null){
+            if(directionnum != this.currentDirection)
+                return;
+        }
         console.log(2);
         this.isKeyDown = false;
         this.currentDirection = Direction.None;

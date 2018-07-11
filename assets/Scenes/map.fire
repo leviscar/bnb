@@ -18,9 +18,6 @@
       },
       {
         "__id__": 4
-      },
-      {
-        "__id__": 15
       }
     ],
     "_tag": -1,
@@ -453,106 +450,16 @@
       "__id__": 4
     },
     "_enabled": true,
-    "rolePrefab": {
-      "__uuid__": "6944e819-c203-4929-8878-c63e3a6e559b"
+    "masterPrefab": {
+      "__uuid__": "dee5b7ed-8314-448b-95e6-2adbbc2f1e32"
+    },
+    "challengerPrefab": {
+      "__uuid__": "e69da005-b562-453f-b8c2-c9d56c02f76d"
     },
     "groundLayerName": "ground",
     "blocksLayerName": "blocks",
     "giftsLayerName": "gifts",
     "barriersLayerName": "barriers",
     "player": null
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "player",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_tag": -1,
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 16
-      },
-      {
-        "__id__": 17
-      }
-    ],
-    "_prefab": null,
-    "_id": "a3slakvmxCcYdnaC9sIlU8",
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_cascadeOpacityEnabled": true,
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 32,
-      "height": 32
-    },
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_scaleX": 1,
-    "_scaleY": 1,
-    "_position": {
-      "__type__": "cc.Vec2",
-      "x": 32,
-      "y": 32
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_localZOrder": 0,
-    "_globalZOrder": 0,
-    "_opacityModifyRGB": false,
-    "groupIndex": 0
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 15
-    },
-    "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "a8874713-f96b-4d76-b4f7-9913a8667125"
-    },
-    "_type": 0,
-    "_sizeMode": 0,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_atlas": null
-  },
-  {
-    "__type__": "ce124SZvHZCgoGc/tga838h",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 15
-    },
-    "_enabled": true,
-    "moveSpeed": 0,
-    "moveStep": 32,
-    "isLive": true
   }
 ]

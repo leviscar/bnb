@@ -70,12 +70,12 @@ io.on('connection', function (socket) {
             room.challenger = socket;
 
             var role = new Role('challenger');
-            role.setPosition(606,440);
+            role.setPosition(32*11,32*9);
             room.challengerRole = role;
 
             setInterval(function(){
                 clientCallback(room)
-            },1000);
+            },20);
 
             // var role = new Role();
             var RandomSeed = Math.random();
@@ -96,7 +96,7 @@ io.on('connection', function (socket) {
             msg = {'ret': 0, 'err': 'room already existed'}
         } else {
             var role = new Role('master');
-            role.setPosition(286,184);   
+            role.setPosition(32,32);   
             rooms[roomname] = {
                 master: socket,
                 masterRole: role, 
@@ -114,10 +114,12 @@ io.on('connection', function (socket) {
         var room = rooms[socket.roomname];
         if(room){
             if (socket.role === 'master') {
-                room.masterRole.Stop();
+                // room.masterRole.Stop();
+                stopByKeyCode(data,room.masterRole);
                 // room.challenger.emit("KU", data);
             } else {
-                room.challengerRole.Stop();
+                // room.challengerRole.Stop(data);
+                stopByKeyCode(data,room.challengerRole);
                 // room.master.emit("KU", data);
             }
         }
@@ -183,6 +185,23 @@ var moveByKeyCode = function(key, role){
         //D键,向右移动
         case 68:
             role.Move(Direction.Right);
+            break;
+    }
+}
+
+var stopByKeyCode = function(key, role){
+    switch (key) {  
+        case 87:
+            role.Stop(Direction.Up);
+            break;
+        case 65:
+            role.Stop(Direction.Left);
+            break;
+        case 83:
+            role.Stop(Direction.Down);
+            break;
+        case 68:
+            role.Stop(Direction.Right);
             break;
     }
 }

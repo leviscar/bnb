@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "role",
+    "_name": "master",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -84,7 +84,7 @@
     },
     "_fillStart": 0,
     "_fillRange": 0,
-    "_isTrimmedMode": false,
+    "_isTrimmedMode": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_atlas": null
@@ -108,9 +108,9 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "dee5b7ed-8314-448b-95e6-2adbbc2f1e32"
     },
-    "fileId": "2fCF4/+dtEKJXqG5EDqe7/",
+    "fileId": "52lhCZrm5BbLZZi0tNN+jF",
     "sync": false
   }
 ]
