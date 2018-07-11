@@ -85,23 +85,23 @@ cc.Class({
     // onLoad () {},
     onLoad: function(){
 
-        // // 初始化移动速度
-        // this.moveSpeed = 1;
+        // 初始化移动速度
+        this.moveSpeed = 1;
 
-        // // 初始化键盘监听事件
-        // this.setInputControl();
-        var self = this;
-        var socket = com.socket;
+        // 初始化键盘监听事件
+        this.setInputControl();
+        // var self = this;
+        // var socket = com.socket;
 
-        socket.on("roleInfo",function(data){
-            var obj = data[1].position;
-            console.log(obj.x);
-            // this.node.x = obj.x;
-            // this.node.y = obj.y;
-            var seq = cc.moveTo(0.2,obj.x,obj.y);
-            self.node.runAction(seq);
+        // socket.on("roleInfo",function(data){
+        //     var obj = data[1].position;
+        //     console.log(obj.x);
+        //     // this.node.x = obj.x;
+        //     // this.node.y = obj.y;
+        //     var seq = cc.moveTo(0.2,obj.x,obj.y);
+        //     self.node.runAction(seq);
             
-        })
+        // })
     },
 
     move: function(obj){

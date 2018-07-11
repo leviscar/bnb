@@ -70,7 +70,7 @@ io.on('connection', function (socket) {
             room.challenger = socket;
 
             var role = new Role('challenger');
-            role.setPosition(400,400);
+            role.setPosition(606,440);
             room.challengerRole = role;
 
             setInterval(function(){
@@ -96,7 +96,7 @@ io.on('connection', function (socket) {
             msg = {'ret': 0, 'err': 'room already existed'}
         } else {
             var role = new Role('master');
-            role.setPosition(20,20);   
+            role.setPosition(286,184);   
             rooms[roomname] = {
                 master: socket,
                 masterRole: role, 
