@@ -9,6 +9,7 @@ var swig = require('swig');
 var Direction = require('./public/tdGame/tdRole').Direction
 
 var Role = require('./public/tdGame/tdRole').Role
+var TDMap = require('./public/tdGame/tdMap').TDMap
 
 app.engine('html', swig.renderFile);
 
@@ -35,16 +36,16 @@ var clientCallback = function(roomname){
             {
                 name:room.masterRole.name,
                 position:{
-                    x:room.masterRole.position.X,
-                    y:room.masterRole.position.Y
+                    x:room.masterRole.position.x,
+                    y:room.masterRole.position.y
                 }
             });
         msg.push(
             {
                 name:room.challengerRole.name,
                 position:{
-                    x:room.challengerRole.position.X,
-                    y:room.challengerRole.position.Y
+                    x:room.challengerRole.position.x,
+                    y:room.challengerRole.position.y
                 }
             });
         // room.master.emit("roleInfo",msg);
@@ -79,6 +80,11 @@ io.on('connection', function (socket) {
             var role = new Role('challenger');
             role.setPosition(32*11,32*9);
             room.challengerRole = role;
+
+            let tdMap = new TDMap();
+
+            room.masterRole.setMap(tdMap);
+            room.challengerRole.setMap(tdMap);
 
             room.roomInfoInterval = setInterval(function(){
                 clientCallback(roomname);
@@ -192,19 +198,19 @@ var moveByKeyCode = function(key, role){
     switch (key) {
         //W键,向上移动     
         case 87:
-            role.Move(Direction.Up);
+            role.move(Direction.Up);
             break;
         //A键,向左移动
         case 65:
-            role.Move(Direction.Left);
+            role.move(Direction.Left);
             break;
             //S键,向下移动
         case 83:
-            role.Move(Direction.Down);
+            role.move(Direction.Down);
             break;
         //D键,向右移动
         case 68:
-            role.Move(Direction.Right);
+            role.move(Direction.Right);
             break;
     }
 }
@@ -212,16 +218,16 @@ var moveByKeyCode = function(key, role){
 var stopByKeyCode = function(key, role){
     switch (key) {  
         case 87:
-            role.Stop(Direction.Up);
+            role.stop(Direction.Up);
             break;
         case 65:
-            role.Stop(Direction.Left);
+            role.stop(Direction.Left);
             break;
         case 83:
-            role.Stop(Direction.Down);
+            role.stop(Direction.Down);
             break;
         case 68:
-            role.Stop(Direction.Right);
+            role.stop(Direction.Right);
             break;
     }
 }
