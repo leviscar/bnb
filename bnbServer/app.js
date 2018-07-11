@@ -30,29 +30,32 @@ var rooms = {};
 var clientCallback = function(roomname){
     var msg = [];
     var room = rooms[roomname];
-    msg.push(
-        {
-            name:room.masterRole.name,
-            position:{
-                x:room.masterRole.position.X,
-                y:room.masterRole.position.Y
-            }
-        });
-    msg.push(
-        {
-            name:room.challengerRole.name,
-            position:{
-                x:room.challengerRole.position.X,
-                y:room.challengerRole.position.Y
-            }
-        });
-    // room.master.emit("roleInfo",msg);
-    // room.challenger.emit("roleInfo",msg);
-
-    io.to(roomname).emit("roleInfo",msg);
-    console.log(msg);
-
-    msg = [];
+    if(room){
+        msg.push(
+            {
+                name:room.masterRole.name,
+                position:{
+                    x:room.masterRole.position.X,
+                    y:room.masterRole.position.Y
+                }
+            });
+        msg.push(
+            {
+                name:room.challengerRole.name,
+                position:{
+                    x:room.challengerRole.position.X,
+                    y:room.challengerRole.position.Y
+                }
+            });
+        // room.master.emit("roleInfo",msg);
+        // room.challenger.emit("roleInfo",msg);
+    
+        io.to(roomname).emit("roleInfo",msg);
+        console.log(msg);
+    }else{
+        delete rooms[roomname];
+        clearInterval(this);
+    }
 };
 
 app.get('/', function (req, res) {
@@ -77,7 +80,7 @@ io.on('connection', function (socket) {
             role.setPosition(32*11,32*9);
             room.challengerRole = role;
 
-            setInterval(function(){
+            room.roomInfoInterval = setInterval(function(){
                 clientCallback(roomname);
             },20);
 
@@ -90,10 +93,12 @@ io.on('connection', function (socket) {
         }
 
     });
+
     socket.on('getRooms', function(data) {
         var msg = {'ret': 1, 'data': Object.keys(rooms)};
         socket.emit('getRooms', msg);
     });
+
     socket.on('newRoom', function(data) {
         var roomname = data['name'];
         var msg;
@@ -107,7 +112,8 @@ io.on('connection', function (socket) {
                 masterRole: role, 
                 challenger: null, 
                 challengerRole: null,
-                winner: null
+                winner: null,
+                roomInfoInterval: null
             };
             msg = {'ret': 1};
             socket.roomname = roomname;
@@ -116,6 +122,7 @@ io.on('connection', function (socket) {
         }
         socket.emit('newRooms', msg);
     });
+
     socket.on('KeyUp', function (data) {
         var room = rooms[socket.roomname];
         if(room){
@@ -130,6 +137,7 @@ io.on('connection', function (socket) {
             }
         }
     });
+
     socket.on('KeyDown', function (data) {
         var room = rooms[socket.roomname];
         if (room) {
@@ -143,6 +151,7 @@ io.on('connection', function (socket) {
             }
         }
     });
+
     socket.on('end', function (data) {
         var room = rooms[socket.roomname];
         var winner = data;
@@ -156,11 +165,16 @@ io.on('connection', function (socket) {
             delete rooms[socket.roomname];
         }
     });
+
     socket.on('disconnect', function(){
         var room = rooms[socket.roomname];
         if (room) {
-            var other = (room.challenger == socket)?room.master:room.challenger;
-            other.emit('err', "Other Player Disconnected!");
+            // var other = (room.challenger == socket)?room.master:room.challenger;
+            // other.emit('err', "Other Player Disconnected!");
+            socket.leave(socket.roomname);
+            clearInterval(room.roomInfoInterval);
+            delete room;
+            delete rooms[socket.roomname];
         }
     })
 
