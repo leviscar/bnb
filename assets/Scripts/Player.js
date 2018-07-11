@@ -90,18 +90,72 @@ cc.Class({
 
         // // 初始化键盘监听事件
         // this.setInputControl();
-        var self = this;
-        var socket = com.socket;
+        let self = this;
+        let socket = com.socket;
 
         socket.on("roleInfo",function(data){
-            var obj = data[1].position;
+            let obj = data[1].position;
             console.log(obj.x);
             // this.node.x = obj.x;
             // this.node.y = obj.y;
-            var seq = cc.moveTo(0.2,obj.x,obj.y);
-            self.node.runAction(seq);
+            // let seq = cc.moveTo(0.2,obj.x,obj.y);
+            // self.node.runAction(seq);
+            self.node.setPosition(obj.x,obj.y);
             
-        })
+        });
+
+        // add key down and key up event
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    },
+
+    onDestroy () {
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    },
+
+    onKeyDown: function (event) {
+        let socket = com.socket;
+        switch(event.keyCode) {
+            case cc.KEY.a:
+                console.log('Press a key');
+                socket.emit("KeyDown",event.keyCode);
+                break;
+            case cc.KEY.s:
+                console.log('Press s key');
+                socket.emit("KeyDown",event.keyCode);
+                break;
+            case cc.KEY.w:
+                console.log('Press w key');
+                socket.emit("KeyDown",event.keyCode);
+                break;
+            case cc.KEY.d:
+                console.log('Press d key');
+                socket.emit("KeyDown",event.keyCode);
+                break;
+        }
+    },
+
+    onKeyUp: function (event) {
+        let socket = com.socket;
+        switch(event.keyCode) {
+            case cc.KEY.a:
+                console.log('release a key');
+                socket.emit("KeyUp",event.keyCode);
+                break;
+            case cc.KEY.s:
+                console.log('release s key');
+                socket.emit("KeyUp",event.keyCode);
+                break;
+            case cc.KEY.w:
+                console.log('release w key');
+                socket.emit("KeyUp",event.keyCode);
+                break;
+            case cc.KEY.d:
+                console.log('release d key');
+                socket.emit("KeyUp",event.keyCode);
+                break;
+        }
     },
 
     move: function(obj){
