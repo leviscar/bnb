@@ -33,15 +33,22 @@ cc.Class({
         // socket.on("roleInfo",function(data){
         //     console.log(data);
         // })
+
+        socket.on("start",function(data){
+            
+            cc.director.loadScene("map");
+        });
     },
     newRoom: function(event){
         console.log("newRoom");
+        com.socket.role = 'master';
         com.socket.emit("newRoom",{name:666});
     },
     joinRoom: function(event){
         console.log("joinRoom");
+        com.socket.role = 'challenger';
         com.socket.emit("joinRoom",666);
-        cc.director.loadScene("map");
+        // cc.director.loadScene("map");
     },
 
     // LIFE-CYCLE CALLBACKS:

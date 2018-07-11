@@ -81,6 +81,7 @@ io.on('connection', function (socket) {
                 clientCallback(roomname);
             },20);
 
+            io.to(roomname).emit("start",{});
             // var role = new Role();
             // var RandomSeed = Math.random();
             // room.master.emit("start", {role: "master", seed: RandomSeed});

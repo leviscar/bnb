@@ -49,9 +49,13 @@ cc.Class({
         // this._player = this.node.getChildByName("player");
         console.log("game start");
         
-        
+        let roleObj = {}
+
         masterRole= this.spawnNewRole(masterPos,this.masterPrefab);
         challengerRole = this.spawnNewRole(challengerPos,this.challengerPrefab);
+
+        roleObj['master'] = masterRole;
+        roleObj['challenger'] = challengerRole;
 
         // add key down and key up event
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -60,13 +64,20 @@ cc.Class({
         socket.on("roleInfo",function(data){
             console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
 
-            masterPos = cc.p(data[0].position.x,data[0].position.y);
-            masterRole.setPosition(masterPos);
+            data.forEach(function(val){
+                let position = cc.p(val.position.x,val.position.y);
+                roleObj[val.name].setPosition(position);
+            })
+
+            // masterPos = cc.p(data[0].position.x,data[0].position.y);
+            // masterRole.setPosition(masterPos);
             
-            challengerPos = cc.p(data[1].position.x,data[1].position.y);
-            challengerRole.setPosition(challengerPos);
+            // challengerPos = cc.p(data[1].position.x,data[1].position.y);
+            // challengerRole.setPosition(challengerPos);
 
         });
+
+        
 
     },
     // LIFE-CYCLE CALLBACKS:

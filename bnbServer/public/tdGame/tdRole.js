@@ -67,7 +67,7 @@ var Role = function(name, point){
                     t.position.X += t.MoveStep;
                     break;
             }
-        }, 40);
+        }, 100);
     }
         
     //停止移动
