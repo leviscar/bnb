@@ -12,7 +12,7 @@ var Direction = {
 
 var Role = function(name, point){
 
-    this.FPS = 15;
+    this.FPS = 30;
 
     this.currentDirection = Direction.None;
     this.isKeyDown = false;
@@ -20,9 +20,12 @@ var Role = function(name, point){
     this.name = name;
     this.position = new Point(0,0);
     // this.Direction = 1; //down
-    this.moveStep = 32;
+    this.moveStep = 4;
+    // threshold用于辅助玩家操作，如果太大的话可能有bug最好不要超过role border的一半，或者movestep的2倍
+    this.threshold = 8;
 
     //用来检测旁边块是否可以移动
+    this.roleBorder = 15.9;
     this.borderStep = 32;
 
     this.tdMap = null;
@@ -79,25 +82,60 @@ var Role = function(name, point){
 
     this.moveOneStop = function(directionnum){
         console.log(this.getMapLocation(this.position.x,this.position.y));
+        let leftBorder,rightBorder,upBorder,downBorder;
+        let targetX,targetY;
+        let threshold = this.threshold;
         switch (directionnum) {
             case Direction.Up:
-                if(this.isPostionPassable(this.position.x,this.position.y+this.moveStep)){
+                leftBorder = this.position.x - this.roleBorder;
+                rightBorder = this.position.x + this.roleBorder;
+                targetY = this.position.y + this.roleBorder + this.moveStep;
+                if(this.isPositionPassable(leftBorder+threshold,targetY)
+                    && this.isPositionPassable(rightBorder-threshold,targetY)){
                     this.position.y += this.moveStep;
+                    if(!this.isPositionPassable(leftBorder,targetY)
+                        || !this.isPositionPassable(rightBorder,targetY)){
+                        this.position.x = this.getNormPosition(this.position.x,this.position.y).x;
+                    }
                 }
                 break;
             case Direction.Down:
-                if(this.isPostionPassable(this.position.x,this.position.y-this.moveStep)){
+                leftBorder = this.position.x - this.roleBorder;
+                rightBorder = this.position.x + this.roleBorder;
+                targetY = this.position.y - this.roleBorder - this.moveStep;
+                if(this.isPositionPassable(leftBorder+threshold,targetY)
+                    && this.isPositionPassable(rightBorder-threshold,targetY)){
                     this.position.y -= this.moveStep;
+                    if(!this.isPositionPassable(leftBorder,targetY)
+                        || !this.isPositionPassable(rightBorder,targetY)){
+                        this.position.x = this.getNormPosition(this.position.x,this.position.y).x;
+                    }
                 }
                 break;
             case Direction.Left:
-                if(this.isPostionPassable(this.position.x-this.moveStep,this.position.y)){
+                downBorder = this.position.y - this.roleBorder;
+                upBorder = this.position.y + this.roleBorder;
+                targetX = this.position.x - this.roleBorder - this.moveStep;
+                if(this.isPositionPassable(targetX, upBorder-threshold)
+                    && this.isPositionPassable(targetX,downBorder+threshold)){
                     this.position.x -= this.moveStep;
+                    if(!this.isPositionPassable(targetX, upBorder)
+                        || !this.isPositionPassable(targetX,downBorder)){
+                        this.position.y = this.getNormPosition(this.position.x,this.position.y).y;
+                    }
                 }
                 break;
             case Direction.Right:
-                if(this.isPostionPassable(this.position.x+this.moveStep,this.position.y)){
+                downBorder = this.position.y - this.roleBorder;
+                upBorder = this.position.y + this.roleBorder;
+                targetX = this.position.x + this.roleBorder + this.moveStep;
+                if(this.isPositionPassable(targetX, upBorder-threshold)
+                    && this.isPositionPassable(targetX,downBorder+threshold)){
                     this.position.x += this.moveStep;
+                    if(!this.isPositionPassable(targetX, upBorder)
+                        || !this.isPositionPassable(targetX,downBorder)){
+                        this.position.y = this.getNormPosition(this.position.x,this.position.y).y;
+                    }
                 }
                 break;
         };
@@ -131,10 +169,14 @@ var Role = function(name, point){
         return {x: tdMap.getYLen()-1-yIndex, y: xIndex};
     }
 
-    this.isPostionPassable = function(x,y){
+    this.isPositionPassable = function(x,y){
         let tdMap = this.getMap();
         let location = this.getMapLocation(x,y);
         return tdMap.isPositionPassable(location.x,location.y);
+    }
+
+    this.getNormPosition = function(x,y){
+        return {x: Math.round(x/32)*32,y: Math.round(y/32)*32}
     }
     
 
