@@ -9,10 +9,10 @@ var Game = function (width, height) {
 var Point = function (x, y) {
 
     //X轴坐标
-    this.X = x;
+    this.x = x;
 
     //Y轴坐标
-    this.Y = y;
+    this.y = y;
 
     return this;
 }
