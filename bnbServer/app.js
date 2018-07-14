@@ -187,8 +187,10 @@ io.on('connection', function (socket) {
 });
 
 server.listen(4000, function(){
-    var host = server.address().address;
-    var port = server.address().port;
+    // var host = server.address().address;
+    // var port = server.address().port;
+    var host = '10.60.38.176';
+    var port = '4000';
 
     console.log('App listening at http://%s:%s', host, port);
 });

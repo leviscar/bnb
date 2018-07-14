@@ -164,8 +164,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -208,
-      "y": -176
+      "x": -183,
+      "y": -175
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -555,17 +555,17 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 35,
+      "width": 40,
       "height": 35
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 1.0857143,
-    "_scaleY": 1.0857143,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -276.7,
-      "y": -173.2
+      "x": -277,
+      "y": -177
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -607,7 +607,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 40,
       "height": 40
     },
     "_rotationX": 0,
@@ -642,7 +642,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "Un",
+    "_N$string": "Dn",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -787,8 +787,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -320.2,
-      "y": -150.2
+      "x": -318,
+      "y": -135
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -830,7 +830,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 40,
       "height": 40
     },
     "_rotationX": 0,
@@ -1001,17 +1001,17 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 35,
+      "width": 40,
       "height": 35
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 1.0857143,
-    "_scaleY": 1.0857143,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -277.1428571,
-      "y": -122.1428571
+      "x": -278,
+      "y": -98
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1053,7 +1053,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 40,
       "height": 40
     },
     "_rotationX": 0,
@@ -1233,8 +1233,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -232.3,
-      "y": -150.6
+      "x": -236,
+      "y": -134
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1276,7 +1276,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 40,
       "height": 40
     },
     "_rotationX": 0,
