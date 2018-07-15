@@ -24,7 +24,8 @@ cc.Class({
         JoinRoom: cc.Button
     },
     onLoad: function(){
-        var socket = window.io("http://10.60.38.176:4000");
+        let serverAdd = "http://" + com.host +":"+ com.port;
+        let socket = window.io(serverAdd);
         com.socket = socket;       
 
         this.NewRoom.node.on('click',this.newRoom,this);
