@@ -20,8 +20,22 @@ cc.Class({
         //     }
         // },
         
-        NewRoom: cc.Button,
-        JoinRoom: cc.Button
+        NewRoom:{
+            default:null,
+            type: cc.Button,
+            visible: false
+        },
+        JoinRoom: cc.Button,
+        addRoomPanel: {
+            default:null,
+            type: cc.Sprite
+        },
+        joinRoomScrollView: {
+            default:null,
+            type: cc.ScrollView,
+            visible: false
+        }
+
     },
     onLoad: function(){
         var socket = window.io("http://localhost:4000");

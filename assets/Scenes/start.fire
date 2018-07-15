@@ -161,7 +161,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 960,
+      "width": 970,
       "height": 640
     },
     "_rotationX": 0,
@@ -232,7 +232,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 154.00000000000003,
+      "x": 156.50000000000003,
       "y": -96.5
     },
     "_skewX": 0,
@@ -479,7 +479,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -154,
+      "x": -156.5,
       "y": -96.5
     },
     "_skewX": 0,
@@ -1479,8 +1479,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 4,
+      "y": 6
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2321,6 +2321,10 @@
     },
     "JoinRoom": {
       "__id__": 8
-    }
+    },
+    "addRoomPanel": {
+      "__id__": 30
+    },
+    "joinRoomScrollView": null
   }
 ]

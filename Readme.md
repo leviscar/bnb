@@ -107,8 +107,68 @@ By 周爽 刘俊鹏 谢天帝
 |15|跳一跳|three.js|
 
 在微信首批发布的15款小游戏中，Cocos占据8席，Laya占据4席，three.js占据2个，phaser占据1个。在官方热度这一方面，Cocos占据绝对优势。
-
 ## 概要设计
+### 分享及排行榜功能接口调研
+1. 用户登录
+
+    [https://developers.weixin.qq.com/minigame/dev/document/open-api/login/wx.login.html](https://developers.weixin.qq.com/minigame/dev/document/open-api/login/wx.login.html)  
+
+    `wx.login(Object object)`
+
+    调用接口获取登录凭证（code）进而换取用户登录态信息
+
+2. 检测当前用户登录态是否有效
+
+    [https://developers.weixin.qq.com/minigame/dev/document/openapi/login/wx.checkSession.html](https://developers.weixin.qq.com/minigame/dev/document/openapi/login/wx.checkSession.html)
+
+    `wx.checkSession(Object object)`
+
+    通过 wx.login 接口获得的用户登录态拥有一定的时效性。用户越久未使用小程序，用户登录态越有可能失效。反之如果用户一直在使用小程序，则用户登录态一直保持有效。具体时效逻辑由微信维护，对开发者透明。开发者只需要调用 wx.checkSession 接口检测当前用户登录态是否有效。登录态过期后开发者可以再调用 wx.login 获取新的用户登录态。
+
+3. 转发
+
+    [https://developers.weixin.qq.com/miniprogram/dev/api/share.html](https://developers.weixin.qq.com/miniprogram/dev/api/share.html)
+
+    `onShareAppMessage(options)`
+
+    在 Page 中定义 onShareAppMessage 函数，设置该页面的转发信息。
+
+    `wx.showShareMenu(OBJECT)`
+
+    基础库 1.1.0 开始支持，低版本需做兼容处理。显示当前页面的转发按钮
+
+4. 获取二维码
+
+    [https://developers.weixin.qq.com/miniprogram/dev/api/qrcode.html](https://developers.weixin.qq.com/miniprogram/dev/api/qrcode.html)
+
+    通过后台接口可以获取小程序任意页面的二维码，扫描该二维码可以直接进入小程序对应的页面。目前微信支持两种二维码，小程序码，小程序二维码。
+    为满足不同需求和场景，这里提供了三个接口，开发者可挑选适合自己的接口。 A接口，生成小程序码，可接受path参数较长，生成个数受限。 B接口，生成小程序码，可接受页面参数较短，生成个数不受限。 C接口，生成二维码，可接受path参数较长，生成个数受限。
+
+5. 绘制排行榜
+
+    [https://developers.weixin.qq.com/minigame/dev/tutorial/open-ability/open-data.html?search-key=%E6%8E%92%E8%A1%8C](https://developers.weixin.qq.com/minigame/dev/tutorial/open-ability/open-data.html?search-key=%E6%8E%92%E8%A1%8C)
+
+    `wx.getFriendCloudStorage()`
+
+    获取当前用户也玩该小游戏的好友的用户数据
+
+    `wx.getGroupCloudStorage()`
+    
+    获取当前用户在某个群中也玩该小游戏的成员的用户数据
+
+    这两个 API 的返回结果都是一个对象数组，数组的每一个元素都是一个表示用户数据的对象。如果想要展示通过关系链 API 获取到的用户数据，如绘制排行榜等业务场景，需要将排行榜绘制到 sharedCanvas 上，再在主域将 sharedCanvas 渲染上屏。
+
+6. 通过配置在搜索、小游戏中心等微信场景下，可以展现同玩好友的排行榜
+
+    [https://developers.weixin.qq.com/minigame/dev/tutorial/open-ability/ranklist.html?search-key=%E6%8E%92%E8%A1%8C](https://developers.weixin.qq.com/minigame/dev/tutorial/open-ability/ranklist.html?search-key=%E6%8E%92%E8%A1%8C)
+
+7. 防沉迷
+
+    [https://developers.weixin.qq.com/minigame/dev/document/open-api/anti-addiction/wx.checkIsUserAdvisedToRest.html](https://developers.weixin.qq.com/minigame/dev/document/open-api/anti-addiction/wx.checkIsUserAdvisedToRest.html)
+
+    `wx.checkIsUserAdvisedToRest(Object object)`
+
+    支持版本 >= 1.9.97，根据用户当天游戏时间判断用户是否需要休息
 
 
 ## 原型实现
