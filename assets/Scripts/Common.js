@@ -1,3 +1,5 @@
 module.exports = {
-    socket: null
+    socket: null,
+    host: 'localhost',
+    port: 4000
 }

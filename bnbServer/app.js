@@ -5,6 +5,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 var swig = require('swig');
+var serverConfig = require('./public/config').serverConfig;
 
 var Direction = require('./public/tdGame/tdRole').Direction
 
@@ -187,10 +188,10 @@ io.on('connection', function (socket) {
 });
 
 server.listen(4000, function(){
-    var host = server.address().address;
-    var port = server.address().port;
-
-    console.log('App listening at http://%s:%s', host, port);
+    // var host = server.address().address;
+    // var port = server.address().port;
+    
+    console.log('App listening at http://%s:%s', serverConfig.host, serverConfig.port);
 });
 
 
