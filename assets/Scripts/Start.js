@@ -1,4 +1,4 @@
-var com  = require('Common');
+let com  = require('Common');
 
 cc.Class({
     extends: cc.Component,
@@ -23,7 +23,6 @@ cc.Class({
         NewRoom:{
             default:null,
             type: cc.Button,
-            visible: false
         },
         JoinRoom: cc.Button,
         addRoomPanel: {
@@ -33,14 +32,13 @@ cc.Class({
         joinRoomScrollView: {
             default:null,
             type: cc.ScrollView,
-            visible: false
         }
 
     },
     onLoad: function(){
-        var socket = window.io("http://localhost:4000");
+        let socket = window.io("http://localhost:4000");
         com.socket = socket;       
-
+        
         this.NewRoom.node.on('click',this.newRoom,this);
         this.JoinRoom.node.on('click',this.joinRoom,this);
 
@@ -55,16 +53,21 @@ cc.Class({
     },
     newRoom: function(event){
         console.log("newRoom");
-        com.socket.role = 'master';
-        com.socket.emit("newRoom",{name:666});
+        // com.socket.role = 'master';
+        // com.socket.emit("newRoom",{name:666});
     },
     joinRoom: function(event){
         console.log("joinRoom");
-        com.socket.role = 'challenger';
-        com.socket.emit("joinRoom",666);
+        // com.socket.role = 'challenger';
+        // com.socket.emit("joinRoom",666);
         // cc.director.loadScene("map");
     },
-
+    gotoNewRoom: function () {
+        
+    },
+    gotoJoinRoom: function () {
+        
+    },
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},

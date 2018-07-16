@@ -1,3 +1,4 @@
 module.exports = {
-    socket: null
+    socket: null,
+    roomId: 0
 }
