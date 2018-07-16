@@ -60,7 +60,7 @@ Thread = function (callback, timeout, param) {
 
 
 module.exports = {
-    Game,
-    Point,
+    Game:Game,
+    Point:Point,
 
 }

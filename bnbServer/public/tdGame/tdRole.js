@@ -63,7 +63,7 @@ var Role = function(name, point){
         this.currentDirection = directionnum;
         this.isKeyDown = true;
         
-        let self = this;
+        var self = this;
 
         //先移动一步
         // this.MoveOneStop(directionnum);
@@ -82,9 +82,9 @@ var Role = function(name, point){
 
     this.moveOneStop = function(directionnum){
         console.log(this.getMapLocation(this.position.x,this.position.y));
-        let leftBorder,rightBorder,upBorder,downBorder;
-        let targetX,targetY;
-        let threshold = this.threshold;
+        var leftBorder,rightBorder,upBorder,downBorder;
+        var targetX,targetY;
+        var threshold = this.threshold;
         switch (directionnum) {
             case Direction.Up:
                 leftBorder = this.position.x - this.roleBorder;
@@ -159,7 +159,7 @@ var Role = function(name, point){
         xIndex = Math.round(x/32);
         yIndex = Math.round(y/32);
 
-        let tdMap = this.getMap();
+        var tdMap = this.getMap();
 
         if(tdMap ==null){
             console.log('map not set');
@@ -170,8 +170,8 @@ var Role = function(name, point){
     }
 
     this.isPositionPassable = function(x,y){
-        let tdMap = this.getMap();
-        let location = this.getMapLocation(x,y);
+        var tdMap = this.getMap();
+        var location = this.getMapLocation(x,y);
         return tdMap.isPositionPassable(location.x,location.y);
     }
 
@@ -184,6 +184,6 @@ var Role = function(name, point){
 }
 
 module.exports = {
-    Role,
-    Direction
+    Role: Role,
+    Direction: Direction
 }

@@ -82,7 +82,7 @@ io.on('connection', function (socket) {
             role.setPosition(32*11,32*9);
             room.challengerRole = role;
 
-            let tdMap = new TDMap();
+            var tdMap = new TDMap();
 
             room.masterRole.setMap(tdMap);
             room.challengerRole.setMap(tdMap);

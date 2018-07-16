@@ -37,5 +37,5 @@ var backGroundMap = [
  }
 
  module.exports = {
-     TDMap
+     TDMap : TDMap
  }

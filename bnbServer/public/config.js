@@ -1,10 +1,9 @@
 
-let serverConfig = {
+var serverConfig = {
     host: 'localhost',
     port: 4000
 }
-module.exports = {
 
-    serverConfig
-    
+module.exports = {
+    serverConfig:serverConfig
 }
