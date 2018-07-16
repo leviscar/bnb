@@ -40,46 +40,40 @@ cc.Class({
         }
     },
 
-    onLoad: function(){
-        let socket = com.socket;
-        let masterPos = cc.p(32*11,32*9);
-        let challengerPos = cc.p(32,32);
-        let masterRole,challengerRole;
-        // let socket = window.io("http://localhost:4000");
-        // this._player = this.node.getChildByName("player");
-        console.log("game start");
+    // onLoad: function(){
+    //     let socket = com.socket;
+    //     let masterPos = cc.p(32*11,32*9);
+    //     let challengerPos = cc.p(32,32);
+    //     let masterRole,challengerRole;
+    //     // let socket = window.io("http://localhost:4000");
+    //     // this._player = this.node.getChildByName("player");
+    //     console.log("game start");
         
-        let roleObj = {}
+    //     let roleObj = {}
 
-        masterRole= this.spawnNewRole(masterPos,this.masterPrefab);
-        challengerRole = this.spawnNewRole(challengerPos,this.challengerPrefab);
+    //     masterRole= this.spawnNewRole(masterPos,this.masterPrefab);
+    //     challengerRole = this.spawnNewRole(challengerPos,this.challengerPrefab);
 
-        roleObj['master'] = masterRole;
-        roleObj['challenger'] = challengerRole;
+    //     roleObj['master'] = masterRole;
+    //     roleObj['challenger'] = challengerRole;
 
-        // add key down and key up event
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    //     // add key down and key up event
+    //     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+    //     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
 
-        socket.on("roleInfo",function(data){
-            console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
+    //     socket.on("roleInfo",function(data){
+    //         console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
 
-            data.forEach(function(val){
-                let position = cc.p(val.position.x,val.position.y);
-                roleObj[val.name].setPosition(position);
-            })
+    //         data.forEach(function(val){
+    //             let position = cc.p(val.position.x,val.position.y);
+    //             roleObj[val.name].setPosition(position);
+    //         })
 
-            // masterPos = cc.p(data[0].position.x,data[0].position.y);
-            // masterRole.setPosition(masterPos);
-            
-            // challengerPos = cc.p(data[1].position.x,data[1].position.y);
-            // challengerRole.setPosition(challengerPos);
-
-        });
+    //     });
 
         
 
-    },
+    // },
     // LIFE-CYCLE CALLBACKS:
     spawnNewRole: function(pos,prefab) {
         let role = cc.instantiate(prefab);
