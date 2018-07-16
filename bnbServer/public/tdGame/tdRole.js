@@ -1,5 +1,6 @@
-var Point = require('./tdGame').Point
-var TDMap = require('./tdMap').TDMap
+var Point = require('./tdPoint')
+var TDMap = require('./tdMap')
+var TDPaopao = require('./tdPaopao')
 
 //物体移动方向枚举
 var Direction = {
@@ -10,7 +11,7 @@ var Direction = {
     Right: 3
 }
 
-var Role = function(name, point){
+var Role = function(name,game,point){
 
     this.FPS = 30;
 
@@ -18,7 +19,8 @@ var Role = function(name, point){
     this.isKeyDown = false;
 
     this.name = name;
-    this.position = new Point(0,0);
+    this.game = game;
+    this.position = new Point.Point(0,0);
     // this.Direction = 1; //down
     this.moveStep = 4;
     // threshold用于辅助玩家操作，如果太大的话可能有bug最好不要超过role border的一半，或者movestep的2倍
@@ -29,6 +31,11 @@ var Role = function(name, point){
     this.borderStep = 32;
 
     this.tdMap = null;
+
+    this.maxPaopaoCount = 2;
+    this.curPaopaoCount = 0;
+    this.paopaoPower = 1;
+
 
 
     this.getMap = function(){
@@ -178,12 +185,31 @@ var Role = function(name, point){
     this.getNormPosition = function(x,y){
         return {x: Math.round(x/32)*32,y: Math.round(y/32)*32}
     }
+
+    this.createPaopao = function(){
+        var position = this.getMapLocation(this.position.x,this.position.y);
+        if(this.curPaopaoCount<this.maxPaopaoCount){
+            this.curPaopaoCount++;
+            var paopao = new TDPaopao.TDPaopao(position,this.paopaoPower,this);
+            if(!this.game.paopaoArr[position.x])
+                this.game.paopaoArr[position.x]=[];
+            this.game.paopaoArr[position.x][position.y] = paopao;
+            console.log(this.game.paopaoArr);
+        }
+    }
+
+    this.deletePaopao = function(paopao){
+        this.curPaopaoCount--;
+        this.game.paopaoArr[paopao.position.x][paopao.position.y] = null;
+        console.log(this.game.paopaoArr);
+    }
     
 
     return this;
 }
 
 module.exports = {
-    Role: Role,
-    Direction: Direction
+    a : '1',
+    Role : Role,
+    Direction : Direction
 }
