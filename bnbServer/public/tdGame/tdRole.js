@@ -1,6 +1,7 @@
 var Point = require('./tdPoint')
 var TDMap = require('./tdMap')
 var TDPaopao = require('./tdPaopao')
+var constants = require('./tdConst')
 
 //物体移动方向枚举
 var Direction = {
@@ -35,6 +36,8 @@ var Role = function(name,game,point){
     this.maxPaopaoCount = 2;
     this.curPaopaoCount = 0;
     this.paopaoPower = 1;
+    this.score = 0;
+    this.itemMoveStep = 4;
 
 
 
@@ -104,6 +107,12 @@ var Role = function(name,game,point){
                         || !this.isPositionPassable(rightBorder,targetY)){
                         this.position.x = this.getNormPosition(this.position.x,this.position.y).x;
                     }
+                    if(this.isPositionAnItem(this.position.x,this.position.y)){
+                        var mapPosition = this.getMapLocation(this.position.x,this.position.y);
+                        this.getItem(this.getMap().getValue(mapPosition.x,mapPosition.y));
+                        this.getMap().setValue(mapPosition.x,mapPosition.y,constants.GROUND);
+                        this.game.broadcastMsg("itemEaten",{x:mapPosition.x,y:mapPosition.y});
+                    }
                 }
                 break;
             case Direction.Down:
@@ -116,6 +125,12 @@ var Role = function(name,game,point){
                     if(!this.isPositionPassable(leftBorder,targetY)
                         || !this.isPositionPassable(rightBorder,targetY)){
                         this.position.x = this.getNormPosition(this.position.x,this.position.y).x;
+                    }
+                    if(this.isPositionAnItem(this.position.x,this.position.y)){
+                        var mapPosition = this.getMapLocation(this.position.x,this.position.y);
+                        this.getItem(this.getMap().getValue(mapPosition.x,mapPosition.y));
+                        this.getMap().setValue(mapPosition.x,mapPosition.y,constants.GROUND);
+                        this.game.broadcastMsg("itemEaten",{x:mapPosition.x,y:mapPosition.y});
                     }
                 }
                 break;
@@ -130,6 +145,12 @@ var Role = function(name,game,point){
                         || !this.isPositionPassable(targetX,downBorder)){
                         this.position.y = this.getNormPosition(this.position.x,this.position.y).y;
                     }
+                    if(this.isPositionAnItem(this.position.x,this.position.y)){
+                        var mapPosition = this.getMapLocation(this.position.x,this.position.y);
+                        this.getItem(this.getMap().getValue(mapPosition.x,mapPosition.y));
+                        this.getMap().setValue(mapPosition.x,mapPosition.y,constants.GROUND);
+                        this.game.broadcastMsg("itemEaten",{x:mapPosition.x,y:mapPosition.y});
+                    }
                 }
                 break;
             case Direction.Right:
@@ -142,6 +163,12 @@ var Role = function(name,game,point){
                     if(!this.isPositionPassable(targetX, upBorder)
                         || !this.isPositionPassable(targetX,downBorder)){
                         this.position.y = this.getNormPosition(this.position.x,this.position.y).y;
+                    }
+                    if(this.isPositionAnItem(this.position.x,this.position.y)){
+                        var mapPosition = this.getMapLocation(this.position.x,this.position.y);
+                        this.getItem(this.getMap().getValue(mapPosition.x,mapPosition.y));
+                        this.getMap().setValue(mapPosition.x,mapPosition.y,constants.GROUND);
+                        this.game.broadcastMsg("itemEaten",{x:mapPosition.x,y:mapPosition.y});
                     }
                 }
                 break;
@@ -182,13 +209,40 @@ var Role = function(name,game,point){
         return tdMap.isPositionPassable(location.x,location.y);
     }
 
+    this.isPositionAnItem = function(x,y){
+        var tdMap = this.getMap();
+        var location = this.getMapLocation(x,y);
+        return tdMap.isPositionAnItem(location.x,location.y);
+    }
+
+    this.getItem = function(itemCode){
+        if(itemCode == constants.ITEM_ADD_PAOPAO) this.maxPaopaoCount++;
+        else if(itemCode == constants.ITEM_ADD_POWER) this.paopaoPower++;
+        else if(itemCode == constants.ITEM_ADD_SPEED) this.itemMoveStep+=4;
+        else if(itemCode == constants.ITEM_ADD_SCORE) this.score+=500;
+    }
+
     this.getNormPosition = function(x,y){
         return {x: Math.round(x/32)*32,y: Math.round(y/32)*32}
     }
 
     this.createPaopao = function(){
         var position = this.getMapLocation(this.position.x,this.position.y);
-        if(this.curPaopaoCount<this.maxPaopaoCount){
+        if(this.getMap().isPositionPassable(position.x,position.y) 
+           && this.curPaopaoCount<this.maxPaopaoCount){
+            this.curPaopaoCount++;
+            var paopao = new TDPaopao.TDPaopao(position,this.paopaoPower,this);
+            if(!this.game.paopaoArr[position.x])
+                this.game.paopaoArr[position.x]=[];
+            this.game.paopaoArr[position.x][position.y] = paopao;
+            console.log(this.game.paopaoArr);
+        }
+    }
+
+    this.createPaopaoAtPos = function(x,y){
+        var position = this.getMapLocation(x,y);
+        if(this.getMap().isPositionPassable(position.x,position.y) 
+           && this.curPaopaoCount<this.maxPaopaoCount){
             this.curPaopaoCount++;
             var paopao = new TDPaopao.TDPaopao(position,this.paopaoPower,this);
             if(!this.game.paopaoArr[position.x])

@@ -9,6 +9,7 @@ var TDGame = function (serverIO, roomName) {
     this.tdMap = new TDMap.TDMap();
     this.roleArr = [];
     this.paopaoArr = [];
+    this.itemArr = [];
     this.masterRole = null;
     this.challengerRole = null;
     this.winner=null;
@@ -27,7 +28,8 @@ var TDGame = function (serverIO, roomName) {
         this.challengerRole.setPosition(x,y);
         this.challengerRole.setMap(this.tdMap);
         this.roleArr.push(this.challengerRole);
-        this.challengerRole.createPaopao();
+        this.challengerRole.createPaopaoAtPos(x,y);
+        this.challengerRole.createPaopaoAtPos(x,y-32);
     }
 
     this.startGame = function(){
@@ -38,6 +40,10 @@ var TDGame = function (serverIO, roomName) {
         console.log('end');
         console.log(data);
         this.io.to(this.roomName).emit('end',{data:data});
+    }
+
+    this.broadcastMsg = function(msg, data){
+        this.io.to(this.roomName).emit(msg,data);
     }
 
     return this;

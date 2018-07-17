@@ -46,8 +46,21 @@ var backGroundMap = [
         return this.map.length;
     }
 
+    this.getValue = function(x,y){
+        return this.map[x][y];
+    }
+
+    this.setValue = function(x,y,value){
+        this.map[x][y] = value;
+    }
+
     this.isPositionPassable = function(x,y){
-        if(this.map[x][y]==0) return true;
+        if(this.getValue(x,y)==0 || this.getValue(x,y)>100) return true;
+        return false;
+    }
+
+    this.isPositionAnItem = function(x,y){
+        if(this.getValue(x,y)>100) return true;
         return false;
     }
  }
