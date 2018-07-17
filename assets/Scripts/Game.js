@@ -8,15 +8,21 @@ cc.Class({
     properties: {
 
         // 这个属性引用了星星预制资源
+        // 主角预制资源
         masterPrefab: {
             default: null,
             type: cc.Prefab
         },
+        // 挑战者预制资源
         challengerPrefab: {
             default: null,
             type: cc.Prefab
         },
-
+        // 炸弹预制资源
+        bombPrefab: {
+            default: null,
+            type: cc.Prefab
+        },
         _isMapLoaded : {
             default: false,
             serializable: false,
@@ -37,43 +43,49 @@ cc.Class({
         player: {
             default: null,
             type: cc.Node
+        },
+        // 放置炸弹按钮
+        bombBtn: {
+            default: null,
+            type: cc.Button
         }
+
     },
 
-    // onLoad: function(){
-    //     let socket = com.socket;
-    //     let masterPos = cc.p(32*11,32*9);
-    //     let challengerPos = cc.p(32,32);
-    //     let masterRole,challengerRole;
-    //     // let socket = window.io("http://localhost:4000");
-    //     // this._player = this.node.getChildByName("player");
-    //     console.log("game start");
+    onLoad: function(){
+        let socket = com.socket;
+        let masterPos = cc.p(32*11,32*9);
+        let challengerPos = cc.p(32,32);
+        let masterRole,challengerRole;
+        // let socket = window.io("http://localhost:4000");
+        // this._player = this.node.getChildByName("player");
+        console.log("game start");
         
-    //     let roleObj = {}
+        let roleObj = {}
+        let bombList = [];
 
-    //     masterRole= this.spawnNewRole(masterPos,this.masterPrefab);
-    //     challengerRole = this.spawnNewRole(challengerPos,this.challengerPrefab);
+        masterRole= this.spawnNewRole(masterPos,this.masterPrefab);
+        challengerRole = this.spawnNewRole(challengerPos,this.challengerPrefab);
 
-    //     roleObj['master'] = masterRole;
-    //     roleObj['challenger'] = challengerRole;
 
-    //     // add key down and key up event
-    //     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-    //     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+        roleObj['master'] = masterRole;
+        roleObj['challenger'] = challengerRole;
 
-    //     socket.on("roleInfo",function(data){
-    //         console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
+        // add key down and key up event
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
 
-    //         data.forEach(function(val){
-    //             let position = cc.p(val.position.x,val.position.y);
-    //             roleObj[val.name].setPosition(position);
-    //         })
+        socket.on("roleInfo",function(data){
+            console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
 
-    //     });
+            data.forEach(function(val){
+                let position = cc.p(val.position.x,val.position.y);
+                roleObj[val.name].setPosition(position);
+            })
 
-        
+        });
+    },
 
-    // },
     // LIFE-CYCLE CALLBACKS:
     spawnNewRole: function(pos,prefab) {
         let role = cc.instantiate(prefab);
@@ -81,7 +93,12 @@ cc.Class({
         role.setPosition(pos);
         return role;
     },
-
+    spawnNewBomb: function(pos,prefab) {
+        let bomb = cc.instantiate(prefab);
+        this.node.addChild(bomb);
+        bomb.setPosition(pos)
+        return bomb;
+    },
     onDestroy () {
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
