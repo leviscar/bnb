@@ -1,18 +1,34 @@
+var constants = require('./tdConst')
 
+var GROUND = constants.GROUND;
+var NG_W_1 = constants.NO_GIFT_WALL_1;
+var NG_W_2 = constants.NO_GIFT_WALL_2;
+var G_W = constants.GIFT_WALL;
+
+var S_W_1 = constants.SOLID_WALL_1;
+var S_W_2 = constants.SOLID_WALL_2;
+var S_W_3 = constants.SOLID_WALL_3;
+
+var PAOPAO = constants.PAOPAO;
+
+var I_PAOPAO = constants.ITEM_ADD_PAOPAO;
+var I_POWER = constants.ITEM_ADD_POWER;
+var I_SCORE = constants.ITEM_ADD_SCORE;
+var I_SPEED = constants.ITEM_ADD_SPEED;
 
 //背景地图
 var backGroundMap = [ 
-    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], 
-    [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
-    [ 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 ],
-    [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
-    [ 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 ],
-    [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
-    [ 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 ],
-    [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
-    [ 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 ],
-    [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
-    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+    [  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1 ], 
+    [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
+    [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
+    [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
+    [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
+    [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
+    [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
+    [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
+    [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
+    [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
+    [  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1 ]
  ];
 
 
@@ -31,7 +47,7 @@ var backGroundMap = [
     }
 
     this.isPositionPassable = function(x,y){
-        if(this.map[x][y]) return true;
+        if(this.map[x][y]==0) return true;
         return false;
     }
  }

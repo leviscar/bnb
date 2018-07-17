@@ -74,7 +74,7 @@ io.on('connection', function (socket) {
                 clientCallback(roomname);
             },20);
 
-            game.startGame(io);       
+            game.startGame();       
         }
 
     });
@@ -95,7 +95,7 @@ io.on('connection', function (socket) {
             socket.role = 'master';
             socket.join(roomname);
 
-            var game = new TDGame.TDGame(roomname);
+            var game = new TDGame.TDGame(io,roomname);
             game.createMasterRole(32,32);
             game.createChallengerRole(32*11,32*9);
 

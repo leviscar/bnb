@@ -204,6 +204,9 @@ var Role = function(name,game,point){
         console.log(this.game.paopaoArr);
     }
     
+    this.die = function(){
+        this.game.stopGame({loser:this.name});
+    }
 
     return this;
 }

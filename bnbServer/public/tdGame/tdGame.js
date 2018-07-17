@@ -3,13 +3,15 @@ var Role = require('./tdRole')
 var TDPaoPao = require('./tdPaopao')
 
 //主游戏入口
-var TDGame = function (roomName) {
+var TDGame = function (serverIO, roomName) {
+    this.io = serverIO;
     this.roomName = roomName;
     this.tdMap = new TDMap.TDMap();
     this.roleArr = [];
     this.paopaoArr = [];
     this.masterRole = null;
     this.challengerRole = null;
+    this.winner=null;
 
     this.gameInfoInterval = null;
 
@@ -28,8 +30,14 @@ var TDGame = function (roomName) {
         this.challengerRole.createPaopao();
     }
 
-    this.startGame = function(io){
-        io.to(this.roomName).emit('start',{});
+    this.startGame = function(){
+        this.io.to(this.roomName).emit('start',{});
+    }
+
+    this.stopGame = function(data){
+        console.log('end');
+        console.log(data);
+        this.io.to(this.roomName).emit('end',{data:data});
     }
 
     return this;
