@@ -12,7 +12,7 @@ var Direction = {
 
 var Role = function(name, point){
 
-    this.FPS = 30;
+    this.FPS = 20;
 
     this.currentDirection = Direction.None;
     this.isKeyDown = false;
