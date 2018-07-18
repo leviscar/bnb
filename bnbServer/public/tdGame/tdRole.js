@@ -1,5 +1,7 @@
-var Point = require('./tdGame').Point
-var TDMap = require('./tdMap').TDMap
+var Point = require('./tdPoint')
+var TDMap = require('./tdMap')
+var TDPaopao = require('./tdPaopao')
+var constants = require('./tdConst')
 
 //物体移动方向枚举
 var Direction = {
@@ -10,7 +12,7 @@ var Direction = {
     Right: 3
 }
 
-var Role = function(name, point){
+var Role = function(name,game,point){
 
     this.FPS = 20;
 
@@ -18,7 +20,8 @@ var Role = function(name, point){
     this.isKeyDown = false;
 
     this.name = name;
-    this.position = new Point(0,0);
+    this.game = game;
+    this.position = new Point.Point(0,0);
     // this.Direction = 1; //down
     this.moveStep = 4;
     // threshold用于辅助玩家操作，如果太大的话可能有bug最好不要超过role border的一半，或者movestep的2倍
@@ -29,6 +32,13 @@ var Role = function(name, point){
     this.borderStep = 32;
 
     this.tdMap = null;
+
+    this.maxPaopaoCount = 2;
+    this.curPaopaoCount = 0;
+    this.paopaoPower = 1;
+    this.score = 0;
+    this.itemMoveStep = 4;
+
 
 
     this.getMap = function(){
@@ -63,7 +73,7 @@ var Role = function(name, point){
         this.currentDirection = directionnum;
         this.isKeyDown = true;
         
-        let self = this;
+        var self = this;
 
         //先移动一步
         // this.MoveOneStop(directionnum);
@@ -75,16 +85,16 @@ var Role = function(name, point){
 
         //移动线程
         moveInterval = setInterval(function() {
-            console.log('move');
+            // console.log('move');
             self.moveOneStop(directionnum);
         }, 1000/self.FPS);
     }
 
     this.moveOneStop = function(directionnum){
-        console.log(this.getMapLocation(this.position.x,this.position.y));
-        let leftBorder,rightBorder,upBorder,downBorder;
-        let targetX,targetY;
-        let threshold = this.threshold;
+        // console.log(this.getMapLocation(this.position.x,this.position.y));
+        var leftBorder,rightBorder,upBorder,downBorder;
+        var targetX,targetY;
+        var threshold = this.threshold;
         switch (directionnum) {
             case Direction.Up:
                 leftBorder = this.position.x - this.roleBorder;
@@ -96,6 +106,12 @@ var Role = function(name, point){
                     if(!this.isPositionPassable(leftBorder,targetY)
                         || !this.isPositionPassable(rightBorder,targetY)){
                         this.position.x = this.getNormPosition(this.position.x,this.position.y).x;
+                    }
+                    if(this.isPositionAnItem(this.position.x,this.position.y)){
+                        var mapPosition = this.getMapLocation(this.position.x,this.position.y);
+                        this.getItem(this.getMap().getValue(mapPosition.x,mapPosition.y));
+                        this.getMap().setValue(mapPosition.x,mapPosition.y,constants.GROUND);
+                        this.game.broadcastMsg("itemEaten",{x:mapPosition.x,y:mapPosition.y});
                     }
                 }
                 break;
@@ -110,6 +126,12 @@ var Role = function(name, point){
                         || !this.isPositionPassable(rightBorder,targetY)){
                         this.position.x = this.getNormPosition(this.position.x,this.position.y).x;
                     }
+                    if(this.isPositionAnItem(this.position.x,this.position.y)){
+                        var mapPosition = this.getMapLocation(this.position.x,this.position.y);
+                        this.getItem(this.getMap().getValue(mapPosition.x,mapPosition.y));
+                        this.getMap().setValue(mapPosition.x,mapPosition.y,constants.GROUND);
+                        this.game.broadcastMsg("itemEaten",{x:mapPosition.x,y:mapPosition.y});
+                    }
                 }
                 break;
             case Direction.Left:
@@ -122,6 +144,12 @@ var Role = function(name, point){
                     if(!this.isPositionPassable(targetX, upBorder)
                         || !this.isPositionPassable(targetX,downBorder)){
                         this.position.y = this.getNormPosition(this.position.x,this.position.y).y;
+                    }
+                    if(this.isPositionAnItem(this.position.x,this.position.y)){
+                        var mapPosition = this.getMapLocation(this.position.x,this.position.y);
+                        this.getItem(this.getMap().getValue(mapPosition.x,mapPosition.y));
+                        this.getMap().setValue(mapPosition.x,mapPosition.y,constants.GROUND);
+                        this.game.broadcastMsg("itemEaten",{x:mapPosition.x,y:mapPosition.y});
                     }
                 }
                 break;
@@ -136,6 +164,12 @@ var Role = function(name, point){
                         || !this.isPositionPassable(targetX,downBorder)){
                         this.position.y = this.getNormPosition(this.position.x,this.position.y).y;
                     }
+                    if(this.isPositionAnItem(this.position.x,this.position.y)){
+                        var mapPosition = this.getMapLocation(this.position.x,this.position.y);
+                        this.getItem(this.getMap().getValue(mapPosition.x,mapPosition.y));
+                        this.getMap().setValue(mapPosition.x,mapPosition.y,constants.GROUND);
+                        this.game.broadcastMsg("itemEaten",{x:mapPosition.x,y:mapPosition.y});
+                    }
                 }
                 break;
         };
@@ -143,7 +177,7 @@ var Role = function(name, point){
         
     //停止移动
     this.stop = function(directionnum) {
-        console.log('stop');
+        // console.log('stop');
         if(directionnum != null){
             if(directionnum != this.currentDirection)
                 return;
@@ -159,7 +193,7 @@ var Role = function(name, point){
         xIndex = Math.round(x/32);
         yIndex = Math.round(y/32);
 
-        let tdMap = this.getMap();
+        var tdMap = this.getMap();
 
         if(tdMap ==null){
             console.log('map not set');
@@ -170,20 +204,72 @@ var Role = function(name, point){
     }
 
     this.isPositionPassable = function(x,y){
-        let tdMap = this.getMap();
-        let location = this.getMapLocation(x,y);
+        var tdMap = this.getMap();
+        var location = this.getMapLocation(x,y);
         return tdMap.isPositionPassable(location.x,location.y);
+    }
+
+    this.isPositionAnItem = function(x,y){
+        var tdMap = this.getMap();
+        var location = this.getMapLocation(x,y);
+        return tdMap.isPositionAnItem(location.x,location.y);
+    }
+
+    this.getItem = function(itemCode){
+        if(itemCode == constants.ITEM_ADD_PAOPAO) this.maxPaopaoCount++;
+        else if(itemCode == constants.ITEM_ADD_POWER) this.paopaoPower++;
+        else if(itemCode == constants.ITEM_ADD_SPEED) this.itemMoveStep+=4;
+        else if(itemCode == constants.ITEM_ADD_SCORE) this.score+=500;
     }
 
     this.getNormPosition = function(x,y){
         return {x: Math.round(x/32)*32,y: Math.round(y/32)*32}
     }
+
+    this.createPaopao = function(){
+        var position = this.getMapLocation(this.position.x,this.position.y);
+        if(this.getMap().isPositionPassable(position.x,position.y) 
+           && this.curPaopaoCount<this.maxPaopaoCount){
+            this.curPaopaoCount++;
+            var paopao = new TDPaopao.TDPaopao(position,this.paopaoPower,this);
+            if(!this.game.paopaoArr[position.x])
+                this.game.paopaoArr[position.x]=[];
+            this.game.paopaoArr[position.x][position.y] = paopao;
+            console.log(this.game.paopaoArr);
+        }
+    }
+
+    this.createPaopaoAtPos = function(x,y){
+        var position = this.getMapLocation(x,y);
+        if(this.getMap().isPositionPassable(position.x,position.y) 
+           && this.curPaopaoCount<this.maxPaopaoCount){
+            this.curPaopaoCount++;
+            var paopao = new TDPaopao.TDPaopao(position,this.paopaoPower,this);
+            if(!this.game.paopaoArr[position.x])
+                this.game.paopaoArr[position.x]=[];
+            this.game.paopaoArr[position.x][position.y] = paopao;
+            console.log(this.game.paopaoArr);
+        }
+    }
+
+    this.deletePaopao = function(paopao){
+        this.curPaopaoCount--;
+        this.game.paopaoArr[paopao.position.x][paopao.position.y] = null;
+        paopao.clearBoomTimeout();
+        // delete paopao;
+        console.log(this.game.paopaoArr);
+    }
     
+    this.die = function(){
+        console.log('loser: '+this.name);
+        this.game.stopGame({loser:this.name});
+    }
 
     return this;
 }
 
 module.exports = {
-    Role,
-    Direction
+    a : '1',
+    Role : Role,
+    Direction : Direction
 }

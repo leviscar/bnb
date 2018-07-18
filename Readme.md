@@ -107,8 +107,80 @@ By 周爽 刘俊鹏 谢天帝
 |15|跳一跳|three.js|
 
 在微信首批发布的15款小游戏中，Cocos占据8席，Laya占据4席，three.js占据2个，phaser占据1个。在官方热度这一方面，Cocos占据绝对优势。
+
+### 后端技术选型 NodeJS + Socket.IO
+#### 一：需求分析
+    1. 响应玩家的实时对战操作
+    2. 高并发访问
+
+### 二：websocket + Socket.IO
+![avatar](/doc/websocket.png)
+
+Socket.IO 是一个封装了 Websocket、基于 Node 的 JavaScript 框架，包含 client 的 JavaScript 和 server 的 NodeJS 代码。其屏蔽了所有底层细节，让顶层调用非常简单。
+
+另外，Socket.IO 还有一个非常重要的好处。其不仅支持 WebSocket，还支持许多种轮询机制以及其他实时通信方式，并封装了通用的接口。这些方式包含 Adobe Flash Socket、Ajax 长轮询、Ajax multipart streaming 、持久 Iframe、JSONP 轮询等。换句话说，当 Socket.IO 检测到当前环境不支持 WebSocket 时，能够自动地选择最佳的方式来实现网络的实时通信。
+
+socket.io通信示例
+
+```js
+// websocket服务端
+const io = require('socket.io')();
+
+io.on('connection', function (socket) {
+    let clientIp = socket.request.connection.remoteAddress;
+    console.log('New connection from ' + clientIp);
+
+    socket.on('newRoom',function(data){
+        socket.join(data.roomName);
+    });
+
+    socket.on('joinRoom',function(data){
+        socket.join(data.roomName);
+        io.to(data.roomName).emit('start');
+    })
+
+    socket.on('disconnect',function(){
+        console.log('client disconnect.');
+    })
+}
+```
+
+``` js
+// client1 创建房间
+const socket = io('http://localhost');
+socket.emit('newRoom',{roomName: 'R1', username:'user1'});
+socket.on('start',function(data){
+    console.log('game start');
+})
+
+```
+
+```js
+// client2 加入房间
+const socket = io('http://localhost');
+socket.emit('joinRoom',{roomName: 'R1', username:'user2'});
+socket.on('start',function(data){
+    console.log('game start');
+})
+```
+
+#### 三：NodeJS
+    优点：
+    1. 事件驱动。
+    2. 非阻塞式IO。
+    3. 轻量高效。
+    4. 完美对接Socket.IO, 原型实现更快。
+
+    缺点：不适合CPU密集型应用。
+ 
+
+
 ## 概要设计
-### 分享及排行榜功能接口调研
+### 操作流程
+![avatar](/doc/createRoom.png)
+![avatar](/doc/userControl.png)
+
+### 微信登陆、分享及排行榜功能接口调研
 1. 用户登录
 
     [https://developers.weixin.qq.com/minigame/dev/document/open-api/login/wx.login.html](https://developers.weixin.qq.com/minigame/dev/document/open-api/login/wx.login.html)  
@@ -173,5 +245,3 @@ By 周爽 刘俊鹏 谢天帝
 
 ## 原型实现
 
-
-## 难点讨论

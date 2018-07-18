@@ -17,6 +17,8 @@ module.exports = {
         s: 83,
         a: 65,
         d: 68
-    })
-
+    }),
+    host: 'localhost',
+    // host:'212.64.17.36',
+    port: 4000
 }
