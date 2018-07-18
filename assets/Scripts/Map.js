@@ -112,6 +112,10 @@ cc.Class({
                 console.log('Press d key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
+            case cc.KEY.j:
+                console.log('Press j key');
+                socket.emit("KeyDown",event.keyCode);
+                break;
         }
     },
 

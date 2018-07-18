@@ -85,13 +85,13 @@ var Role = function(name,game,point){
 
         //移动线程
         moveInterval = setInterval(function() {
-            console.log('move');
+            // console.log('move');
             self.moveOneStop(directionnum);
         }, 1000/self.FPS);
     }
 
     this.moveOneStop = function(directionnum){
-        console.log(this.getMapLocation(this.position.x,this.position.y));
+        // console.log(this.getMapLocation(this.position.x,this.position.y));
         var leftBorder,rightBorder,upBorder,downBorder;
         var targetX,targetY;
         var threshold = this.threshold;
@@ -177,7 +177,7 @@ var Role = function(name,game,point){
         
     //停止移动
     this.stop = function(directionnum) {
-        console.log('stop');
+        // console.log('stop');
         if(directionnum != null){
             if(directionnum != this.currentDirection)
                 return;
@@ -255,10 +255,13 @@ var Role = function(name,game,point){
     this.deletePaopao = function(paopao){
         this.curPaopaoCount--;
         this.game.paopaoArr[paopao.position.x][paopao.position.y] = null;
+        paopao.clearBoomTimeout();
+        // delete paopao;
         console.log(this.game.paopaoArr);
     }
     
     this.die = function(){
+        console.log('loser: '+this.name);
         this.game.stopGame({loser:this.name});
     }
 

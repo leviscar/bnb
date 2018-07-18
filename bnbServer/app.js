@@ -46,7 +46,7 @@ var clientCallback = function(roomname){
                 })
         }
         io.to(roomname).emit("roleInfo",msg);
-        console.log(msg);
+        // console.log(msg);
     }else{
         delete rooms[roomname];
         clearInterval(this);
@@ -182,6 +182,9 @@ var moveByKeyCode = function(key, role){
         //D键,向右移动
         case 68:
             role.move(Direction.Right);
+            break;
+        case 74:
+            role.createPaopao();
             break;
     }
 }

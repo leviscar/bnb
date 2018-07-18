@@ -56,16 +56,15 @@ var TDPaopao = function(position, power, role){
         // 终止泡泡爆炸动画
         for(var i =0; i<boomPaopaoArr.length; i++){
             var pos = boomPaopaoArr[i];
-            var paopao = this.role.game.paopaoArr[pos.x][pos.y];
-            if(paopao) paopao.clearBoomTimeout();
-            this.role.game.paopaoArr[pos.x][pos.y] = null;
+            this.role.deletePaopao(this);
         }
         // 炸掉道具
         for(var i =0; i<boomXYArr.length; i++){
             var pos = boomXYArr[i];
             this.map.setValue(pos.x,pos.y,constants.GROUND);
+            //角色死亡判断
             if(this.position.x = this.game.masterRole.position.x && this.position.y == this.game.masterRole.position.y) this.game.masterRole.die();
-            if(this.position.x = this.game.challenger.position.x && this.position.y == this.game.challenger.position.y) this.game.challenger.die();
+            if(this.position.x = this.game.challengerRole.position.x && this.position.y == this.game.challengerRole.position.y) this.game.challenger.die();
         }
         // 生成道具
         for(var i =0; i<boomBoxArr.length; i++){
@@ -74,6 +73,8 @@ var TDPaopao = function(position, power, role){
                 var itemCode = 101 + parseInt(Math.random()*4);
                 this.map.setValue(pos.x,pos.y,itemCode);
                 itemArr.push({x:pos.x,y:pos.y,itemCode:itemCode});
+            }else{
+                this.map.setValue(pos.x,pos.y,constants.GROUND);
             }
         }
         result['itemArr'] = itemArr;

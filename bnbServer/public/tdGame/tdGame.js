@@ -28,8 +28,8 @@ var TDGame = function (serverIO, roomName) {
         this.challengerRole.setPosition(x,y);
         this.challengerRole.setMap(this.tdMap);
         this.roleArr.push(this.challengerRole);
-        this.challengerRole.createPaopaoAtPos(x,y);
-        this.challengerRole.createPaopaoAtPos(x,y-32);
+        // this.challengerRole.createPaopaoAtPos(x,y);
+        // this.challengerRole.createPaopaoAtPos(x,y-32);
     }
 
     this.startGame = function(){
