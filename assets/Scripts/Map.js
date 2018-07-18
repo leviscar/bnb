@@ -1,5 +1,37 @@
 const com = require("Common");
 
+const GROUND       = 10;
+
+const NG_W_1  = 1;
+const NG_W_2  = 2;
+const G_W  = 3;
+
+const S_W_1 = 11;
+const S_W_2 = 12;
+const S_W_3 = 13;
+
+const PAOPAO       = 100;
+
+const I_PAOPAO = 101;
+const I_SPEED  = 102;
+const I_POWER  = 103;
+const I_SCORE  = 104;
+
+
+let backGroundMap = [ 
+        [  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1 ], 
+        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
+        [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, NG_W_1,  S_W_1, GROUND,  S_W_1 ],
+        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, NG_W_1, GROUND,  S_W_1 ],
+        [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
+        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
+        [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
+        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
+        [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
+        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
+        [  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1 ]
+     ];
+
 cc.Class({
     extends: cc.Component,
     editor: {
@@ -23,22 +55,15 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
-        _isMapLoaded : {
-            default: false,
-            serializable: false,
-        },
-        groundLayerName: {
-            default: 'ground'
-        },
-        blocksLayerName: {
-            default: 'blocks'
-        },
-        giftsLayerName: {
-            default: 'gifts'
-        },
-        barriersLayerName: {
-            default: 'barriers'
-        },
+        // 障碍物预制资源
+         barrierPrefab: cc.Prefab,
+         // 加速道具预制资源
+         speedPrefab: cc.Prefab,
+         // 增加炸弹道具
+         addBombPrefab: cc.Prefab,
+         // 增加威力预制道具
+         strengthPrefab: cc.Prefab,
+
 
         player: {
             default: null,
@@ -51,40 +76,40 @@ cc.Class({
         }
 
     },
-
-    // onLoad: function(){
-    //     let socket = com.socket;
-    //     let masterPos = cc.p(32*11,32*9);
-    //     let challengerPos = cc.p(32,32);
-    //     let masterRole,challengerRole;
-    //     // let socket = window.io("http://localhost:4000");
-    //     // this._player = this.node.getChildByName("player");
-    //     console.log("game start");
+    
+    onLoad: function(){
+        let socket = com.socket;
+        let masterPos = cc.p(32*11,32*9);
+        let challengerPos = cc.p(32,32);
+        let masterRole,challengerRole;
+        // let socket = window.io("http://localhost:4000");
+        // this._player = this.node.getChildByName("player");
+        console.log("game start");
         
-    //     let roleObj = {}
-    //     let bombList = [];
+        let roleObj = {}
+        let bombList = [];
 
-    //     masterRole= this.spawnNewRole(masterPos,this.masterPrefab);
-    //     challengerRole = this.spawnNewRole(challengerPos,this.challengerPrefab);
+        masterRole= this.spawnNewRole(masterPos,this.masterPrefab);
+        challengerRole = this.spawnNewRole(challengerPos,this.challengerPrefab);
 
 
-    //     roleObj['master'] = masterRole;
-    //     roleObj['challenger'] = challengerRole;
+        roleObj['master'] = masterRole;
+        roleObj['challenger'] = challengerRole;
 
-    //     // add key down and key up event
-    //     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-    //     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+        // add key down and key up event
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
 
-    //     socket.on("roleInfo",function(data){
-    //         console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
+        // socket.on("roleInfo",function(data){
+        //     console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
 
-    //         data.forEach(function(val){
-    //             let position = cc.p(val.position.x,val.position.y);
-    //             roleObj[val.name].setPosition(position);
-    //         })
+        //     data.forEach(function(val){
+        //         let position = cc.p(val.position.x,val.position.y);
+        //         roleObj[val.name].setPosition(position);
+        //     })
 
-    //     });
-    // },
+        // });
+    },
 
     // LIFE-CYCLE CALLBACKS:
     spawnNewRole: function(pos,prefab) {
