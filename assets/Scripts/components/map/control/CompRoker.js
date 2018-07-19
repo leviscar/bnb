@@ -1,4 +1,4 @@
-let com = require("../../../Common");
+const com = require("../../../Common");
 
 cc.Class({
     extends: cc.Component,
@@ -19,18 +19,18 @@ cc.Class({
         this.spRoker.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
     },
 
-    onTouchStart: function(event) {
-        var touchPos = event.getLocation();
-        var pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
-        var dir = this.getDirection(pos);
-        this.moveDir = this.getDirection(pos);
-        // console.log("start");
-        this.updateRokerCenterPos(pos);
-    },
+    // onTouchStart: function(event) {
+    //     let touchPos = event.getLocation();
+    //     let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
+    //     let dir = this.getDirection(pos);
+    //     this.moveDir = this.getDirection(pos);
+    //     // console.log("start");
+    //     this.updateRokerCenterPos(pos);
+    // },
 
     onTouchMove: function(event) {
-        var touchPos = event.getLocation();
-        var pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
+        let touchPos = event.getLocation();
+        let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
         this.moveDir = this.getDirection(pos);
         // console.log("move");
         this.updateRokerCenterPos(pos);
@@ -51,8 +51,8 @@ cc.Class({
     },
 
     getDirection: function(pos) {
-        var x = pos.x;
-        var y = pos.y;
+        let x = pos.x;
+        let y = pos.y;
         if (x <= y && x > -y) {
             com.socket.emit("KeyDown",com.KeyCode.w);
             console.log("up");
