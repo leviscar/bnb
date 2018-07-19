@@ -58,7 +58,13 @@ cc.Class({
         bombBtn: cc.Button,
         mapItemX: 0,
         mapItemY: 0,
-        mapDataLen: 0
+        mapDataLen: 0,
+
+        gameTime: 0,
+        timerDisplay: {
+            default: null,
+            type: cc.Label
+        }
 
     },
     
@@ -142,6 +148,7 @@ cc.Class({
             data.forEach(function(val){
                 let position = cc.p(val.position.x,val.position.y);
                 roleObj[val.name].setPosition(position);
+                self.gameTime = val.gameTime;
             })
 
         });
@@ -340,5 +347,7 @@ cc.Class({
 
     },
 
-    // update (dt) {},
+    update (dt) {
+        this.timerDisplay.string = parseInt(this.gameTime/60)+":"+(this.gameTime%60);
+    },
 });
