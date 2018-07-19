@@ -35,6 +35,8 @@ cc.Class({
         challengerPrefab: cc.Prefab,
         // 炸弹预制资源
         bombPrefab: cc.Prefab,
+        // 爆炸资源
+        explodePrefab: cc.Prefab,
         // 地面预制资源
         groudPrefab: cc.Prefab,
         // 墙预制资源
@@ -75,19 +77,30 @@ cc.Class({
         prefabList = {
             // 地面预制资源 GROUND : 10
             0: self.groudPrefab,
+
+            100: self.bombPrefab,
+
             // 墙预制资源 S_W_1
             11:  self.blockPrefab,
+
             // 障碍物预制资源 NG_W_1 1
             1: self.barrierPrefab,
+
             // G_W 3
             3: self.barrierPrefab,
+
             // 加速道具预制资源 I_SPEED
             102: self.speedPrefab,
+
             // 增加炸弹道具 I_PAOPAO
             101: self.addBombPrefab,
+
             // 增加威力预制道具 I_POWER
             103: self.strengthPrefab,
-            104: self.strengthPrefab
+            104: self.strengthPrefab,
+
+            // 
+            999: self.explodePrefab
         };
 
         console.log(com.map.basicMap);
@@ -97,6 +110,7 @@ cc.Class({
         this.spawnNewItem = this.spawnNewItem.bind(this);
         this.dropItem = this.dropItem.bind(this);
         this.addItem = this.addItem.bind(this);
+        this.addBoom = this.addBoom.bind(this);
 
         this.mapItemX = 32;
         this.mapItemY = 32;
@@ -133,15 +147,15 @@ cc.Class({
 
 
         socket.on("boomInfo",function (data) {
-            console.log(data);
+            // console.log(data);
             self.dropItem(data.boomPaopaoArr);
             self.dropItem(data.boomBoxArr);
             self.addItem(data.itemArr);
         });
 
         socket.on("paopaoCreated",function (data) {
-            
-        })
+            self.addBoom(data);
+        });
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -221,8 +235,14 @@ cc.Class({
         }
     },
 
-    addBoom: function (params) {
-        
+    addBoom: function (obj) {
+        let pos,axisObj;
+        if(!obj) return false;
+ 
+        axisObj = this.transAxis(this.mapDataLen,obj.position.x,obj.position.y);
+        pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+        itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,prefabList[100]);
+
     },
     // 后台二维数组索引 转为 世界坐标系
     transAxis: function (len,x,y) {

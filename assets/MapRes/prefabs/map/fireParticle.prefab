@@ -36,8 +36,8 @@
     "_cascadeOpacityEnabled": true,
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 0,
+      "y": 0
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -157,7 +157,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "ddde0747-1cb6-40ad-99e6-1137f7029737"
     },
     "fileId": "8f0SVTG8BIgrUSv2XivVDl",
     "sync": false

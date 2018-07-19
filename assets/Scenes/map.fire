@@ -319,6 +319,9 @@
     "bombPrefab": {
       "__uuid__": "51e71db2-16bb-4798-bf6e-8808d1fd9a9d"
     },
+    "explodePrefab": {
+      "__uuid__": "ddde0747-1cb6-40ad-99e6-1137f7029737"
+    },
     "groudPrefab": {
       "__uuid__": "5596af37-5570-49bd-b064-ac8c4af7612d"
     },
