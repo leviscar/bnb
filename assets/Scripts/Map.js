@@ -54,7 +54,8 @@ cc.Class({
         // 放置炸弹按钮
         bombBtn: cc.Button,
         mapItemX: 0,
-        mapItemY: 0
+        mapItemY: 0,
+        mapDataLen: 0
 
     },
     
@@ -86,6 +87,7 @@ cc.Class({
             101: self.addBombPrefab,
             // 增加威力预制道具 I_POWER
             103: self.strengthPrefab,
+            104: self.strengthPrefab
         };
 
         console.log(com.map.basicMap);
@@ -94,6 +96,7 @@ cc.Class({
         this.drawMap = this.drawMap.bind(this);
         this.spawnNewItem = this.spawnNewItem.bind(this);
         this.dropItem = this.dropItem.bind(this);
+        this.addItem = this.addItem.bind(this);
 
         this.mapItemX = 32;
         this.mapItemY = 32;
@@ -133,7 +136,12 @@ cc.Class({
             console.log(data);
             self.dropItem(data.boomPaopaoArr);
             self.dropItem(data.boomBoxArr);
+            self.addItem(data.itemArr);
         });
+
+        socket.on("paopaoCreated",function (data) {
+            
+        })
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -163,7 +171,8 @@ cc.Class({
         let pos,axisObj;
 
         if(!data||data.length === 0) return false;
-        
+        this.mapDataLen = data.length;
+
         for(let i=0;i<data.length;i++){
             for(let j=0;j<data[0].length;j++){
                 // 初始化itemList
@@ -186,30 +195,34 @@ cc.Class({
             for(let j=0;j<data[0].length;j++){
                 axisObj = this.transAxis(data.length,i,j);
                 pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
-                console.log(prefabList[data[i][j]])
                 if(data[i][j]!==GROUND&&data[i][j]!=S_W_1){
                     itemList[i][j]=this.spawnNewItem(pos,prefabList[data[i][j]]);
                 }                
                 
             }
         }
-
-        console.log(itemList);
     },
-    // 移除一组物体
+    // 移除一组物体(道具或者是墙)
     dropItem: function (arr) {
         if(!arr||arr.length===0) return false;
         for(let i=0;i<arr.length;i++){
             this.node.removeChild(itemList[arr[i].x][arr[i].y]);
+            itemList[arr[i].x][arr[i].y] = null;
         }
     } ,
-    // 增加一组物体
+    // 增加一组物体(道具或者是墙)
     addItem: function (arr) {
+        let pos,axisObj;
         if(!arr||arr.length===0) return false;
         for(let i=0;i<arr.length;i++){
-            // itemList[arr[i].x][arr[i].y] = this.spawnNewItem(pos,this.groudPrefab);
-            this.node.addChild(itemList[arr[i].x][arr[i].y]);
+            axisObj = this.transAxis(this.mapDataLen,arr[i].x,arr[i].y);
+            pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+            itemList[arr[i].x][arr[i].y] = this.spawnNewItem(pos,prefabList[arr[i].itemCode]);
         }
+    },
+
+    addBoom: function (params) {
+        
     },
     // 后台二维数组索引 转为 世界坐标系
     transAxis: function (len,x,y) {

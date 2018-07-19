@@ -316,7 +316,9 @@
     "challengerPrefab": {
       "__uuid__": "e69da005-b562-453f-b8c2-c9d56c02f76d"
     },
-    "bombPrefab": null,
+    "bombPrefab": {
+      "__uuid__": "51e71db2-16bb-4798-bf6e-8808d1fd9a9d"
+    },
     "groudPrefab": {
       "__uuid__": "5596af37-5570-49bd-b064-ac8c4af7612d"
     },
@@ -326,15 +328,22 @@
     "barrierPrefab": {
       "__uuid__": "f154f870-bd48-47bc-aafe-d054fea4bbb4"
     },
-    "speedPrefab": null,
-    "addBombPrefab": null,
-    "strengthPrefab": null,
+    "speedPrefab": {
+      "__uuid__": "69be24ad-ef40-44a9-b7af-bb2d89c84241"
+    },
+    "addBombPrefab": {
+      "__uuid__": "eddba651-44cc-435d-9fba-a5159ce9fac8"
+    },
+    "strengthPrefab": {
+      "__uuid__": "3ad6a251-31a0-4c7a-b2fc-c29af57bed7a"
+    },
     "player": null,
     "bombBtn": {
       "__id__": 10
     },
     "mapItemX": 0,
-    "mapItemY": 0
+    "mapItemY": 0,
+    "mapDataLen": 0
   },
   {
     "__type__": "cc.Button",
