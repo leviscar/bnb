@@ -145,6 +145,12 @@ cc.Class({
 
         });
 
+        socket.on("itemEaten",function(pos){
+            console.log("item eaten"+ pos);
+            self.node.removeChild(itemList[pos.x][pos.y]);
+            itemList[pos.x][pos.y] = null;
+        });
+
 
         socket.on("boomInfo",function (data) {
             // console.log(data);
