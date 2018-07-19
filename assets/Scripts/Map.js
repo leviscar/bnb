@@ -100,7 +100,7 @@ cc.Class({
             103: self.strengthPrefab,
             104: self.strengthPrefab,
 
-            // 
+            // 爆炸道具
             999: self.explodePrefab
         };
 
@@ -158,6 +158,7 @@ cc.Class({
             self.dropItem(data.boomPaopaoArr);
             self.dropItem(data.boomBoxArr);
             self.addItem(data.itemArr);
+            self.boomAction(data.boomXYArr);
         });
 
         socket.on("paopaoCreated",function (data) {
@@ -174,6 +175,7 @@ cc.Class({
         role.setPosition(pos);
         return role;
     },
+
     // 在地图上生成新炸弹
     spawnNewBomb: function(pos,prefab) {
         let bomb = cc.instantiate(prefab);
@@ -181,6 +183,7 @@ cc.Class({
         bomb.setPosition(pos)
         return bomb;
     },
+
     // 在地图上生成新item
     spawnNewItem: function(pos,prefab) {
         let item = cc.instantiate(prefab);
@@ -188,6 +191,7 @@ cc.Class({
         item.setPosition(pos)
         return item;
     },
+
     // 绘制背景地图
     drawMapBG: function (data) {
         let pos,axisObj;
@@ -224,6 +228,7 @@ cc.Class({
             }
         }
     },
+
     // 移除一组物体(道具或者是墙)
     dropItem: function (arr) {
         if(!arr||arr.length===0) return false;
@@ -232,6 +237,7 @@ cc.Class({
             itemList[arr[i].x][arr[i].y] = null;
         }
     } ,
+
     // 增加一组物体(道具或者是墙)
     addItem: function (arr) {
         let pos,axisObj;
@@ -252,6 +258,22 @@ cc.Class({
         itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,prefabList[100]);
 
     },
+
+    boomAction: function (arr) {
+        let pos,axisObj;
+        if(!arr||arr.length===0) return false;
+        for(let i=0;i<arr.length;i++){
+            axisObj = this.transAxis(this.mapDataLen,arr[i].x,arr[i].y);
+            pos = cc.p(this.mapItemX*(axisObj.x+0.5),this.mapItemY*(axisObj.y+0.5));
+            itemList[arr[i].x][arr[i].y] = this.spawnNewItem(pos,prefabList[999]);
+        }
+        this.scheduleOnce(function() {
+            // 这里的 this 指向 component
+            this.dropItem(arr);
+        }, 0.1);
+        
+    },
+
     // 后台二维数组索引 转为 世界坐标系
     transAxis: function (len,x,y) {
         let axisObj ={};
@@ -259,6 +281,7 @@ cc.Class({
         axisObj.y = len-x-1;
         return axisObj;
     },
+
     onDestroy () {
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
