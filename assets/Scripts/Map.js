@@ -61,7 +61,18 @@ cc.Class({
         mapDataLen: 0,
 
         gameTime: 0,
+        masterScore: 0,
+        challengerScore: 0,
+
         timerDisplay: {
+            default: null,
+            type: cc.Label
+        },
+        masterScoreDisplay:{
+            default: null,
+            type: cc.Label
+        },
+        challengerScoreDisplay:{
             default: null,
             type: cc.Label
         }
@@ -149,6 +160,13 @@ cc.Class({
                 let position = cc.p(val.position.x,val.position.y);
                 roleObj[val.name].setPosition(position);
                 self.gameTime = val.gameTime;
+                if(val.name === 'master'){
+                    self.masterScore = val.score;
+                    console.log('masterScore'+self.masterScore);
+                }else if(val.name === 'challenger'){
+                    self.challengerScore = val.score;
+                    console.log('challengerScore'+self.challengerScore);
+                }
             })
 
         });
@@ -349,5 +367,7 @@ cc.Class({
 
     update (dt) {
         this.timerDisplay.string = parseInt(this.gameTime/60)+":"+(this.gameTime%60);
+        this.masterScoreDisplay.string = this.masterScore.toString();
+        this.challengerScoreDisplay.string = this.challengerScore.toString();
     },
 });
