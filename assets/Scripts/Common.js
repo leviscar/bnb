@@ -19,9 +19,12 @@ module.exports = {
         w: 87,
         s: 83,
         a: 65,
-        d: 68
+        d: 68,
+        j: 74
     }),
-    
+    map: {
+        basicMap: []
+    },
     host: 'localhost',
     // host:'212.64.17.36',
     port: 4000

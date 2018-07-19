@@ -18,20 +18,8 @@ const I_POWER  = 103;
 const I_SCORE  = 104;
 
 
-let backGroundMap = [ 
-        [  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1 ], 
-        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
-        [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, NG_W_1,  S_W_1, GROUND,  S_W_1 ],
-        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, NG_W_1, GROUND,  S_W_1 ],
-        [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
-        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
-        [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
-        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
-        [  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1, GROUND,  S_W_1 ],
-        [  S_W_1, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND,  S_W_1 ],
-        [  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1,  S_W_1 ]
-     ];
-
+let itemList = [];
+let prefabList  = {};
 
 cc.Class({
     extends: cc.Component,
@@ -71,6 +59,7 @@ cc.Class({
     },
     
     onLoad: function(){
+        let self = this;
         let socket = com.socket;
         let masterPos = cc.p(32*11,32*9);
         let challengerPos = cc.p(32,32);
@@ -82,16 +71,39 @@ cc.Class({
         let roleObj = {}
         let bombList = [];
 
+        prefabList = {
+            // 地面预制资源 GROUND : 10
+            0: self.groudPrefab,
+            // 墙预制资源 S_W_1
+            11:  self.blockPrefab,
+            // 障碍物预制资源 NG_W_1 1
+            1: self.barrierPrefab,
+            // G_W 3
+            3: self.barrierPrefab,
+            // 加速道具预制资源 I_SPEED
+            102: self.speedPrefab,
+            // 增加炸弹道具 I_PAOPAO
+            101: self.addBombPrefab,
+            // 增加威力预制道具 I_POWER
+            103: self.strengthPrefab,
+        };
+
+        console.log(com.map.basicMap);
         // this.drawMapBG.call(this);
         this.drawMapBG = this.drawMapBG.bind(this);
         this.drawMap = this.drawMap.bind(this);
         this.spawnNewItem = this.spawnNewItem.bind(this);
+        this.dropItem = this.dropItem.bind(this);
 
         this.mapItemX = 32;
         this.mapItemY = 32;
 
-        this.drawMapBG(backGroundMap);
-        this.drawMap(backGroundMap);
+        console.log(com.map.basicMap);
+
+        this.drawMapBG(com.map.basicMap);
+        this.drawMap(com.map.basicMap);
+        
+        // this.dropItem(arr);
 
         masterRole= this.spawnNewRole(masterPos,this.masterPrefab);
         challengerRole = this.spawnNewRole(challengerPos,this.challengerPrefab);
@@ -107,13 +119,20 @@ cc.Class({
         // this.drawMap.call(this);
         
         socket.on("roleInfo",function(data){
-            console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
+            // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
 
             data.forEach(function(val){
                 let position = cc.p(val.position.x,val.position.y);
                 roleObj[val.name].setPosition(position);
             })
 
+        });
+
+
+        socket.on("boomInfo",function (data) {
+            console.log(data);
+            self.dropItem(data.boomPaopaoArr);
+            self.dropItem(data.boomBoxArr);
         });
     },
 
@@ -139,40 +158,57 @@ cc.Class({
         item.setPosition(pos)
         return item;
     },
+    // 绘制背景地图
     drawMapBG: function (data) {
-        let pos;
+        let pos,axisObj;
 
         if(!data||data.length === 0) return false;
         
-        for(let i=0;i<data[0].length;i++){
-            for(let j=0;j<data.length;j++){
-                pos = cc.p(this.mapItemX*i,this.mapItemY*j);
+        for(let i=0;i<data.length;i++){
+            for(let j=0;j<data[0].length;j++){
+                // 初始化itemList
+                itemList[j] = []; 
+                axisObj = this.transAxis(data.length,i,j);
+                pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
                 this.spawnNewItem(pos,this.groudPrefab);
+                
+                if(data[i][j]===S_W_1)  this.spawnNewItem(pos,this.blockPrefab);
             }
         }
     },
 
+    // 绘制地图上的物体
     drawMap: function (data) {
         let pos,axisObj;
-        console.log(data);
         if(!data||data.length === 0) return false;
 
         for(let i=0;i<data.length;i++){
             for(let j=0;j<data[0].length;j++){
                 axisObj = this.transAxis(data.length,i,j);
                 pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+                console.log(prefabList[data[i][j]])
+                if(data[i][j]!==GROUND&&data[i][j]!=S_W_1){
+                    itemList[i][j]=this.spawnNewItem(pos,prefabList[data[i][j]]);
+                }                
                 
-                switch (data[i][j]) {
-                    case S_W_1:
-                        this.spawnNewItem(pos,this.blockPrefab);
-                        break;
-                    case NG_W_1:
-                        this.spawnNewItem(pos,this.barrierPrefab);
-                        break;
-                    default:
-                        break;
-                }
             }
+        }
+
+        console.log(itemList);
+    },
+    // 移除一组物体
+    dropItem: function (arr) {
+        if(!arr||arr.length===0) return false;
+        for(let i=0;i<arr.length;i++){
+            this.node.removeChild(itemList[arr[i].x][arr[i].y]);
+        }
+    } ,
+    // 增加一组物体
+    addItem: function (arr) {
+        if(!arr||arr.length===0) return false;
+        for(let i=0;i<arr.length;i++){
+            // itemList[arr[i].x][arr[i].y] = this.spawnNewItem(pos,this.groudPrefab);
+            this.node.addChild(itemList[arr[i].x][arr[i].y]);
         }
     },
     // 后台二维数组索引 转为 世界坐标系
@@ -191,19 +227,19 @@ cc.Class({
         let socket = com.socket;
         switch(event.keyCode) {
             case cc.KEY.a:
-                console.log('Press a key');
+                // console.log('Press a key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.s:
-                console.log('Press s key');
+                // console.log('Press s key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.w:
-                console.log('Press w key');
+                // console.log('Press w key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.d:
-                console.log('Press d key');
+                // console.log('Press d key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.j:
@@ -217,19 +253,19 @@ cc.Class({
         let socket = com.socket;
         switch(event.keyCode) {
             case cc.KEY.a:
-                console.log('release a key');
+                // console.log('release a key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
             case cc.KEY.s:
-                console.log('release s key');
+                // console.log('release s key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
             case cc.KEY.w:
-                console.log('release w key');
+                // console.log('release w key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
             case cc.KEY.d:
-                console.log('release d key');
+                // console.log('release d key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
         }

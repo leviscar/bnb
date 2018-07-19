@@ -1,4 +1,4 @@
-let com  = require('Common');
+const com  = require('Common');
 
 cc.Class({
     extends: cc.Component,
@@ -43,13 +43,20 @@ cc.Class({
         this.NewRoom.node.on('click',this.newRoom,this);
         this.JoinRoom.node.on('click',this.joinRoom,this);
 
-        // socket.on("roleInfo",function(data){
+        // socket.on("start",function (data) {
         //     console.log(data);
-        // })
+        //     if(!data) return false;
+        //     if(data.mapName === 'basicMap'){
+        //         backGroundMap = data.arr;
+        //         self.drawMapBG(data.arr);
+        //         self.drawMap(data.arr);
+        //     }
+        // });
 
         socket.on("start",function(data){
             
             cc.director.loadScene("map");
+            com.map.basicMap = data.arr;
         });
     },
     newRoom: function(event){
