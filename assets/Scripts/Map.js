@@ -50,7 +50,8 @@ cc.Class({
         // 增加威力预制道具
         strengthPrefab: cc.Prefab,
         
-
+        // 结束页面
+        endPage: cc.Node,
 
         player:  cc.Node,
         // 放置炸弹按钮
@@ -162,6 +163,7 @@ cc.Class({
         socket.on("paopaoCreated",function (data) {
             self.addBoom(data);
         });
+
     },
 
     // LIFE-CYCLE CALLBACKS:

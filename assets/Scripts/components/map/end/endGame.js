@@ -1,12 +1,4 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+const com = require("../../../Common");
 
 cc.Class({
     extends: cc.Component,
@@ -31,11 +23,22 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
-
-    start () {
-
+    onLoad () {
+        const socket = com.socket;
+        const self = this;
+        socket.on("end",function () {
+            self.show();
+        });
     },
-
+    // 显示endGame面板
+    show: function () {
+        this.node.active = true;
+        this.node.emit('fade-in');
+    },
+    // 隐藏endGame面板
+    hide: function () {
+        this.node.active = false;
+        this.node.emit('fade-out');
+    }
     // update (dt) {},
 });
