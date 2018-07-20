@@ -2,7 +2,7 @@
 By 周爽 刘俊鹏 谢天帝 
 
 ## 后端地址
-    Back-end using nodejs & socket.io: [https://github.com/yolanda712/bnbServer](https://github.com/yolanda712/bnbServer)
+Back-end using nodejs & socket.io: [https://github.com/yolanda712/bnbServer](https://github.com/yolanda712/bnbServer)
 
 ## 游戏需求
 
