@@ -63,7 +63,6 @@ cc.Class({
         gameTime: 0,
         masterScore: 0,
         challengerScore: 0,
-
         timerDisplay: {
             default: null,
             type: cc.Label
@@ -91,6 +90,9 @@ cc.Class({
         
         let roleObj = {}
         let bombList = [];
+
+        // com.windowSize = cc.view.getVisibleSize();
+        // console.log(com.windowSize);
 
         prefabList = {
             // 地面预制资源 GROUND : 10
@@ -121,7 +123,7 @@ cc.Class({
             999: self.explodePrefab
         };
 
-        console.log(com.map.basicMap);
+        // console.log(com.map.basicMap);
         // this.drawMapBG.call(this);
         this.drawMapBG = this.drawMapBG.bind(this);
         this.drawMap = this.drawMap.bind(this);
@@ -132,6 +134,12 @@ cc.Class({
 
         this.mapItemX = 32;
         this.mapItemY = 32;
+
+        // console.log("屏幕："+com.windowSize.width/2+":"+com.windowSize.height*24/25);
+        // this.timePanel.setPosition(cc.p(0,0));
+        // this.timerDisplay.position = cc.p(com.windowSize.width/2,com.windowSize.height*24/25);
+        // this.challengerScoreDisplay.position = cc.p(com.windowSize.width*5/6,com.windowSize.height*24/25);
+        // this.masterScoreDisplay.position = cc.p(com.windowSize.width*7/6,com.windowSize.height*24/25);
 
         console.log(com.map.basicMap);
 
@@ -159,13 +167,16 @@ cc.Class({
             data.forEach(function(val){
                 let position = cc.p(val.position.x,val.position.y);
                 roleObj[val.name].setPosition(position);
-                self.gameTime = val.gameTime;
+                if(val.gameTime>=0){
+                    self.gameTime = val.gameTime;
+                }
+                
                 if(val.name === 'master'){
                     self.masterScore = val.score;
-                    console.log('masterScore'+self.masterScore);
+                    // console.log('masterScore'+self.masterScore);
                 }else if(val.name === 'challenger'){
                     self.challengerScore = val.score;
-                    console.log('challengerScore'+self.challengerScore);
+                    // console.log('challengerScore'+self.challengerScore);
                 }
             })
 
