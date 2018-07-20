@@ -39,6 +39,7 @@ cc.Class({
         let serverAdd = "http://" + com.host +":"+ com.port;
         let socket = window.io(serverAdd);
         com.socket = socket;       
+        com.windowSize = cc.view.getVisibleSize();
         
         this.NewRoom.node.on('click',this.newRoom,this);
         this.JoinRoom.node.on('click',this.joinRoom,this);

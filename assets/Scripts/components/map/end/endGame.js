@@ -34,6 +34,7 @@ cc.Class({
     show: function () {
         this.node.active = true;
         this.node.emit('fade-in');
+        this.node.position = cc.p(com.windowSize.width/2,com.windowSize.height/2);
     },
     // 隐藏endGame面板
     hide: function () {
