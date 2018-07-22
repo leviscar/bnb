@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "bb50b9d5-e554-4d69-9595-c17466e8f5c9",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "roleBoom": {
+      "ver": "1.0.3",
+      "uuid": "00db5287-cdad-45b5-8fb9-00faa38ab874",
+      "rawTextureUuid": "bb50b9d5-e554-4d69-9595-c17466e8f5c9",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 252,
+      "height": 215,
+      "rawWidth": 252,
+      "rawHeight": 215,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

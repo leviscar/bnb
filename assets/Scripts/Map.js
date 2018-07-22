@@ -49,6 +49,8 @@ cc.Class({
         addBombPrefab: cc.Prefab,
         // 增加威力预制道具
         strengthPrefab: cc.Prefab,
+        //角色被炸效果
+        roleBoomPrefab: cc.Prefab,
         
         // 结束页面
         endPage: cc.Node,
@@ -118,6 +120,9 @@ cc.Class({
             // 增加威力预制道具 I_POWER
             103: self.strengthPrefab,
             104: self.strengthPrefab,
+
+            // 角色爆炸
+            998: self.roleBoomPrefab,
 
             // 爆炸道具
             999: self.explodePrefab
@@ -199,6 +204,10 @@ cc.Class({
 
         socket.on("paopaoCreated",function (data) {
             self.addBoom(data);
+        });
+
+        socket.on("roleBoom",function(data){
+            self.addRoleBoom(data);
         });
 
     },
@@ -292,6 +301,16 @@ cc.Class({
         axisObj = this.transAxis(this.mapDataLen,obj.position.x,obj.position.y);
         pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
         itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,prefabList[100]);
+
+    },
+
+    addRoleBoom: function (obj) {
+        let pos,axisObj;
+        if(!obj) return false;
+ 
+        axisObj = this.transAxis(this.mapDataLen,obj.x,obj.y);
+        pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+        this.spawnNewItem(pos,prefabList[998]);
 
     },
 

@@ -62,46 +62,46 @@ cc.Class({
     },
     newRoom: function(event){
 
-        wx.getSetting({
-            success: (response) => {
-              console.log(response)
-              if (!response.authSetting['scope.userInfo']) {
-                wx.authorize({
-                  scope: 'scope.userInfo',
-                  success: () => {
-                    console.log('yes')
-                  }
-                })
-              }
-            }
-          })
+        // wx.getSetting({
+        //     success: (response) => {
+        //       console.log(response)
+        //       if (!response.authSetting['scope.userInfo']) {
+        //         wx.authorize({
+        //           scope: 'scope.userInfo',
+        //           success: () => {
+        //             console.log('yes')
+        //           }
+        //         })
+        //       }
+        //     }
+        //   })
 
-        wx.getUserInfo({
-            success: res => {
-              console.log(res);
-            },
-            fail:res=>{
-              console.log(res);
-            }
-          })
+        // wx.getUserInfo({
+        //     success: res => {
+        //       console.log(res);
+        //     },
+        //     fail:res=>{
+        //       console.log(res);
+        //     }
+        //   })
 
-        wx.login({
-            success: function (res) {
-              // res.code 为用户的登录凭证
-              if (res.code) {
-                // 游戏服务器处理用户登录
-                console.log('微信登陆success');
-              }
-              else {
-                // 失败处理
-                console.log('获取用户登录态失败！' + res.errMsg);
-              }
-            },
-            fail: function (res) {
-              // 失败处理
-              console.log('用户登录失败！' + res.errMsg);
-            }
-          }); 
+        // wx.login({
+        //     success: function (res) {
+        //       // res.code 为用户的登录凭证
+        //       if (res.code) {
+        //         // 游戏服务器处理用户登录
+        //         console.log('微信登陆success');
+        //       }
+        //       else {
+        //         // 失败处理
+        //         console.log('获取用户登录态失败！' + res.errMsg);
+        //       }
+        //     },
+        //     fail: function (res) {
+        //       // 失败处理
+        //       console.log('用户登录失败！' + res.errMsg);
+        //     }
+        //   }); 
 
         console.log("newRoom");
         // com.socket.role = 'master';

@@ -567,6 +567,9 @@
     "strengthPrefab": {
       "__uuid__": "3ad6a251-31a0-4c7a-b2fc-c29af57bed7a"
     },
+    "roleBoomPrefab": {
+      "__uuid__": "28c2aa3a-51dc-46e2-9460-ecc0a387ec63"
+    },
     "endPage": {
       "__id__": 16
     },
