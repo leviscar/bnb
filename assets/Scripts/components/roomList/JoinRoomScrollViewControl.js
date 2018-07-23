@@ -64,10 +64,5 @@ cc.Class({
             self.totalCount = data.data.length;
             self.updateRoom(data);           
         });  
-    },
-    start () {
-
-    },
-
-    // update (dt) {},
+    }
 });

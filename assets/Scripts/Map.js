@@ -86,15 +86,10 @@ cc.Class({
         let masterPos = cc.p(32*11,32*9);
         let challengerPos = cc.p(32,32);
         let masterRole,challengerRole;
-        // let socket = window.io("http://localhost:4000");
-        // this._player = this.node.getChildByName("player");
         console.log("game start");
         
         let roleObj = {}
         let bombList = [];
-
-        // com.windowSize = cc.view.getVisibleSize();
-        // console.log(com.windowSize);
 
         prefabList = {
             // 地面预制资源 GROUND : 10
