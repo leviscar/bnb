@@ -20,6 +20,24 @@ const I_SCORE  = 104;
 
 let itemList = [];
 let prefabList  = {};
+let basicMap = [
+    [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ],
+    [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
+    [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 11, 0, 11 ],
+    [ 11, 0, 11, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
+    [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 11, 0, 11 ],
+    [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
+    [ 11, 0, 3, 3, 0, 3, 0, 3, 11, 3, 11, 0, 11 ],
+    [ 11, 0, 3, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
+    [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 11, 0, 11 ],
+    [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
+    [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
+    [ 11, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
+    [ 11, 0, 11, 3, 11, 3, 11, 3, 11, 3, 11, 0, 11 ],
+    [ 11, 0, 3, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
+    [ 11, 0, 11, 3, 11, 3, 11, 3, 11, 3, 11, 0, 11 ],
+    [ 11, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
+    [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ] ];
 
 cc.Class({
     extends: cc.Component,
@@ -78,13 +96,11 @@ cc.Class({
         let self = this;
         let socket = com.socket;
         let roleObj = {};
-        let masterRole,challengerRole;
+        let masterRole,challengerRole,masterPos,challengerPos;
 
-        let masterPos = cc.p(32*11,32*9);
-        let challengerPos = cc.p(32,32);
+        this.mapItemX = 32;
+        this.mapItemY = 32;
 
-        console.log("game start");
-        
         prefabList = {
             // 地面预制资源 GROUND : 10
             0: self.groudPrefab,
@@ -117,6 +133,8 @@ cc.Class({
             999: self.explodePrefab
         };
 
+        console.log("game start");
+
         // console.log(com.map.basicMap);
         // this.drawMapBG.call(this);
         this.drawMapBG = this.drawMapBG.bind(this);
@@ -127,8 +145,7 @@ cc.Class({
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
 
-        this.mapItemX = 32;
-        this.mapItemY = 32;
+        
 
         // console.log("屏幕："+com.windowSize.width/2+":"+com.windowSize.height*24/25);
         // this.timePanel.setPosition(cc.p(0,0));
@@ -138,12 +155,25 @@ cc.Class({
 
         console.log(com.map.basicMap);
 
-        this.drawMapBG(com.map.basicMap);
-        this.drawMap(com.map.basicMap);
-        
-        // this.dropItem(arr);
+        this.socketHandle(roleObj,socket,self);
 
-        masterRole= this.spawnNewItem(masterPos,this.masterPrefab);
+        // this.drawMapBG(com.map.basicMap);
+        // this.drawMap(com.map.basicMap);
+        console.log()
+
+ 
+        try {
+            this.drawMapBG(basicMap);
+            this.drawMap(basicMap);
+        } catch (error) {
+            console.error(error)
+        }
+        
+    
+        // this.dropItem(arr);
+        masterPos = cc.p(32*11,32*9);
+        challengerPos = cc.p(32,32);
+        masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
         challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
 
 
@@ -156,7 +186,7 @@ cc.Class({
 
         // this.drawMap.call(this);
         
-        this.socketHandle(roleObj,socket,self);
+        this.node.setPosition(cc.p(0,0));
 
     },
 
@@ -271,22 +301,22 @@ cc.Class({
     },
 
     socketHandle: function (roleObj,socket,self) {
+
         socket.on("roleInfo",function(data){
             // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
 
             data.forEach(function(val){
                 let position = cc.p(val.position.x,val.position.y);
                 roleObj[val.name].setPosition(position);
+
                 if(val.gameTime>=0){
                     self.gameTime = val.gameTime;
                 }
                 
                 if(val.name === 'master'){
                     self.masterScore = val.score;
-                    // console.log('masterScore'+self.masterScore);
                 }else if(val.name === 'challenger'){
                     self.challengerScore = val.score;
-                    // console.log('challengerScore'+self.challengerScore);
                 }
             })
 
@@ -368,6 +398,7 @@ cc.Class({
                 break;
         }
     },
+
     update (dt) {
         this.timerDisplay.string = parseInt(this.gameTime/60)+":"+(this.gameTime%60);
         this.masterScoreDisplay.string = this.masterScore.toString();

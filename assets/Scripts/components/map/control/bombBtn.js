@@ -14,11 +14,7 @@ cc.Class({
     putBomb: function () {
         console.log("bomd down");
         com.socket.emit("KeyDown",com.KeyCode.j);
-    },
-
-    start () {
-
-    },
+    }
 
     // update (dt) {},
 });
