@@ -18,6 +18,7 @@ cc.Class({
     onLoad: function () {
         this.getDirection = this.getDirection.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
+        this.moveCallback = this.moveCallback.bind(this);
 
         this.spRoker.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.spRoker.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
@@ -37,7 +38,9 @@ cc.Class({
     onTouchMove: function(event) {
         let touchPos = event.getLocation();
         let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
-        this.moveDir = this.getDirection(pos);
+        
+        this.moveCallback(pos);
+
         console.log(this.moveDir +":"+this.slopeFlag);
         // console.log("move");
         this.updateRokerCenterPos(pos);
@@ -55,6 +58,9 @@ cc.Class({
         com.socket.emit("KeyUp",this.moveDir);
         // console.log("cancel");
         this.moveDir = null;
+    },
+    moveCallback: function name(pos) {
+        this.moveDir = this.getDirection(pos);
     },
 
     getDirection: function(pos) {
