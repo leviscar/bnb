@@ -9,29 +9,36 @@ cc.Class({
         moveSpeed: {
             type: cc.Float,
             default: 1
-        }
+        },
+        slopeFlag: false,
+        updateFlag:  false
+
     },
 
     onLoad: function () {
+        this.getDirection = this.getDirection.bind(this);
+        this.updateEvent = this.updateEvent.bind(this);
+
         this.spRoker.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.spRoker.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.spRoker.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.spRoker.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
     },
 
-    // onTouchStart: function(event) {
-    //     let touchPos = event.getLocation();
-    //     let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
-    //     let dir = this.getDirection(pos);
-    //     this.moveDir = this.getDirection(pos);
-    //     // console.log("start");
-    //     this.updateRokerCenterPos(pos);
-    // },
+    onTouchStart: function(event) {
+        // let touchPos = event.getLocation();
+        // let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
+        // let dir = this.getDirection(pos);
+        this.moveDir = null;
+        // console.log("start");
+        // this.updateRokerCenterPos(pos);
+    },
 
     onTouchMove: function(event) {
         let touchPos = event.getLocation();
         let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
         this.moveDir = this.getDirection(pos);
+        console.log(this.moveDir +":"+this.slopeFlag);
         // console.log("move");
         this.updateRokerCenterPos(pos);
     },
@@ -53,25 +60,41 @@ cc.Class({
     getDirection: function(pos) {
         let x = pos.x;
         let y = pos.y;
-        if (x <= y && x > -y) {
-            com.socket.emit("KeyDown",com.KeyCode.w);
+        let tanOne = 0.57;
+        let tanTwo = 1.73;
+
+        if (tanTwo*x <= y && tanTwo*x > -y) {
             console.log("up");
+            this.slopeFlag = false;
             return com.KeyCode.w;
-            // return cc.v2(0, 1);// 上
-        } else if (x >= y && x < -y) {
-            com.socket.emit("KeyDown",com.KeyCode.s);
+        }else if(tanOne*x <= y && tanTwo*x >= y){
+            console.log("up&right");
+            this.slopeFlag = true;
+            return [com.KeyCode.w,com.KeyCode.d];
+        }else if (tanTwo*x >= y && tanTwo*x < -y) {
             console.log("down");
+            this.slopeFlag = false;
             return com.KeyCode.s;
-            // return cc.v2(0, -1);// 下
-        } else if (x <= y && x < -y) {
-            com.socket.emit("KeyDown",com.KeyCode.a);
+        }else if(-tanTwo*x <= y && -tanOne*x >= y){
+            console.log("down&right");
+            this.slopeFlag = true;
+            return [com.KeyCode.s,com.KeyCode.d];
+        }else if (tanOne*x <= y && tanOne*x < -y) {
             console.log("left");
+            this.slopeFlag = false;
             return com.KeyCode.a;
-            // return cc.v2(-1, 0);// 左
-        } else {
-            com.socket.emit("KeyDown",com.KeyCode.d);
+        }else if(tanTwo*x <= y && tanOne*x >= y){
+            console.log("down&left");
+            this.slopeFlag = true;
+            return [com.KeyCode.s,com.KeyCode.a];
+        }else if(-tanOne*x <= y && -tanTwo*x >= y){
+            console.log("up&left");
+            this.slopeFlag = true;
+            return [com.KeyCode.s,com.KeyCode.a];
+        }  
+        else {
             console.log("right");
-            // return cc.v2(1, 0);// 右
+            this.slopeFlag = false;
             return com.KeyCode.d;
         }
     },
@@ -80,15 +103,24 @@ cc.Class({
         this.spRokerCenter.node.setPosition(pos);
         console.log("back");
     },
+    updateEvent: function() {
+        if(this.moveDir === null) return;
 
-    updatePlayerPos: function(dir) {
-        this.spPlayer.node.x += dir.x * this.moveSpeed;
-        this.spPlayer.node.y += dir.y * this.moveSpeed;
+        if(this.slopeFlag === false){
+            com.socket.emit("KeyDown",this.moveDir);
+        }else if(this.slopeFlag === true){
+            this.slopeFlag = false;
+            if(this.flag){
+                com.socket.emit("KeyDown",this.moveDir[0]);
+            }else{
+                com.socket.emit("KeyDown",this.moveDir[1]);
+            }
+            this.flag = !this.flag;
+            console.log(this.flag);
+        }
     },
 
     update: function(dt) {
-        // if (this.moveDir) {
-        //     this.updatePlayerPos(this.moveDir);
-        // }
+        this.updateEvent();
     },
 });
