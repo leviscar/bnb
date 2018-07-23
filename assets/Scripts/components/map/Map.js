@@ -20,24 +20,24 @@ const I_SCORE  = 104;
 
 let itemList = [];
 let prefabList  = {};
-let basicMap = [
-    [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ],
-    [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
-    [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 11, 0, 11 ],
-    [ 11, 0, 11, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
-    [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 11, 0, 11 ],
-    [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
-    [ 11, 0, 3, 3, 0, 3, 0, 3, 11, 3, 11, 0, 11 ],
-    [ 11, 0, 3, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
-    [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 11, 0, 11 ],
-    [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
-    [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
-    [ 11, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
-    [ 11, 0, 11, 3, 11, 3, 11, 3, 11, 3, 11, 0, 11 ],
-    [ 11, 0, 3, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
-    [ 11, 0, 11, 3, 11, 3, 11, 3, 11, 3, 11, 0, 11 ],
-    [ 11, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
-    [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ] ];
+// let basicMap = [
+//     [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ],
+//     [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
+//     [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 11, 0, 11 ],
+//     [ 11, 0, 11, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
+//     [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 11, 0, 11 ],
+//     [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
+//     [ 11, 0, 3, 3, 0, 3, 0, 3, 11, 3, 11, 0, 11 ],
+//     [ 11, 0, 3, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
+//     [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 11, 0, 11 ],
+//     [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
+//     [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
+//     [ 11, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
+//     [ 11, 0, 11, 3, 11, 3, 11, 3, 11, 3, 11, 0, 11 ],
+//     [ 11, 0, 3, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
+//     [ 11, 0, 11, 3, 11, 3, 11, 3, 11, 3, 11, 0, 11 ],
+//     [ 11, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
+//     [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ] ];
 
 cc.Class({
     extends: cc.Component,
@@ -157,17 +157,20 @@ cc.Class({
 
         this.socketHandle(roleObj,socket,self);
 
-        // this.drawMapBG(com.map.basicMap);
-        // this.drawMap(com.map.basicMap);
-        console.log()
-
- 
         try {
-            this.drawMapBG(basicMap);
-            this.drawMap(basicMap);
+            this.drawMapBG(com.map.basicMap);
+            this.drawMap(com.map.basicMap);
         } catch (error) {
             console.error(error)
         }
+
+ 
+        // try {
+        //     this.drawMapBG(basicMap);
+        //     this.drawMap(basicMap);
+        // } catch (error) {
+        //     console.error(error)
+        // }
         
     
         // this.dropItem(arr);
@@ -302,48 +305,52 @@ cc.Class({
 
     socketHandle: function (roleObj,socket,self) {
 
-        socket.on("roleInfo",function(data){
-            // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
-
-            data.forEach(function(val){
-                let position = cc.p(val.position.x,val.position.y);
-                roleObj[val.name].setPosition(position);
-
-                if(val.gameTime>=0){
-                    self.gameTime = val.gameTime;
-                }
-                
-                if(val.name === 'master'){
-                    self.masterScore = val.score;
-                }else if(val.name === 'challenger'){
-                    self.challengerScore = val.score;
-                }
-            })
-
-        });
-
-        socket.on("itemEaten",function(pos){
-            console.log("item eaten"+ pos);
-            self.node.removeChild(itemList[pos.x][pos.y]);
-            itemList[pos.x][pos.y] = null;
-        });
-
-
-        socket.on("boomInfo",function (data) {
-            // console.log(data);
-            self.dropItem(data.boomPaopaoArr);
-            self.dropItem(data.boomBoxArr);
-            self.addItem(data.itemArr);
-            self.boomAction(data.boomXYArr);
-        });
-
-        socket.on("paopaoCreated",function (data) {
-            self.addBoom(data);
-        });
-
-        socket.on("roleBoom",function(data){
-            self.addRoleBoom(data);
-        });
+        try {
+            socket.on("roleInfo",function(data){
+                // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
+    
+                data.forEach(function(val){
+                    let position = cc.p(val.position.x,val.position.y);
+                    roleObj[val.name].setPosition(position);
+    
+                    if(val.gameTime>=0){
+                        self.gameTime = val.gameTime;
+                    }
+                    
+                    if(val.name === 'master'){
+                        self.masterScore = val.score;
+                    }else if(val.name === 'challenger'){
+                        self.challengerScore = val.score;
+                    }
+                })
+    
+            });
+    
+            socket.on("itemEaten",function(pos){
+                console.log("item eaten"+ pos);
+                self.node.removeChild(itemList[pos.x][pos.y]);
+                itemList[pos.x][pos.y] = null;
+            });
+    
+    
+            socket.on("boomInfo",function (data) {
+                // console.log(data);
+                self.dropItem(data.boomPaopaoArr);
+                self.dropItem(data.boomBoxArr);
+                self.addItem(data.itemArr);
+                self.boomAction(data.boomXYArr);
+            });
+    
+            socket.on("paopaoCreated",function (data) {
+                self.addBoom(data);
+            });
+    
+            socket.on("roleBoom",function(data){
+                self.addRoleBoom(data);
+            });
+        } catch (error) {
+            console.error(error)
+        }
     },
 
     onDestroy () {

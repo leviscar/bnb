@@ -63,14 +63,24 @@ cc.Class({
 
     onTouchEnd: function(event) {
         this.updateRokerCenterPos(cc.v2(0, 0));
-        com.socket.emit("KeyUp",this.moveDir);
+
+        try {
+            com.socket.emit("KeyUp",this.moveDir);
+        } catch (error) {
+            console.error(error)
+        }
         // console.log("end");
         this.moveDir = null;
     },
 
     onTouchCancel: function(event) {
         this.updateRokerCenterPos(cc.v2(0, 0));
-        com.socket.emit("KeyUp",this.moveDir);
+
+        try {
+            com.socket.emit("KeyUp",this.moveDir);
+        } catch (error) {
+            console.error(error)
+        }
         // console.log("cancel");
         this.moveDir = null;
     },
@@ -145,6 +155,10 @@ cc.Class({
     },
 
     update: function(dt) {
-        this.updateEvent();
+        try {
+            this.updateEvent();
+        } catch (error) {
+            console.error(error)
+        }
     },
 });

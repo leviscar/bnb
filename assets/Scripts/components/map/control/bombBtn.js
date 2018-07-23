@@ -13,7 +13,11 @@ cc.Class({
     },
     putBomb: function () {
         console.log("bomd down");
-        com.socket.emit("KeyDown",com.KeyCode.j);
+        try {
+            com.socket.emit("KeyDown",com.KeyCode.j);
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     // update (dt) {},

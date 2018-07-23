@@ -22,18 +22,22 @@ cc.Class({
     hide: function (){
         this.node.emit('fade-out');
     },
-    
+
     // LIFE-CYCLE CALLBACKS:
     editCallback: function () {
         console.log(this.editbox.string);
     },
 
     addRoom: function () {
-        if(this.editbox.string!=""){
-            com.socket.role = 'master';
-            com.socket.emit("newRoom",{name:this.editbox.string});
-            com.roomId = this.editbox.string;
-            this.hide();
+        try {
+            if(this.editbox.string!=""){
+                com.socket.role = 'master';
+                com.socket.emit("newRoom",{name:this.editbox.string});
+                com.roomId = this.editbox.string;
+                this.hide();
+            }
+        } catch (error) {
+            console.error(error)
         }
     }
 });

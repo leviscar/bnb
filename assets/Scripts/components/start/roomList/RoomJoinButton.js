@@ -11,10 +11,14 @@ cc.Class({
         // this.itemID = roomId;
         this.label.string = roomId;
 
-        this.node.on('touchend', function () {
-            console.log("Room " + this.itemID + ' clicked');
-            com.socket.role = 'challenger';
-            com.socket.emit("joinRoom",roomId);
-        }, this);
+        try {
+            this.node.on('touchend', function () {
+                console.log("Room " + this.itemID + ' clicked');
+                com.socket.role = 'challenger';
+                com.socket.emit("joinRoom",roomId);
+            }, this);
+        } catch (error) {
+            console.error(error)
+        }
     }
 });

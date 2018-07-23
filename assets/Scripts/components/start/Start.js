@@ -9,11 +9,13 @@ cc.Class({
         addRoomPanel:cc.Sprite,
         joinRoomScrollView:cc.ScrollView,
     },
-    
+
     onLoad: function(){
+
         let serverAdd = "http://" + com.host +":"+ com.port;
         let socket = window.io(serverAdd);
-        com.socket = socket;       
+        com.socket = socket;
+
         com.windowSize = cc.view.getVisibleSize();
         
         this.NewRoom.node.on('click',this.newRoom,this);
@@ -34,7 +36,8 @@ cc.Class({
         try {
           // this.wxHandle();
         } catch (error) {
-          console.error(error)
+          console.log("微信包出错");
+          console.error(error);
         }
     },
     joinRoom: function(){
