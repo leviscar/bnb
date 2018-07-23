@@ -1,4 +1,4 @@
-const com = require("Common");
+const com = require("../../Common");
 
 const GROUND       = 10;
 
@@ -86,6 +86,7 @@ cc.Class({
         let masterPos = cc.p(32*11,32*9);
         let challengerPos = cc.p(32,32);
         let masterRole,challengerRole;
+        
         console.log("game start");
         
         let roleObj = {}
