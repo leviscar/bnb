@@ -1,4 +1,4 @@
-let com  = require('Common');
+let com  = require('../../../Common');
 
 cc.Class({
     extends: cc.Component,
@@ -64,10 +64,5 @@ cc.Class({
             self.totalCount = data.data.length;
             self.updateRoom(data);           
         });  
-    },
-    start () {
-
-    },
-
-    // update (dt) {},
+    }
 });

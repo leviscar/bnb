@@ -1,4 +1,4 @@
-const com = require("Common");
+const com = require("../../Common");
 
 const GROUND       = 10;
 
@@ -49,6 +49,8 @@ cc.Class({
         addBombPrefab: cc.Prefab,
         // 增加威力预制道具
         strengthPrefab: cc.Prefab,
+        //角色被炸效果
+        roleBoomPrefab: cc.Prefab,
         
         // 结束页面
         endPage: cc.Node,
@@ -56,31 +58,33 @@ cc.Class({
         player:  cc.Node,
         // 放置炸弹按钮
         bombBtn: cc.Button,
+
+        timerDisplay:cc.Label,
+        masterScoreDisplay: cc.Label,
+        challengerScoreDisplay:cc.Label,
+
         mapItemX: 0,
         mapItemY: 0,
         mapDataLen: 0,
 
         gameTime: 0,
-        timerDisplay: {
-            default: null,
-            type: cc.Label
-        }
+        masterScore: 0,
+        challengerScore: 0,
+        
 
     },
     
     onLoad: function(){
         let self = this;
         let socket = com.socket;
+        let roleObj = {};
+        let masterRole,challengerRole;
+
         let masterPos = cc.p(32*11,32*9);
         let challengerPos = cc.p(32,32);
-        let masterRole,challengerRole;
-        // let socket = window.io("http://localhost:4000");
-        // this._player = this.node.getChildByName("player");
+
         console.log("game start");
         
-        let roleObj = {}
-        let bombList = [];
-
         prefabList = {
             // 地面预制资源 GROUND : 10
             0: self.groudPrefab,
@@ -106,11 +110,14 @@ cc.Class({
             103: self.strengthPrefab,
             104: self.strengthPrefab,
 
+            // 角色爆炸
+            998: self.roleBoomPrefab,
+
             // 爆炸道具
             999: self.explodePrefab
         };
 
-        console.log(com.map.basicMap);
+        // console.log(com.map.basicMap);
         // this.drawMapBG.call(this);
         this.drawMapBG = this.drawMapBG.bind(this);
         this.drawMap = this.drawMap.bind(this);
@@ -118,9 +125,16 @@ cc.Class({
         this.dropItem = this.dropItem.bind(this);
         this.addItem = this.addItem.bind(this);
         this.addBoom = this.addBoom.bind(this);
+        this.socketHandle = this.socketHandle.bind(this);
 
         this.mapItemX = 32;
         this.mapItemY = 32;
+
+        // console.log("屏幕："+com.windowSize.width/2+":"+com.windowSize.height*24/25);
+        // this.timePanel.setPosition(cc.p(0,0));
+        // this.timerDisplay.position = cc.p(com.windowSize.width/2,com.windowSize.height*24/25);
+        // this.challengerScoreDisplay.position = cc.p(com.windowSize.width*5/6,com.windowSize.height*24/25);
+        // this.masterScoreDisplay.position = cc.p(com.windowSize.width*7/6,com.windowSize.height*24/25);
 
         console.log(com.map.basicMap);
 
@@ -129,8 +143,8 @@ cc.Class({
         
         // this.dropItem(arr);
 
-        masterRole= this.spawnNewRole(masterPos,this.masterPrefab);
-        challengerRole = this.spawnNewRole(challengerPos,this.challengerPrefab);
+        masterRole= this.spawnNewItem(masterPos,this.masterPrefab);
+        challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
 
 
         roleObj['master'] = masterRole;
@@ -142,54 +156,11 @@ cc.Class({
 
         // this.drawMap.call(this);
         
-        socket.on("roleInfo",function(data){
-            // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
-
-            data.forEach(function(val){
-                let position = cc.p(val.position.x,val.position.y);
-                roleObj[val.name].setPosition(position);
-                self.gameTime = val.gameTime;
-            })
-
-        });
-
-        socket.on("itemEaten",function(pos){
-            console.log("item eaten"+ pos);
-            self.node.removeChild(itemList[pos.x][pos.y]);
-            itemList[pos.x][pos.y] = null;
-        });
-
-
-        socket.on("boomInfo",function (data) {
-            // console.log(data);
-            self.dropItem(data.boomPaopaoArr);
-            self.dropItem(data.boomBoxArr);
-            self.addItem(data.itemArr);
-            self.boomAction(data.boomXYArr);
-        });
-
-        socket.on("paopaoCreated",function (data) {
-            self.addBoom(data);
-        });
+        this.socketHandle(roleObj,socket,self);
 
     },
 
-    // LIFE-CYCLE CALLBACKS:
-    // 在地图上生成新角色
-    spawnNewRole: function(pos,prefab) {
-        let role = cc.instantiate(prefab);
-        this.node.addChild(role);
-        role.setPosition(pos);
-        return role;
-    },
-
-    // 在地图上生成新炸弹
-    spawnNewBomb: function(pos,prefab) {
-        let bomb = cc.instantiate(prefab);
-        this.node.addChild(bomb);
-        bomb.setPosition(pos)
-        return bomb;
-    },
+    
 
     // 在地图上生成新item
     spawnNewItem: function(pos,prefab) {
@@ -266,6 +237,16 @@ cc.Class({
 
     },
 
+    addRoleBoom: function (obj) {
+        let pos,axisObj;
+        if(!obj) return false;
+ 
+        axisObj = this.transAxis(this.mapDataLen,obj.x,obj.y);
+        pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+        this.spawnNewItem(pos,prefabList[998]);
+
+    },
+
     boomAction: function (arr) {
         let pos,axisObj;
         if(!arr||arr.length===0) return false;
@@ -287,6 +268,52 @@ cc.Class({
         axisObj.x = y;
         axisObj.y = len-x-1;
         return axisObj;
+    },
+
+    socketHandle: function (roleObj,socket,self) {
+        socket.on("roleInfo",function(data){
+            // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
+
+            data.forEach(function(val){
+                let position = cc.p(val.position.x,val.position.y);
+                roleObj[val.name].setPosition(position);
+                if(val.gameTime>=0){
+                    self.gameTime = val.gameTime;
+                }
+                
+                if(val.name === 'master'){
+                    self.masterScore = val.score;
+                    // console.log('masterScore'+self.masterScore);
+                }else if(val.name === 'challenger'){
+                    self.challengerScore = val.score;
+                    // console.log('challengerScore'+self.challengerScore);
+                }
+            })
+
+        });
+
+        socket.on("itemEaten",function(pos){
+            console.log("item eaten"+ pos);
+            self.node.removeChild(itemList[pos.x][pos.y]);
+            itemList[pos.x][pos.y] = null;
+        });
+
+
+        socket.on("boomInfo",function (data) {
+            // console.log(data);
+            self.dropItem(data.boomPaopaoArr);
+            self.dropItem(data.boomBoxArr);
+            self.addItem(data.itemArr);
+            self.boomAction(data.boomXYArr);
+        });
+
+        socket.on("paopaoCreated",function (data) {
+            self.addBoom(data);
+        });
+
+        socket.on("roleBoom",function(data){
+            self.addRoleBoom(data);
+        });
     },
 
     onDestroy () {
@@ -341,13 +368,9 @@ cc.Class({
                 break;
         }
     },
-    // onLoad () {},
-
-    start () {
-
-    },
-
     update (dt) {
         this.timerDisplay.string = parseInt(this.gameTime/60)+":"+(this.gameTime%60);
+        this.masterScoreDisplay.string = this.masterScore.toString();
+        this.challengerScoreDisplay.string = this.challengerScore.toString();
     },
 });

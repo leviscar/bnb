@@ -1641,7 +1641,7 @@
     "target": {
       "__id__": 44
     },
-    "component": "addRoomUI",
+    "component": "AddRoomUI",
     "handler": "show",
     "customEventData": ""
   },

@@ -1,6 +1,3 @@
-
-
-
 module.exports = {
     socket: null,
     roomId: 0,
@@ -25,7 +22,7 @@ module.exports = {
     map: {
         basicMap: []
     },
-    windowSize: null,
+    windowSize:null,
     host: 'localhost',
     // host:'212.64.17.36',
     port: 4000

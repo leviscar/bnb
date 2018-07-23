@@ -1,4 +1,4 @@
-let com = require("../../Common");
+let com = require("../../../Common");
 
 cc.Class({
     extends: cc.Component,
@@ -19,21 +19,41 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
-        label: {
+        editbox: {
             default: null,
-            type: cc.Label
+            type: cc.EditBox
+        },
+        createBtn: {
+            default: null,
+            type: cc.Button
         }
     },
-
+    onLoad: function () {
+        // this.editbox.node.on('text-changed', this.editCallback, this);
+        this.createBtn.node.on('touchend',this.addRoom,this);
+    },
     show: function () {
         this.node.active = true;
         this.node.emit('fade-in');
-        this.label.string ="等待其他用户连接房间:"+ com.roomId ;
+        
     },
     hide: function (){
         this.node.emit('fade-out');
     },
     // LIFE-CYCLE CALLBACKS:
+    editCallback: function () {
+        console.log(this.editbox.string);
+    },
+
+    addRoom: function () {
+        if(this.editbox.string!=""){
+            com.socket.role = 'master';
+            com.socket.emit("newRoom",{name:this.editbox.string});
+            com.roomId = this.editbox.string;
+            this.hide();
+        }
+    },
+
     start () {
 
     },

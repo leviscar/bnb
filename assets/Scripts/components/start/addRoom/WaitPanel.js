@@ -1,16 +1,9 @@
+let com = require("../../../Common");
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        // 触发距离
-        pickRadius:0,
-        // 选手移动速度
-        moveSpeed: 0,
-        // 选手移动步距
-        moveStep: 0,
-        // 存活状态
-        isLive: true
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -26,12 +19,21 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+        label: {
+            default: null,
+            type: cc.Label
+        }
     },
 
+    show: function () {
+        this.node.active = true;
+        this.node.emit('fade-in');
+        this.label.string ="等待其他用户连接房间:"+ com.roomId ;
+    },
+    hide: function (){
+        this.node.emit('fade-out');
+    },
     // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {},
-
     start () {
 
     },
