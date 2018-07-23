@@ -9,28 +9,41 @@ cc.Class({
         addRoomPanel:cc.Sprite,
         joinRoomScrollView:cc.ScrollView,
     },
+
     onLoad: function(){
+
         let serverAdd = "http://" + com.host +":"+ com.port;
         let socket = window.io(serverAdd);
-        com.socket = socket;       
+        com.socket = socket;
+
         com.windowSize = cc.view.getVisibleSize();
         
         this.NewRoom.node.on('click',this.newRoom,this);
         this.JoinRoom.node.on('click',this.joinRoom,this);
 
-        socket.on("start",function(data){
-            
-            cc.director.loadScene("map");
-            com.map.basicMap = data.arr;
-        });
+        try {
+          socket.on("start",function(data){
+              
+              cc.director.loadScene("map");
+              com.map.basicMap = data.arr;
+          });
+        } catch (error) {
+          console.error(error)
+        }
     },
     newRoom: function(){
         console.log("newRoom");
-        // this.wxHandle();
+        try {
+          // this.wxHandle();
+        } catch (error) {
+          console.log("微信包出错");
+          console.error(error);
+        }
     },
     joinRoom: function(){
         console.log("joinRoom");
     },
+
     wxHandle: function () {
         wx.getSetting({
             success: (response) => {

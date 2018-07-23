@@ -56,13 +56,17 @@ cc.Class({
         this.node.emit('fade-out');
     },
     onEnable: function () {
-        let self = this;
-        console.log("11111");
-        com.socket.emit('getRooms'); 
-        com.socket.on('getRooms',function (data) {
-            // console.log(data);
-            self.totalCount = data.data.length;
-            self.updateRoom(data);           
-        });  
+        try {
+            let self = this;
+            console.log("11111");
+            com.socket.emit('getRooms'); 
+            com.socket.on('getRooms',function (data) {
+                // console.log(data);
+                self.totalCount = data.data.length;
+                self.updateRoom(data);           
+            });  
+        } catch (error) {
+            console.error(error)
+        }
     }
 });

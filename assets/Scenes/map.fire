@@ -1483,7 +1483,7 @@
     "_originalHeight": 0
   },
   {
-    "__type__": "95dbd9pW99Gp52T2KeUyzBW",
+    "__type__": "21a00oFgiNKFIQjRQnnMw4Z",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -1995,7 +1995,9 @@
     },
     "moveSpeed": 1,
     "slopeFlag": false,
-    "updateFlag": false
+    "updateFlag": false,
+    "_touching": false,
+    "_touchStartPos": null
   },
   {
     "__type__": "cc.Widget",

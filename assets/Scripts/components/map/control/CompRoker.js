@@ -1,4 +1,13 @@
+// 操作杆控制代码
 const com = require("../../../Common");
+
+const MoveDirection = cc.Enum({
+    NONE: 0,
+    UP: 1,
+    DOWN: 2,
+    LEFT: 3,
+    RIGHT: 4
+});
 
 cc.Class({
     extends: cc.Component,
@@ -11,7 +20,10 @@ cc.Class({
             default: 1
         },
         slopeFlag: false,
-        updateFlag:  false
+        updateFlag:  false,
+
+        _touching: false,
+        _touchStartPos: null
 
     },
 
@@ -30,6 +42,9 @@ cc.Class({
         // let touchPos = event.getLocation();
         // let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
         // let dir = this.getDirection(pos);
+        this._touching = true;
+        this._touchStartPos = event.touch.getLocation();
+
         this.moveDir = null;
         // console.log("start");
         // this.updateRokerCenterPos(pos);
@@ -48,17 +63,28 @@ cc.Class({
 
     onTouchEnd: function(event) {
         this.updateRokerCenterPos(cc.v2(0, 0));
-        com.socket.emit("KeyUp",this.moveDir);
+
+        try {
+            com.socket.emit("KeyUp",this.moveDir);
+        } catch (error) {
+            console.error(error)
+        }
         // console.log("end");
         this.moveDir = null;
     },
 
     onTouchCancel: function(event) {
         this.updateRokerCenterPos(cc.v2(0, 0));
-        com.socket.emit("KeyUp",this.moveDir);
+
+        try {
+            com.socket.emit("KeyUp",this.moveDir);
+        } catch (error) {
+            console.error(error)
+        }
         // console.log("cancel");
         this.moveDir = null;
     },
+
     moveCallback: function name(pos) {
         this.moveDir = this.getDirection(pos);
     },
@@ -109,7 +135,9 @@ cc.Class({
         this.spRokerCenter.node.setPosition(pos);
         console.log("back");
     },
+
     updateEvent: function() {
+
         if(this.moveDir === null) return;
 
         if(this.slopeFlag === false){
@@ -127,6 +155,10 @@ cc.Class({
     },
 
     update: function(dt) {
-        this.updateEvent();
+        try {
+            this.updateEvent();
+        } catch (error) {
+            console.error(error)
+        }
     },
 });
