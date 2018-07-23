@@ -96,7 +96,7 @@ cc.Class({
         }else if(-tanOne*x <= y && -tanTwo*x >= y){
             console.log("up&left");
             this.slopeFlag = true;
-            return [com.KeyCode.s,com.KeyCode.a];
+            return [com.KeyCode.w,com.KeyCode.a];
         }  
         else {
             console.log("right");

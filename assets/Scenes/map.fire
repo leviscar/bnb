@@ -160,7 +160,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1140,
+      "width": 960,
       "height": 640
     },
     "_rotationX": 0,
@@ -1993,7 +1993,9 @@
     "spRokerCenter": {
       "__id__": 51
     },
-    "moveSpeed": 1
+    "moveSpeed": 1,
+    "slopeFlag": false,
+    "updateFlag": false
   },
   {
     "__type__": "cc.Widget",
