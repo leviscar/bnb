@@ -603,12 +603,6 @@
     "bombBtn": {
       "__id__": 35
     },
-    "mapItemX": 0,
-    "mapItemY": 0,
-    "mapDataLen": 0,
-    "gameTime": 0,
-    "masterScore": 0,
-    "challengerScore": 0,
     "timerDisplay": {
       "__id__": 40
     },
@@ -617,7 +611,13 @@
     },
     "challengerScoreDisplay": {
       "__id__": 43
-    }
+    },
+    "mapItemX": 0,
+    "mapItemY": 0,
+    "mapDataLen": 0,
+    "gameTime": 0,
+    "masterScore": 0,
+    "challengerScore": 0
   },
   {
     "__type__": "cc.Node",
