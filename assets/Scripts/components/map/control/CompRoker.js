@@ -86,7 +86,10 @@ cc.Class({
     },
 
     moveCallback: function name(pos) {
-        this.moveDir = this.getDirection(pos);
+        let angle = Math.atan2(pos.y, pos.x) * (180/Math.PI);
+        console.log(angle);
+        com.socket.emit("MoveByAngle",angle);
+        // this.moveDir = this.getDirection(pos);
     },
 
     getDirection: function(pos) {
@@ -155,10 +158,10 @@ cc.Class({
     },
 
     update: function(dt) {
-        try {
-            this.updateEvent();
-        } catch (error) {
-            console.error(error)
-        }
+        // try {
+        //     this.updateEvent();
+        // } catch (error) {
+        //     console.error(error)
+        // }
     },
 });
