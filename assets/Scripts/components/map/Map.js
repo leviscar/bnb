@@ -69,6 +69,9 @@ cc.Class({
         strengthPrefab: cc.Prefab,
         //角色被炸效果
         roleBoomPrefab: cc.Prefab,
+        //小怪物
+        monsterPrefab: cc.Prefab,
+
         
         // 结束页面
         endPage: cc.Node,
@@ -97,7 +100,7 @@ cc.Class({
         let socket = com.socket;
         let roleObj = {};
         let masterRole,challengerRole,masterPos,challengerPos;
-
+        let monster,monsterPos;
         this.mapItemX = 32;
         this.mapItemY = 32;
 
@@ -126,6 +129,9 @@ cc.Class({
             103: self.strengthPrefab,
             104: self.strengthPrefab,
 
+            //小怪物
+            997:self.monsterPrefab,
+
             // 角色爆炸
             998: self.roleBoomPrefab,
 
@@ -143,7 +149,7 @@ cc.Class({
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
         
-        this.node.setPosition(cc.p(111,0));
+        // this.node.setPosition(cc.p(111,0));
 
         // console.log("屏幕："+com.windowSize.width/2+":"+com.windowSize.height*24/25);
         // this.timePanel.setPosition(cc.p(0,0));
@@ -174,12 +180,16 @@ cc.Class({
         // this.dropItem(arr);
         masterPos = cc.p(32*11,32*9);
         challengerPos = cc.p(32,32);
+        monsterPos = cc.p(32*11,32);
+
         masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
         challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
-
+        monster = this.spawnNewItem(monsterPos,this.monsterPrefab);
 
         roleObj['master'] = masterRole;
         roleObj['challenger'] = challengerRole;
+        roleObj['monster'] = monster;
+
 
         // this.node.setPosition(cc.p(111,0));
         console.log(this.node.x);
@@ -349,6 +359,12 @@ cc.Class({
             socket.on("roleBoom",function(data){
                 self.addRoleBoom(data);
             });
+
+            socket.on("monsterInfo",function(data){
+                let position = cc.p(data.x,data.y);
+                roleObj['monster'].setPosition(position);
+            });
+
         } catch (error) {
             console.error(error)
         }
