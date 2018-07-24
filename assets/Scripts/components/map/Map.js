@@ -144,7 +144,6 @@ cc.Class({
         this.addItem = this.addItem.bind(this);
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
-
         
 
         // console.log("屏幕："+com.windowSize.width/2+":"+com.windowSize.height*24/25);
@@ -405,9 +404,12 @@ cc.Class({
                 break;
         }
     },
-
+    transTime: function (data) {
+        if(data<0) return false;
+        return data<10?"0"+data:data;  
+    },
     update (dt) {
-        this.timerDisplay.string = parseInt(this.gameTime/60)+":"+(this.gameTime%60);
+        this.timerDisplay.string = this.transTime(parseInt(this.gameTime/60))+":"+this.transTime(this.gameTime%60);
         this.masterScoreDisplay.string = this.masterScore.toString();
         this.challengerScoreDisplay.string = this.challengerScore.toString();
     },
