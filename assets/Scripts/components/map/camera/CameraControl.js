@@ -57,7 +57,7 @@ cc.Class({
             } else {
                 // this.node.position = this.node.parent.convertToNodeSpaceAR(targetPos);
                 this.node.position = targetPos;
-                this.map.position = targetPos;
+                // this.map.position = targetPos;
                 // console.log(this.node.position);
             }
     

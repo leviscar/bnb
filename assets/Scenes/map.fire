@@ -1865,8 +1865,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 625,
+      "y": 450
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1936,7 +1936,10 @@
     },
     "_enabled": true,
     "_targets": [
-      null
+      null,
+      {
+        "__id__": 13
+      }
     ],
     "zoomRatio": 1
   },
@@ -1953,7 +1956,7 @@
       "__id__": 51
     },
     "smoothFollow": false,
-    "centerAtStart": false
+    "centerAtStart": true
   },
   {
     "__type__": "cc.Sprite",
