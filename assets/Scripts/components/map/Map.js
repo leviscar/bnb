@@ -272,13 +272,9 @@ cc.Class({
     },
 
     addRoleBoom: function (obj) {
-        let pos,axisObj;
         if(!obj) return false;
- 
-        axisObj = this.transAxis(this.mapDataLen,obj.x,obj.y);
-        pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+        let pos = cc.p(obj.x,obj.y);
         this.spawnNewItem(pos,prefabList[998]);
-
     },
 
     boomAction: function (arr) {
