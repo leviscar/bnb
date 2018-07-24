@@ -1,4 +1,4 @@
-let com = require("../../../Common");
+const com = require("../../../Common");
 
 cc.Class({
     extends: cc.Component,

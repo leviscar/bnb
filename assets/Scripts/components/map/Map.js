@@ -143,7 +143,7 @@ cc.Class({
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
         
-        this.node.setPosition(cc.p(111,0));
+        // this.node.setPosition(cc.p(111,0));
 
         // console.log("屏幕："+com.windowSize.width/2+":"+com.windowSize.height*24/25);
         // this.timePanel.setPosition(cc.p(0,0));
@@ -184,6 +184,7 @@ cc.Class({
         // this.node.setPosition(cc.p(111,0));
         console.log(this.node.x);
         console.log(this.node.y);
+
         // add key down and key up event
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
