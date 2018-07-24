@@ -135,8 +135,6 @@ cc.Class({
 
         console.log("game start");
 
-        // console.log(com.map.basicMap);
-        // this.drawMapBG.call(this);
         this.drawMapBG = this.drawMapBG.bind(this);
         this.drawMap = this.drawMap.bind(this);
         this.spawnNewItem = this.spawnNewItem.bind(this);
@@ -145,6 +143,7 @@ cc.Class({
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
         
+        this.node.setPosition(cc.p(111,0));
 
         // console.log("屏幕："+com.windowSize.width/2+":"+com.windowSize.height*24/25);
         // this.timePanel.setPosition(cc.p(0,0));
@@ -152,7 +151,7 @@ cc.Class({
         // this.challengerScoreDisplay.position = cc.p(com.windowSize.width*5/6,com.windowSize.height*24/25);
         // this.masterScoreDisplay.position = cc.p(com.windowSize.width*7/6,com.windowSize.height*24/25);
 
-        console.log(com.map.basicMap);
+        // console.log(com.map.basicMap);
 
         this.socketHandle(roleObj,socket,self);
 
@@ -182,13 +181,16 @@ cc.Class({
         roleObj['master'] = masterRole;
         roleObj['challenger'] = challengerRole;
 
+        // this.node.setPosition(cc.p(111,0));
+        console.log(this.node.x);
+        console.log(this.node.y);
         // add key down and key up event
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
 
         // this.drawMap.call(this);
         
-        this.node.setPosition(cc.p(0,0));
+        
 
     },
 
@@ -303,15 +305,19 @@ cc.Class({
     },
 
     socketHandle: function (roleObj,socket,self) {
-
+        let moveAction ={};
         try {
             socket.on("roleInfo",function(data){
                 // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
     
                 data.forEach(function(val){
                     let position = cc.p(val.position.x,val.position.y);
+                    // moveAction[val.name] = cc.moveTo(position);
+                    
+                     
                     roleObj[val.name].setPosition(position);
-    
+                    // roleObj[val.name].runAction(moveAction[val.name]);
+
                     if(val.gameTime>=0){
                         self.gameTime = val.gameTime;
                     }

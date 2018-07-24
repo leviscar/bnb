@@ -8,9 +8,13 @@ cc.Class({
     onLoad () {
         const socket = com.socket;
         const self = this;
-        socket.on("end",function () {
-            self.show();
-        });
+        try {
+            socket.on("end",function () {
+                self.show();
+            });
+        } catch (error) {
+            console.error(error)
+        }
     },
     // 显示endGame面板
     show: function () {
