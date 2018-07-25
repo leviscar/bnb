@@ -43,7 +43,7 @@ cc.Class({
         // let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
         // let dir = this.getDirection(pos);
         this._touching = true;
-        this._touchStartPos = event.touch.getLocation();
+        this._touchStartPos = this.spRoker.node.convertToNodeSpaceAR(event.touch.getLocation());
 
         this.moveDir = null;
         // console.log("start");
@@ -53,12 +53,23 @@ cc.Class({
     onTouchMove: function(event) {
         let touchPos = event.getLocation();
         let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
-        
-        this.moveCallback(pos);
+        // 获得外圈的半径
+        let radius = this.spRoker.node.width;
+        // 获得触摸点和锚点之间的距离
+        let distance = cc.pDistance(pos,cc.p(0,0));
+        let angle = Math.atan2(pos.x-this._touchStartPos.x,pos.y-this._touchStartPos.y) * (180/Math.PI)
 
-        console.log(this.moveDir +":"+this.slopeFlag);
-        // console.log("move");
-        this.updateRokerCenterPos(pos);
+        this.moveCallback(cc.p(pos.x-this._touchStartPos.x,pos.y-this._touchStartPos.y));
+
+        // 当处在圆内时更新操作杆距离
+        if(radius>distance){
+            this.updateRokerCenterPos(pos);
+        }else{
+            let x = radius * Math.cos(angle);
+            let y = radius * Math.sin(angle);
+            this.updateRokerCenterPos(cc.p(x,y));
+        }
+        
     },
 
     onTouchEnd: function(event) {
@@ -85,10 +96,14 @@ cc.Class({
         this.moveDir = null;
     },
 
-    moveCallback: function name(pos) {
+    moveCallback: function(pos) {
         let angle = Math.atan2(pos.y, pos.x) * (180/Math.PI);
-        console.log(angle);
-        com.socket.emit("MoveByAngle",angle);
+        // console.log(angle);
+        try {
+            com.socket.emit("MoveByAngle",angle);
+        } catch (error) {
+            console.error(error)
+        }
         // this.moveDir = this.getDirection(pos);
     },
 
@@ -136,7 +151,7 @@ cc.Class({
 
     updateRokerCenterPos: function(pos) {
         this.spRokerCenter.node.setPosition(pos);
-        console.log("back");
+        // console.log("back");
     },
 
     updateEvent: function() {
