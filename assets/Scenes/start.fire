@@ -2356,7 +2356,7 @@
     "target": {
       "__id__": 54
     },
-    "component": "waitPanel",
+    "component": "WaitPanel",
     "handler": "hide",
     "customEventData": ""
   },
@@ -2576,7 +2576,7 @@
     "target": {
       "__id__": 44
     },
-    "component": "addRoomUI",
+    "component": "AddRoomUI",
     "handler": "hide",
     "customEventData": ""
   },
