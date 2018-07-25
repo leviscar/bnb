@@ -19,6 +19,12 @@ module.exports = {
         d: 68,
         j: 74
     }),
+    userInfo: {
+        nickName: 'unknown',
+        avatarUrl: null,
+        gender: 1
+    },
+    userInfos: [],
     map: {
         basicMap: []
     },

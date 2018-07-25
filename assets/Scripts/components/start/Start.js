@@ -11,7 +11,12 @@ cc.Class({
     },
 
     onLoad: function(){
+        try{
+          this.wxHandle();
 
+        }catch(err){
+          console.log('wx error:'+ err)
+        }
         let serverAdd = "http://" + com.host +":"+ com.port;
         let socket = window.io(serverAdd);
         com.socket = socket;
@@ -23,9 +28,10 @@ cc.Class({
 
         try {
           socket.on("start",function(data){
-              
+              let mapInfo = data.mapInfo;
+              com.userInfos = [].concat(data.userInfos);
               cc.director.loadScene("map");
-              com.map.basicMap = data.arr;
+              com.map.basicMap = mapInfo.arr;
           });
         } catch (error) {
           console.error(error)
@@ -62,6 +68,9 @@ cc.Class({
         wx.getUserInfo({
             success: res => {
               console.log(res);
+              com.userInfo.nickName = res.userInfo.nickName;
+              com.userInfo.avatarUrl = res.userInfo.avatarUrl;
+              com.userInfo.gender = res.userInfo.gender;
             },
             fail:res=>{
               console.log(res);

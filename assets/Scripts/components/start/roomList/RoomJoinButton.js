@@ -15,7 +15,7 @@ cc.Class({
             this.node.on('touchend', function () {
                 console.log("Room " + this.itemID + ' clicked');
                 com.socket.role = 'challenger';
-                com.socket.emit("joinRoom",roomId);
+                com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
             }, this);
         } catch (error) {
             console.error(error)

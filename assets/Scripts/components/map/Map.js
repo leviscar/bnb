@@ -71,7 +71,7 @@ cc.Class({
         roleBoomPrefab: cc.Prefab,
         //小怪物
         monsterPrefab: cc.Prefab,
-
+        monsterGrayPrefab: cc.Prefab,
         
         // 结束页面
         endPage: cc.Node,
@@ -100,7 +100,8 @@ cc.Class({
         let socket = com.socket;
         let roleObj = {};
         let masterRole,challengerRole,masterPos,challengerPos;
-        let monster,monsterPos;
+        //小怪物从0开始命名
+        let monster0,monsterPos0,monster1,monsterPos1;
         this.mapItemX = 32;
         this.mapItemY = 32;
 
@@ -180,15 +181,18 @@ cc.Class({
         // this.dropItem(arr);
         masterPos = cc.p(32*11,32*9);
         challengerPos = cc.p(32,32);
-        monsterPos = cc.p(32*11,32);
+        monsterPos0 = cc.p(32*11,32);
+        monsterPos1 = cc.p(32,32*9)
 
         masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
         challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
-        monster = this.spawnNewItem(monsterPos,this.monsterPrefab);
+        monster0 = this.spawnNewItem(monsterPos0,this.monsterPrefab);
+        monster1 = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
 
         roleObj['master'] = masterRole;
         roleObj['challenger'] = challengerRole;
-        roleObj['monster'] = monster;
+        roleObj['monster0'] = monster0;
+        roleObj['monster1'] = monster1;
 
 
         // this.node.setPosition(cc.p(111,0));
@@ -337,6 +341,13 @@ cc.Class({
                 })
     
             });
+
+            socket.on("monsterInfo",function(data){
+                data.forEach(function(val){
+                    let position = cc.p(val.position.x,val.position.y);
+                    roleObj[val.name].setPosition(position);
+                })
+            });
     
             socket.on("itemEaten",function(pos){
                 console.log("item eaten"+ pos);
@@ -361,9 +372,9 @@ cc.Class({
                 self.addRoleBoom(data);
             });
 
-            socket.on("monsterInfo",function(data){
-                let position = cc.p(data.x,data.y);
-                roleObj['monster'].setPosition(position);
+            socket.on("monsterBoom",function(data){
+                console.log(data.name+"Boom")
+                self.node.removeChild(roleObj[data.name])
             });
 
         } catch (error) {
