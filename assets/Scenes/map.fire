@@ -775,6 +775,9 @@
     "monsterPrefab": {
       "__uuid__": "96d2a59b-7551-488d-a41b-68d30a313cab"
     },
+    "monsterGrayPrefab": {
+      "__uuid__": "89f4f48b-dd8e-4709-8c0e-585d351c3a22"
+    },
     "endPage": {
       "__id__": 22
     },
