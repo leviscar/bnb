@@ -57,16 +57,16 @@ cc.Class({
         let radius = this.spRoker.node.width;
         // 获得触摸点和锚点之间的距离
         let distance = cc.pDistance(pos,cc.p(0,0));
-        let angle = Math.atan2(pos.x-this._touchStartPos.x,pos.y-this._touchStartPos.y) * (180/Math.PI)
+        let angle = Math.atan2(pos.x-cc.p(0,0),pos.y-cc.p(0,0)) * (180/Math.PI)
 
         this.moveCallback(cc.p(pos.x-this._touchStartPos.x,pos.y-this._touchStartPos.y));
 
-        // 当处在圆内时更新操作杆距离
+        // 当处在圆内时更新操作杆位置
         if(radius>distance){
             this.updateRokerCenterPos(pos);
         }else{
-            let x = radius * Math.cos(angle);
-            let y = radius * Math.sin(angle);
+            let x = pos.x*radius/distance;
+            let y = pos.y*radius/distance;
             this.updateRokerCenterPos(cc.p(x,y));
         }
         
