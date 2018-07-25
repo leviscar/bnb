@@ -194,6 +194,7 @@ cc.Class({
         // this.node.setPosition(cc.p(111,0));
         console.log(this.node.x);
         console.log(this.node.y);
+
         // add key down and key up event
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
