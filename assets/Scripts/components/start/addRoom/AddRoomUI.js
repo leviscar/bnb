@@ -32,7 +32,7 @@ cc.Class({
         try {
             if(this.editbox.string!=""){
                 com.socket.role = 'master';
-                com.socket.emit("newRoom",{name:this.editbox.string});
+                com.socket.emit("newRoom",{name:this.editbox.string,userInfo:com.userInfo});
                 com.roomId = this.editbox.string;
                 this.hide();
             }
