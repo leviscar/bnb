@@ -11,6 +11,9 @@ cc.Class({
     },
 
     onLoad: function(){
+
+        this.wxHandle = this.wxHandle.bind(this);
+
         try{
           this.wxHandle();
 

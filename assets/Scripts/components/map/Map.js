@@ -102,6 +102,7 @@ cc.Class({
         let masterRole,challengerRole,masterPos,challengerPos;
         //小怪物从0开始命名
         let monster0,monsterPos0,monster1,monsterPos1;
+
         this.mapItemX = 32;
         this.mapItemY = 32;
 
@@ -140,8 +141,6 @@ cc.Class({
             999: self.explodePrefab
         };
 
-        console.log("game start");
-
         this.drawMapBG = this.drawMapBG.bind(this);
         this.drawMap = this.drawMap.bind(this);
         this.spawnNewItem = this.spawnNewItem.bind(this);
@@ -160,25 +159,18 @@ cc.Class({
 
         // console.log(com.map.basicMap);
 
-        this.socketHandle(roleObj,socket,self);
+        
 
         try {
+            this.socketHandle(roleObj,socket,self);
             this.drawMapBG(com.map.basicMap);
             this.drawMap(com.map.basicMap);
+            this.loadAvatar(com.userInfos);
         } catch (error) {
             console.error(error)
         }
 
  
-        // try {
-        //     this.drawMapBG(basicMap);
-        //     this.drawMap(basicMap);
-        // } catch (error) {
-        //     console.error(error)
-        // }
-        
-    
-        // this.dropItem(arr);
         masterPos = cc.p(32*11,32*9);
         challengerPos = cc.p(32,32);
         monsterPos0 = cc.p(32*11,32);
@@ -210,6 +202,20 @@ cc.Class({
     },
 
     
+    // 加载头像
+    loadAvatar: function (userInfos) {
+        for (let index in userInfos) {
+            let tag = "score"+(parseInt(index)+1)+"/avatar";
+            cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex) {
+              cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
+              let spriteFrame = cc.find(tag).getComponent(cc.Sprite).spriteFrame;
+              cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
+              cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().width = 59;
+              cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().height = 59;
+            });
+          }
+        
+    },
 
     // 在地图上生成新item
     spawnNewItem: function(pos,prefab) {
@@ -320,12 +326,11 @@ cc.Class({
         try {
             socket.on("roleInfo",function(data){
                 // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
-    
+
                 data.forEach(function(val){
                     let position = cc.p(val.position.x,val.position.y);
                     // moveAction[val.name] = cc.moveTo(position);
-                    
-                     
+
                     roleObj[val.name].setPosition(position);
                     // roleObj[val.name].runAction(moveAction[val.name]);
 
