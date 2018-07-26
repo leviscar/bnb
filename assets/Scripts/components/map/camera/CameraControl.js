@@ -21,15 +21,18 @@ cc.Class({
         this.visibleSize = cc.view.getVisibleSize();
         // this.initZoomRatio = this.camera.zoomRatio;
         console.log("camera start");
-        this.target = cc.find("map").getChildByName(com.socket.role);
+        try {
+            this.target = cc.find("map").getChildByName(com.socket.role);
+        } catch (error) {
+            console.error(error)
+        }
         // this.target = cc.find("map").getChildByName("challenger");
         this.map = cc.find("map");
         this.map.x = 0;
         this.map.y = 0;
-        this.actionList = {
-            "down": this.node.position = cc.p(this.visibleSize.width/2-this.map.x,this.visibleSize.height/2-this.map.y),
 
-        }
+
+
         console.log(this.map.x+","+this.map.y);
         console.log(this.visibleSize)
         // this.map.position = cc.p(0,0) ;
@@ -78,7 +81,9 @@ cc.Class({
                         this.startFollow = false;
                     }
                 }
-            } else {
+            } else if(com.moveMap){
+
+            }else{
                 // console.log(this.visibleSize.height-this.map.y);
                 // if(targetPos.y > (this.visibleSize.height-this.map.y)){
                 //     this.node.position = targetPos;

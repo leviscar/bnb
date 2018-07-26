@@ -165,7 +165,10 @@ cc.Class({
             this.socketHandle(roleObj,socket,self);
             this.drawMapBG(com.map.basicMap);
             this.drawMap(com.map.basicMap);
-            this.loadAvatar(com.userInfos);
+            if(wx){
+                this.loadAvatar(com.userInfos);
+            }
+            
         } catch (error) {
             console.error(error)
         }

@@ -1,6 +1,7 @@
 module.exports = {
     socket: null,
     roomId: 0,
+    moveMap: false,
     TouchType : cc.Enum({
         DEFAULT: 0,
         FOLLOW: 1,
