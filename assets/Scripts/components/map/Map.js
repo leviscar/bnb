@@ -20,6 +20,14 @@ const I_SCORE  = 104;
 
 let itemList = [];
 let prefabList  = {};
+
+//道具计数
+var bombAddScoreMaster = 0;
+var bombAddScoreChallenger = 0;
+var speedScoreMaster = 0;
+var speedScoreChallenger = 0;
+var strengthScoreMaster = 0;
+var strengthScoreChallenger = 0;
 // let basicMap = [
 //     [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ],
 //     [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
@@ -83,6 +91,14 @@ cc.Class({
         timerDisplay:cc.Label,
         masterScoreDisplay: cc.Label,
         challengerScoreDisplay:cc.Label,
+
+        bombAddScoreMasterDisplay: cc.Label,
+        bombAddScoreChallengerDisplay: cc.Label,
+        speedScoreMasterDisplay: cc.Label,
+        speedScoreChallengerDisplay: cc.Label,
+        strengthScoreMasterDisplay: cc.Label,
+        strengthScoreChallengerDisplay: cc.Label,
+
 
         mapItemX: 0,
         mapItemY: 0,
@@ -174,10 +190,13 @@ cc.Class({
         }
 
  
-        masterPos = cc.p(32*11,32*9);
+        masterPos = cc.p(32*22,32*18);
         challengerPos = cc.p(32,32);
-        monsterPos0 = cc.p(32*11,32);
-        monsterPos1 = cc.p(32,32*9)
+        monsterPos0 = cc.p(32*22,32);
+        monsterPos1 = cc.p(32,32*18);
+
+
+        // this.node.setScale(1,0.8);
 
         masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
         challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
@@ -200,7 +219,13 @@ cc.Class({
 
         // this.drawMap.call(this);
         
-        
+         //道具计数
+         bombAddScoreMaster = 0;
+         bombAddScoreChallenger = 0;
+         speedScoreMaster = 0;
+         speedScoreChallenger = 0;
+         strengthScoreMaster = 0;
+         strengthScoreChallenger = 0;
 
     },
 
@@ -357,10 +382,32 @@ cc.Class({
                 })
             });
     
-            socket.on("itemEaten",function(pos){
-                console.log("item eaten"+ pos);
-                self.node.removeChild(itemList[pos.x][pos.y]);
-                itemList[pos.x][pos.y] = null;
+            socket.on("itemEaten",function(data){
+                console.log("item eaten"+ data);
+                self.node.removeChild(itemList[data.x][data.y]);
+                itemList[data.x][data.y] = null;
+                if(data.itemCode == I_PAOPAO){
+                    if(data.role === 'master'){
+                        bombAddScoreMaster += 1;
+                    }else if(data.role === 'challenger'){
+                        bombAddScoreChallenger += 1;
+                        // console.log("item challenger"+ this. bombAddScoreChallenger);
+                    }
+                }else if(data.itemCode == I_SPEED){
+                    if(data.role === 'master'){
+                        speedScoreMaster += 1;
+                    }else if(data.role === 'challenger'){
+                        speedScoreChallenger += 1;
+                        // console.log("item challenger"+  this.speedScoreChallenger+"");
+                    }
+                }else if(data.itemCode == I_POWER){
+                    if(data.role === 'master'){
+                        strengthScoreMaster += 1;
+                    }else if(data.role === 'challenger'){
+                        strengthScoreChallenger += 1;
+                        // console.log("item challenger"+  this.strengthScoreChallenger)+"";
+                    }
+                }
             });
     
     
@@ -450,5 +497,11 @@ cc.Class({
         this.timerDisplay.string = this.transTime(parseInt(this.gameTime/60))+":"+this.transTime(this.gameTime%60);
         this.masterScoreDisplay.string = this.masterScore.toString();
         this.challengerScoreDisplay.string = this.challengerScore.toString();
+        this.bombAddScoreMasterDisplay.string = bombAddScoreMaster+"".toString();
+        this.bombAddScoreChallengerDisplay.string = bombAddScoreChallenger+"".toString();
+        this.speedScoreMasterDisplay.string = speedScoreMaster+"".toString();
+        this.speedScoreChallengerDisplay.string = speedScoreChallenger+"".toString();
+        this.strengthScoreMasterDisplay.string = strengthScoreMaster+"".toString();
+        this.strengthScoreChallengerDisplay.string =strengthScoreChallenger+"".toString();
     },
 });
