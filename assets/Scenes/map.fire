@@ -23,16 +23,16 @@
         "__id__": 60
       },
       {
-        "__id__": 62
+        "__id__": 63
       },
       {
-        "__id__": 73
+        "__id__": 74
       },
       {
         "__id__": 40
       },
       {
-        "__id__": 84
+        "__id__": 85
       },
       {
         "__id__": 35
@@ -2277,6 +2277,9 @@
     "_components": [
       {
         "__id__": 61
+      },
+      {
+        "__id__": 62
       }
     ],
     "_prefab": null,
@@ -2306,8 +2309,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 850.9999999,
-      "y": 427
+      "x": 817.8,
+      "y": 405
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2329,6 +2332,32 @@
     }
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 60
+    },
+    "_enabled": true,
+    "isAlignOnce": true,
+    "_target": null,
+    "_alignFlags": 33,
+    "_left": 0,
+    "_right": 0.07,
+    "_top": 0.25,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": false,
+    "_isAbsTop": false,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0
+  },
+  {
     "__type__": "cc.Node",
     "_name": "score1",
     "_objFlags": 0,
@@ -2337,26 +2366,26 @@
     },
     "_children": [
       {
-        "__id__": 63
+        "__id__": 64
       },
       {
-        "__id__": 65
+        "__id__": 66
       },
       {
-        "__id__": 67
+        "__id__": 68
       },
       {
-        "__id__": 69
+        "__id__": 70
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 71
+        "__id__": 72
       },
       {
-        "__id__": 72
+        "__id__": 73
       }
     ],
     "_prefab": null,
@@ -2401,14 +2430,14 @@
     "_name": "bombAddMaster",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 62
+      "__id__": 63
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 64
+        "__id__": 65
       }
     ],
     "_prefab": null,
@@ -2453,7 +2482,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 63
+      "__id__": 64
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2479,14 +2508,14 @@
     "_name": "speedMaster",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 62
+      "__id__": 63
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 66
+        "__id__": 67
       }
     ],
     "_prefab": null,
@@ -2531,7 +2560,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 65
+      "__id__": 66
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2557,14 +2586,14 @@
     "_name": "strengthMaster",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 62
+      "__id__": 63
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 68
+        "__id__": 69
       }
     ],
     "_prefab": null,
@@ -2609,7 +2638,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 67
+      "__id__": 68
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2635,14 +2664,14 @@
     "_name": "avatar",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 62
+      "__id__": 63
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 70
+        "__id__": 71
       }
     ],
     "_prefab": null,
@@ -2687,7 +2716,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 69
+      "__id__": 70
     },
     "_enabled": true,
     "_spriteFrame": null,
@@ -2711,7 +2740,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 62
+      "__id__": 63
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2737,7 +2766,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 62
+      "__id__": 63
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -2767,26 +2796,26 @@
     },
     "_children": [
       {
-        "__id__": 74
+        "__id__": 75
       },
       {
-        "__id__": 76
+        "__id__": 77
       },
       {
-        "__id__": 78
+        "__id__": 79
       },
       {
-        "__id__": 80
+        "__id__": 81
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 82
+        "__id__": 83
       },
       {
-        "__id__": 83
+        "__id__": 84
       }
     ],
     "_prefab": null,
@@ -2831,14 +2860,14 @@
     "_name": "avatar",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 73
+      "__id__": 74
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 75
+        "__id__": 76
       }
     ],
     "_prefab": null,
@@ -2883,7 +2912,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 74
+      "__id__": 75
     },
     "_enabled": true,
     "_spriteFrame": null,
@@ -2907,14 +2936,14 @@
     "_name": "bombAddChallenger",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 73
+      "__id__": 74
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 77
+        "__id__": 78
       }
     ],
     "_prefab": null,
@@ -2959,7 +2988,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 76
+      "__id__": 77
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2985,14 +3014,14 @@
     "_name": "speedChallenger",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 73
+      "__id__": 74
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 79
+        "__id__": 80
       }
     ],
     "_prefab": null,
@@ -3037,7 +3066,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 78
+      "__id__": 79
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3063,14 +3092,14 @@
     "_name": "strengthChallenger",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 73
+      "__id__": 74
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 81
+        "__id__": 82
       }
     ],
     "_prefab": null,
@@ -3115,7 +3144,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 80
+      "__id__": 81
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3141,7 +3170,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 73
+      "__id__": 74
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3167,7 +3196,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 73
+      "__id__": 74
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -3197,20 +3226,20 @@
     },
     "_children": [
       {
-        "__id__": 85
+        "__id__": 86
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 87
-      },
-      {
         "__id__": 88
       },
       {
         "__id__": 89
+      },
+      {
+        "__id__": 90
       }
     ],
     "_prefab": null,
@@ -3255,14 +3284,14 @@
     "_name": "spRokerCenter",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 84
+      "__id__": 85
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 86
+        "__id__": 87
       }
     ],
     "_prefab": null,
@@ -3307,7 +3336,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 85
+      "__id__": 86
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3333,7 +3362,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 84
+      "__id__": 85
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3359,14 +3388,14 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 84
+      "__id__": 85
     },
     "_enabled": true,
     "spRoker": {
-      "__id__": 87
+      "__id__": 88
     },
     "spRokerCenter": {
-      "__id__": 86
+      "__id__": 87
     },
     "moveSpeed": 1,
     "slopeFlag": false,
@@ -3379,7 +3408,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 84
+      "__id__": 85
     },
     "_enabled": true,
     "isAlignOnce": true,
