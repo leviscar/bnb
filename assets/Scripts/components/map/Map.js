@@ -164,18 +164,6 @@ cc.Class({
         this.addItem = this.addItem.bind(this);
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
-        
-        // this.node.setPosition(cc.p(111,0));
-
-        // console.log("屏幕："+com.windowSize.width/2+":"+com.windowSize.height*24/25);
-        // this.timePanel.setPosition(cc.p(0,0));
-        // this.timerDisplay.position = cc.p(com.windowSize.width/2,com.windowSize.height*24/25);
-        // this.challengerScoreDisplay.position = cc.p(com.windowSize.width*5/6,com.windowSize.height*24/25);
-        // this.masterScoreDisplay.position = cc.p(com.windowSize.width*7/6,com.windowSize.height*24/25);
-
-        // console.log(com.map.basicMap);
-
-        
 
         try {
             this.socketHandle(roleObj,socket,self);
@@ -195,9 +183,6 @@ cc.Class({
         monsterPos0 = cc.p(32*22,32);
         monsterPos1 = cc.p(32,32*18);
 
-
-        // this.node.setScale(1,0.8);
-
         masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
         challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
         monster0 = this.spawnNewItem(monsterPos0,this.monsterPrefab);
@@ -208,16 +193,9 @@ cc.Class({
         roleObj['monster0'] = monster0;
         roleObj['monster1'] = monster1;
 
-
-        // this.node.setPosition(cc.p(111,0));
-        console.log(this.node.x);
-        console.log(this.node.y);
-
         // add key down and key up event
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-
-        // this.drawMap.call(this);
         
          //道具计数
          bombAddScoreMaster = 0;
@@ -359,7 +337,7 @@ cc.Class({
                     let position = cc.p(val.position.x,val.position.y);
 
                     // roleObj[val.name].setPosition(position);
-                    roleObj[val.name].runAction(cc.moveTo(0.05,position));
+                    roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
 
                     if(val.gameTime>=0){
                         self.gameTime = val.gameTime;
@@ -377,7 +355,7 @@ cc.Class({
             socket.on("monsterInfo",function(data){
                 data.forEach(function(val){
                     let position = cc.p(val.position.x,val.position.y);
-                    roleObj[val.name].runAction(cc.moveTo(0.05,position));
+                    roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
                 })
             });
     

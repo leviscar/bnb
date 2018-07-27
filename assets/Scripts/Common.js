@@ -26,6 +26,7 @@ module.exports = {
         gender: 1
     },
     userInfos: [],
+    FPS: 30,
     map: {
         basicMap: []
     },
