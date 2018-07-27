@@ -23,6 +23,10 @@ cc.Class({
 
         // this.background.width = com.windowSize.width;
 
+        cc.director.preloadScene("map", function () {
+          cc.log("map scene preloaded");
+        });
+
         try{
           this.wxHandle();
         }catch(err){
@@ -39,6 +43,8 @@ cc.Class({
         } catch (error) {
           console.error(error)
         }
+
+        
     },
     newRoom: function(){
         console.log("newRoom");

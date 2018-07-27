@@ -4,21 +4,27 @@ cc.Class({
 
     properties: {
         label: cc.Label,
+        button: cc.Button,
         itemID: 0
     },
 
-    updateItem: function(roomId) {
-        // this.itemID = roomId;
-        this.label.string = roomId;
-
-        try {
-            this.node.on('touchend', function () {
-                console.log("Room " + this.itemID + ' clicked');
-                com.socket.role = 'challenger';
-                com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
-            }, this);
-        } catch (error) {
-            console.error(error)
+    updateItem: function(roomData) {
+        this.label.string = roomData.roomName;
+        
+        if(roomData.isFull){
+            this.button.enableAutoGrayEffect = true;
+            this.button.interactable = false;
+        }else{
+            try {
+                this.node.on('touchend', function () {
+                    console.log("Room " + this.itemID + ' clicked');
+                    com.socket.role = 'challenger';
+                    com.socket.emit("joinRoom",{roomId:roomData.roomName,userInfo:com.userInfo});
+                }, this);
+            } catch (error) {
+                console.error(error)
+            }
         }
+        
     }
 });

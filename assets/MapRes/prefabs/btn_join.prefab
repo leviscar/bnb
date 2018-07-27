@@ -152,7 +152,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "a0b81441-46a7-4379-aa3e-9cb1059b96c4"
     },
     "fileId": "acTJIME5NPGphPSHeKuFb8",
     "sync": false
@@ -241,7 +241,7 @@
       "__uuid__": "54af2dc2-7da5-41d9-ac93-d9b9667af16c"
     },
     "_N$disabledSprite": {
-      "__uuid__": "54af2dc2-7da5-41d9-ac93-d9b9667af16c"
+      "__uuid__": "107ddc37-0889-4d75-adbf-c7647b9aa8cc"
     },
     "_N$target": {
       "__id__": 1
@@ -258,6 +258,9 @@
     "label": {
       "__id__": 3
     },
+    "button": {
+      "__id__": 6
+    },
     "itemID": 0
   },
   {
@@ -266,7 +269,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "a0b81441-46a7-4379-aa3e-9cb1059b96c4"
     },
     "fileId": "029Y0N3sZIe4eG6RwwxlhL",
     "sync": false

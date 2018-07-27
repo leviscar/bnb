@@ -32,7 +32,9 @@ cc.Class({
         let vSpacing = 30;
         // console.log(room);
         // content.addChild(room,1,1001);
-        console.log(data.data[0]);
+        // console.log(data.data[0].roomName);
+        content.removeAllChildren();
+        this.rooms = [];
 
         for(let i=0;i<this.totalCount; ++i){
             let room = cc.instantiate(this.roomPrefab);
@@ -59,7 +61,12 @@ cc.Class({
         try {
             let self = this;
             console.log("11111");
-            com.socket.emit('getRooms'); 
+            com.socket.emit('getRooms');
+            this.schedule(function() {
+                // 这里的 this 指向 component
+                com.socket.emit('getRooms'); 
+            }, 1);
+            
             com.socket.on('getRooms',function (data) {
                 // console.log(data);
                 self.totalCount = data.data.length;
