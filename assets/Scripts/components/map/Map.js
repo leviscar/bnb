@@ -357,10 +357,9 @@ cc.Class({
 
                 data.forEach(function(val){
                     let position = cc.p(val.position.x,val.position.y);
-                    // moveAction[val.name] = cc.moveTo(position);
 
-                    roleObj[val.name].setPosition(position);
-                    // roleObj[val.name].runAction(moveAction[val.name]);
+                    // roleObj[val.name].setPosition(position);
+                    roleObj[val.name].runAction(cc.moveTo(0.05,position));
 
                     if(val.gameTime>=0){
                         self.gameTime = val.gameTime;
@@ -378,7 +377,7 @@ cc.Class({
             socket.on("monsterInfo",function(data){
                 data.forEach(function(val){
                     let position = cc.p(val.position.x,val.position.y);
-                    roleObj[val.name].setPosition(position);
+                    roleObj[val.name].runAction(cc.moveTo(0.05,position));
                 })
             });
     
