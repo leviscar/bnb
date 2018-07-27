@@ -2886,6 +2886,9 @@
     },
     "joinRoomScrollView": {
       "__id__": 22
+    },
+    "background": {
+      "__id__": 76
     }
   }
 ]

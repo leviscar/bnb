@@ -496,11 +496,11 @@ cc.Class({
         this.timerDisplay.string = this.transTime(parseInt(this.gameTime/60))+":"+this.transTime(this.gameTime%60);
         this.masterScoreDisplay.string = this.masterScore.toString();
         this.challengerScoreDisplay.string = this.challengerScore.toString();
-        this.bombAddScoreMasterDisplay.string = bombAddScoreMaster+"".toString();
-        this.bombAddScoreChallengerDisplay.string = bombAddScoreChallenger+"".toString();
-        this.speedScoreMasterDisplay.string = speedScoreMaster+"".toString();
-        this.speedScoreChallengerDisplay.string = speedScoreChallenger+"".toString();
-        this.strengthScoreMasterDisplay.string = strengthScoreMaster+"".toString();
-        this.strengthScoreChallengerDisplay.string =strengthScoreChallenger+"".toString();
+        this.bombAddScoreMasterDisplay.string = bombAddScoreMaster+"";
+        this.bombAddScoreChallengerDisplay.string = bombAddScoreChallenger+"";
+        this.speedScoreMasterDisplay.string = speedScoreMaster+"";
+        this.speedScoreChallengerDisplay.string = speedScoreChallenger+"";
+        this.strengthScoreMasterDisplay.string = strengthScoreMaster+"";
+        this.strengthScoreChallengerDisplay.string =strengthScoreChallenger+"";
     },
 });

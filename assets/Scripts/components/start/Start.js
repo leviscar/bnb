@@ -8,27 +8,27 @@ cc.Class({
         JoinRoom: cc.Button,
         addRoomPanel:cc.Sprite,
         joinRoomScrollView:cc.ScrollView,
+        background: cc.Sprite
     },
 
     onLoad: function(){
-
-        this.wxHandle = this.wxHandle.bind(this);
-
-        try{
-          this.wxHandle();
-
-        }catch(err){
-          console.log('wx error:'+ err)
-        }
         let serverAdd = "http://" + com.host +":"+ com.port;
         let socket = window.io(serverAdd);
         com.socket = socket;
-
         com.windowSize = cc.view.getVisibleSize();
-        
+
+        this.wxHandle = this.wxHandle.bind(this);
         this.NewRoom.node.on('click',this.newRoom,this);
         this.JoinRoom.node.on('click',this.joinRoom,this);
 
+        // this.background.width = com.windowSize.width;
+
+        try{
+          this.wxHandle();
+        }catch(err){
+          console.log('wx error:'+ err)
+        }
+        
         try {
           socket.on("start",function(data){
               let mapInfo = data.mapInfo;
