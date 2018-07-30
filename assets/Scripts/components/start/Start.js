@@ -8,7 +8,7 @@ cc.Class({
         JoinRoom: cc.Button,
         addRoomPanel:cc.Sprite,
         joinRoomScrollView:cc.ScrollView,
-        background: cc.Sprite
+        background: cc.Node
     },
 
     onLoad: function(){
@@ -21,7 +21,8 @@ cc.Class({
         this.NewRoom.node.on('click',this.newRoom,this);
         this.JoinRoom.node.on('click',this.joinRoom,this);
 
-        // this.background.width = com.windowSize.width;
+        this.background.setScaleX(com.windowSize.width/960);
+        this.background.setScaleY(com.windowSize.height/640);
 
         cc.director.preloadScene("map", function () {
           cc.log("map scene preloaded");

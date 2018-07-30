@@ -568,6 +568,9 @@
     "cameraContatiner": {
       "__id__": 8
     },
+    "background": {
+      "__id__": 3
+    },
     "bombBtn": {
       "__id__": 37
     },
