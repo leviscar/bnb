@@ -137,7 +137,8 @@ cc.Class({
             999: self.explodePrefab
         };
 
-        this.initRole = this.initRole.bind(this);
+        this.roleInit = this.roleInit.bind(this);
+        this.keyInit = this.keyInit.bind(this);
         this.drawMapBG = this.drawMapBG.bind(this);
         this.drawMap = this.drawMap.bind(this);
         this.spawnNewItem = this.spawnNewItem.bind(this);
@@ -150,7 +151,8 @@ cc.Class({
             this.socketHandle(roleObj,socket,self);
             this.drawMapBG(com.map.basicMap);
             this.drawMap(com.map.basicMap);
-            this.initRole();
+            this.roleInit();
+            this.keyInit();
             if(wx){
                 this.loadAvatar(com.userInfos);
             }
@@ -158,13 +160,6 @@ cc.Class({
         } catch (error) {
             console.error(error)
         }
-
- 
-        
-
-        // add key down and key up event
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         
          //道具计数
          bombAddScoreMaster = 0;
@@ -193,7 +188,7 @@ cc.Class({
     },
 
     // 角色位置初始化
-    initRole: function () {
+    roleInit: function () {
         let masterRole,challengerRole,masterPos,challengerPos;
 
         //小怪物从0开始命名
@@ -213,6 +208,11 @@ cc.Class({
         roleObj['challenger'] = challengerRole;
         roleObj['monster0'] = monster0;
         roleObj['monster1'] = monster1;
+    },
+    keyInit: function () {
+        // add key down and key up event
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
     },
 
     // 在地图上生成新item
@@ -280,6 +280,7 @@ cc.Class({
         }
     },
 
+    // 添加炸弹
     addBoom: function (obj) {
         let pos,axisObj;
         if(!obj) return false;
@@ -290,12 +291,14 @@ cc.Class({
 
     },
 
+    // 增加角色爆炸效果
     addRoleBoom: function (obj) {
         if(!obj) return false;
         let pos = cc.p(obj.x,obj.y);
         this.spawnNewItem(pos,prefabList[998]);
     },
 
+    // 爆炸动作
     boomAction: function (arr) {
         let pos,axisObj;
         if(!arr||arr.length===0) return false;
@@ -319,6 +322,7 @@ cc.Class({
         return axisObj;
     },
 
+    // socket事件
     socketHandle: function (roleObj,socket,self) {
         let moveAction ={};
         try {
