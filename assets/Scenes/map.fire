@@ -20,22 +20,22 @@
         "__id__": 7
       },
       {
-        "__id__": 83
-      },
-      {
-        "__id__": 51
-      },
-      {
-        "__id__": 69
-      },
-      {
-        "__id__": 40
-      },
-      {
         "__id__": 86
       },
       {
-        "__id__": 35
+        "__id__": 54
+      },
+      {
+        "__id__": 72
+      },
+      {
+        "__id__": 43
+      },
+      {
+        "__id__": 89
+      },
+      {
+        "__id__": 38
       },
       {
         "__id__": 16
@@ -569,34 +569,34 @@
       "__id__": 8
     },
     "bombBtn": {
-      "__id__": 34
+      "__id__": 37
     },
     "timerDisplay": {
-      "__id__": 39
-    },
-    "masterScoreDisplay": {
-      "__id__": 45
-    },
-    "challengerScoreDisplay": {
       "__id__": 42
     },
-    "bombAddScoreMasterDisplay": {
+    "masterScoreDisplay": {
       "__id__": 48
     },
+    "challengerScoreDisplay": {
+      "__id__": 45
+    },
+    "bombAddScoreMasterDisplay": {
+      "__id__": 51
+    },
     "bombAddScoreChallengerDisplay": {
-      "__id__": 66
+      "__id__": 69
     },
     "speedScoreMasterDisplay": {
-      "__id__": 55
+      "__id__": 58
     },
     "speedScoreChallengerDisplay": {
-      "__id__": 74
+      "__id__": 77
     },
     "strengthScoreMasterDisplay": {
-      "__id__": 59
+      "__id__": 62
     },
     "strengthScoreChallengerDisplay": {
-      "__id__": 78
+      "__id__": 81
     },
     "mapItemX": 0,
     "mapItemY": 0,
@@ -621,10 +621,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 32
+        "__id__": 35
       },
       {
-        "__id__": 33
+        "__id__": 36
       }
     ],
     "_prefab": null,
@@ -680,13 +680,19 @@
       },
       {
         "__id__": 25
+      },
+      {
+        "__id__": 31
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 31
+        "__id__": 33
+      },
+      {
+        "__id__": 34
       }
     ],
     "_prefab": null,
@@ -708,7 +714,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 622,
-      "height": 217
+      "height": 550
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -769,7 +775,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -4,
-      "y": 23
+      "y": 120
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -850,7 +856,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -107,
-      "y": -32
+      "y": 50
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1076,7 +1082,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 103,
-      "y": -31
+      "y": 50
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1259,16 +1265,66 @@
     "_enabled": true
   },
   {
+    "__type__": "cc.Node",
+    "_name": "rankingScrollView",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 17
+    },
+    "_children": [],
+    "_tag": -1,
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 32
+      }
+    ],
+    "_prefab": null,
+    "_id": "70Ab5AgP1HF5TLRVe1zBnR",
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_cascadeOpacityEnabled": true,
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 600,
+      "height": 300
+    },
+    "_rotationX": 0,
+    "_rotationY": 0,
+    "_scaleX": 1,
+    "_scaleY": 1,
+    "_position": {
+      "__type__": "cc.Vec2",
+      "x": -10,
+      "y": -19
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_localZOrder": 0,
+    "_globalZOrder": 0,
+    "_opacityModifyRGB": false,
+    "groupIndex": 0
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 17
+      "__id__": 31
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "7a35ed81-16cb-41b9-b0ca-ecb53f6056e6"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -1283,6 +1339,44 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_atlas": null
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 17
+    },
+    "_enabled": true,
+    "_spriteFrame": {
+      "__uuid__": "7a35ed81-16cb-41b9-b0ca-ecb53f6056e6"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_atlas": null
+  },
+  {
+    "__type__": "655cavti0hEZJ9IWzkfertV",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 17
+    },
+    "_enabled": true,
+    "rankingScrollView": {
+      "__id__": 32
+    }
   },
   {
     "__type__": "f3477WPKK5GSZUF6U8iLpvG",
@@ -1308,7 +1402,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 35
+      "__id__": 38
     },
     "_enabled": true,
     "transition": 0,
@@ -1352,7 +1446,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 35
+      "__id__": 38
     }
   },
   {
@@ -1367,16 +1461,16 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 36
-      },
-      {
-        "__id__": 34
+        "__id__": 39
       },
       {
         "__id__": 37
       },
       {
-        "__id__": 38
+        "__id__": 40
+      },
+      {
+        "__id__": 41
       }
     ],
     "_prefab": null,
@@ -1421,7 +1515,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 35
+      "__id__": 38
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -1447,7 +1541,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 35
+      "__id__": 38
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -1473,7 +1567,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 35
+      "__id__": 38
     },
     "_enabled": true
   },
@@ -1482,7 +1576,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 40
+      "__id__": 43
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -1510,20 +1604,20 @@
     },
     "_children": [
       {
-        "__id__": 41
+        "__id__": 44
       },
       {
-        "__id__": 44
+        "__id__": 47
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 39
+        "__id__": 42
       },
       {
-        "__id__": 47
+        "__id__": 50
       }
     ],
     "_prefab": null,
@@ -1568,17 +1662,17 @@
     "_name": "challengerScore",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 40
+      "__id__": 43
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 42
+        "__id__": 45
       },
       {
-        "__id__": 43
+        "__id__": 46
       }
     ],
     "_prefab": null,
@@ -1623,7 +1717,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 41
+      "__id__": 44
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -1647,7 +1741,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 41
+      "__id__": 44
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -1673,17 +1767,17 @@
     "_name": "masterScore",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 40
+      "__id__": 43
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 45
+        "__id__": 48
       },
       {
-        "__id__": 46
+        "__id__": 49
       }
     ],
     "_prefab": null,
@@ -1728,7 +1822,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 44
+      "__id__": 47
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -1752,7 +1846,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 44
+      "__id__": 47
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -1778,7 +1872,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 40
+      "__id__": 43
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -1804,7 +1898,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 49
+      "__id__": 52
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -1826,14 +1920,14 @@
     "_name": "bombAddScoreMaster",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 50
+      "__id__": 53
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 48
+        "__id__": 51
       }
     ],
     "_prefab": null,
@@ -1878,18 +1972,18 @@
     "_name": "bombAddMaster",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 51
+      "__id__": 54
     },
     "_children": [
       {
-        "__id__": 49
+        "__id__": 52
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 65
+        "__id__": 68
       }
     ],
     "_prefab": null,
@@ -1938,29 +2032,29 @@
     },
     "_children": [
       {
-        "__id__": 52
-      },
-      {
-        "__id__": 50
+        "__id__": 55
       },
       {
         "__id__": 53
       },
       {
-        "__id__": 57
+        "__id__": 56
       },
       {
-        "__id__": 61
+        "__id__": 60
+      },
+      {
+        "__id__": 64
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 63
+        "__id__": 66
       },
       {
-        "__id__": 64
+        "__id__": 67
       }
     ],
     "_prefab": null,
@@ -2005,7 +2099,7 @@
     "_name": "item",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 51
+      "__id__": 54
     },
     "_children": [],
     "_tag": -1,
@@ -2053,18 +2147,18 @@
     "_name": "speedMaster",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 51
+      "__id__": 54
     },
     "_children": [
       {
-        "__id__": 54
+        "__id__": 57
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 56
+        "__id__": 59
       }
     ],
     "_prefab": null,
@@ -2109,14 +2203,14 @@
     "_name": "speedScoreMaster",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 56
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 55
+        "__id__": 58
       }
     ],
     "_prefab": null,
@@ -2161,7 +2255,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 54
+      "__id__": 57
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -2183,7 +2277,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 53
+      "__id__": 56
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2209,18 +2303,18 @@
     "_name": "strengthMaster",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 51
+      "__id__": 54
     },
     "_children": [
       {
-        "__id__": 58
+        "__id__": 61
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 60
+        "__id__": 63
       }
     ],
     "_prefab": null,
@@ -2265,14 +2359,14 @@
     "_name": "strengthScoreMaster",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 57
+      "__id__": 60
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 59
+        "__id__": 62
       }
     ],
     "_prefab": null,
@@ -2317,7 +2411,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 58
+      "__id__": 61
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -2339,7 +2433,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 57
+      "__id__": 60
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2365,14 +2459,14 @@
     "_name": "avatar",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 51
+      "__id__": 54
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 62
+        "__id__": 65
       }
     ],
     "_prefab": null,
@@ -2417,7 +2511,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 61
+      "__id__": 64
     },
     "_enabled": true,
     "_spriteFrame": null,
@@ -2441,7 +2535,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 51
+      "__id__": 54
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2467,7 +2561,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 51
+      "__id__": 54
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -2493,7 +2587,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 50
+      "__id__": 53
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2519,7 +2613,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 67
+      "__id__": 70
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -2541,14 +2635,14 @@
     "_name": "bombAddScoreChallenger",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 68
+      "__id__": 71
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 66
+        "__id__": 69
       }
     ],
     "_prefab": null,
@@ -2593,18 +2687,18 @@
     "_name": "bombAddChallenger",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 69
+      "__id__": 72
     },
     "_children": [
       {
-        "__id__": 67
+        "__id__": 70
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 82
+        "__id__": 85
       }
     ],
     "_prefab": null,
@@ -2653,26 +2747,26 @@
     },
     "_children": [
       {
-        "__id__": 70
+        "__id__": 73
       },
       {
-        "__id__": 68
+        "__id__": 71
       },
       {
-        "__id__": 72
+        "__id__": 75
       },
       {
-        "__id__": 76
+        "__id__": 79
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 80
+        "__id__": 83
       },
       {
-        "__id__": 81
+        "__id__": 84
       }
     ],
     "_prefab": null,
@@ -2717,14 +2811,14 @@
     "_name": "avatar",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 69
+      "__id__": 72
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 71
+        "__id__": 74
       }
     ],
     "_prefab": null,
@@ -2769,7 +2863,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 70
+      "__id__": 73
     },
     "_enabled": true,
     "_spriteFrame": null,
@@ -2793,18 +2887,18 @@
     "_name": "speedChallenger",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 69
+      "__id__": 72
     },
     "_children": [
       {
-        "__id__": 73
+        "__id__": 76
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 75
+        "__id__": 78
       }
     ],
     "_prefab": null,
@@ -2849,14 +2943,14 @@
     "_name": "speedScoreChallenger",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 72
+      "__id__": 75
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 74
+        "__id__": 77
       }
     ],
     "_prefab": null,
@@ -2901,7 +2995,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 73
+      "__id__": 76
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -2923,7 +3017,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 72
+      "__id__": 75
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2949,18 +3043,18 @@
     "_name": "strengthChallenger",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 69
+      "__id__": 72
     },
     "_children": [
       {
-        "__id__": 77
+        "__id__": 80
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 79
+        "__id__": 82
       }
     ],
     "_prefab": null,
@@ -3005,14 +3099,14 @@
     "_name": "strengthScoreChallenger",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 76
+      "__id__": 79
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 78
+        "__id__": 81
       }
     ],
     "_prefab": null,
@@ -3057,7 +3151,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 77
+      "__id__": 80
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -3079,7 +3173,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 76
+      "__id__": 79
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3105,7 +3199,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 69
+      "__id__": 72
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3131,7 +3225,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 69
+      "__id__": 72
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -3157,7 +3251,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 68
+      "__id__": 71
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3190,10 +3284,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 84
+        "__id__": 87
       },
       {
-        "__id__": 85
+        "__id__": 88
       }
     ],
     "_prefab": null,
@@ -3238,7 +3332,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 83
+      "__id__": 86
     },
     "_enabled": true,
     "cameraContatiner": {
@@ -3250,7 +3344,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 83
+      "__id__": 86
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -3280,20 +3374,20 @@
     },
     "_children": [
       {
-        "__id__": 87
+        "__id__": 90
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 89
+        "__id__": 92
       },
       {
-        "__id__": 90
+        "__id__": 93
       },
       {
-        "__id__": 91
+        "__id__": 94
       }
     ],
     "_prefab": null,
@@ -3338,14 +3432,14 @@
     "_name": "spRokerCenter",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 86
+      "__id__": 89
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 88
+        "__id__": 91
       }
     ],
     "_prefab": null,
@@ -3390,7 +3484,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 87
+      "__id__": 90
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3416,7 +3510,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 86
+      "__id__": 89
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3442,14 +3536,14 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 86
+      "__id__": 89
     },
     "_enabled": true,
     "spRoker": {
-      "__id__": 89
+      "__id__": 92
     },
     "spRokerCenter": {
-      "__id__": 88
+      "__id__": 91
     },
     "moveSpeed": 1,
     "slopeFlag": false,
@@ -3462,7 +3556,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 86
+      "__id__": 89
     },
     "_enabled": true,
     "isAlignOnce": true,
