@@ -25,6 +25,7 @@ module.exports = {
         avatarUrl: null,
         gender: 1
     },
+    isMaster: false,
     userInfos: [],
     FPS: 30,
     map: {

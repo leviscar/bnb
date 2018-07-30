@@ -34,6 +34,7 @@ cc.Class({
                 com.socket.role = 'master';
                 com.socket.emit("newRoom",{name:this.editbox.string,userInfo:com.userInfo});
                 com.roomId = this.editbox.string;
+                com.isMaster = true;
                 this.hide();
             }
         } catch (error) {

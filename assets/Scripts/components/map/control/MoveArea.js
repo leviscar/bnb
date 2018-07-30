@@ -8,7 +8,7 @@ cc.Class({
 
     onLoad: function () {
         console.log("movemap");
-        console.log(this.cameraContatiner);
+        // console.log(this.cameraContatiner);
         
         this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);

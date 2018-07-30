@@ -21,6 +21,7 @@ cc.Class({
                     console.log("Room " + this.itemID + ' clicked');
                     com.socket.role = 'challenger';
                     com.socket.emit("joinRoom",{roomId:roomData.roomName,userInfo:com.userInfo});
+                    com.isMaster = false;
                 }, this);
             } catch (error) {
                 console.error(error)

@@ -64,6 +64,8 @@ cc.Class({
         endPage: cc.Node,
 
         player:  cc.Node,
+
+        cameraContatiner: cc.Node,
         // 放置炸弹按钮
         bombBtn: cc.Button,
 
@@ -96,6 +98,9 @@ cc.Class({
 
         this.mapItemX = 32;
         this.mapItemY = 32;
+        this.firstData = {"master":true,"challenger":false};
+        this.masterPos = 0;
+        this.challengerPos = 0;
 
         //道具计数
         bombAddScoreMaster = 0;
@@ -141,6 +146,7 @@ cc.Class({
 
         this.roleInit = this.roleInit.bind(this);
         this.keyInit = this.keyInit.bind(this);
+        this.mapInit = this.mapInit.bind(this);
         this.drawMapBG = this.drawMapBG.bind(this);
         this.drawMap = this.drawMap.bind(this);
         this.spawnNewItem = this.spawnNewItem.bind(this);
@@ -167,7 +173,10 @@ cc.Class({
 
     },
 
-    
+    start: function () {
+        this.mapInit();  
+    },
+
     // 加载头像
     loadAvatar: function (userInfos) {
         for (let index in userInfos) {
@@ -181,6 +190,47 @@ cc.Class({
             });
           }
         
+    },
+
+    // 开始场景
+    mapInit: function () {
+        let cameraAction,duration = 5;
+        this.node.setScale(cc.v2(0.7,0.7));
+        this.cameraContatiner.setPosition(cc.p(360,280));
+        let mapAction = cc.sequence(
+            // cc.scaleTo(2,0.7,0.7),
+            cc.delayTime(3),
+            cc.scaleTo(duration,1.68,1.68)
+        );
+
+        if(com.isMaster){
+            cameraAction = cc.sequence(
+                // cc.moveTo(2,cc.p(32,32)),
+                cc.delayTime(3),
+                // cc.moveTo(2,cc.p(32*22,32*18))
+                cc.moveTo(duration,cc.p(32,32))
+            );
+        }else{
+            cameraAction = cc.sequence(
+                cc.delayTime(3),
+                // cc.moveTo(2,cc.p(32,32)),
+                // cc.delayTime(1),
+                cc.moveTo(duration,cc.p(32*22,32*18))
+            );
+        }
+
+        console.log(cameraAction);
+        com.moveMap = true;
+        
+        this.node.runAction(mapAction);
+        this.cameraContatiner.runAction(cameraAction);
+
+        this.scheduleOnce(function() {
+            // 这里的 this 指向 component
+            com.moveMap = false;
+            // this.node.setScale(cc.v2(1.68,1.68));
+            
+        }, 9);
     },
 
     // 角色位置初始化
@@ -205,6 +255,8 @@ cc.Class({
         roleObj['monster0'] = monster0;
         roleObj['monster1'] = monster1;
     },
+
+    // 键盘监听事件初始化
     keyInit: function () {
         // add key down and key up event
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -338,8 +390,16 @@ cc.Class({
                     
                     if(val.name === 'master'){
                         self.masterScore = val.score;
+                        if(self.firstData.master === true)  {
+                            self.masterPos = position;
+                            self.firstData.master = false;
+                        }
                     }else if(val.name === 'challenger'){
                         self.challengerScore = val.score;
+                        if(self.firstData.challenger === true) {
+                            self.challengerPos = position;
+                            self.firstData.challenger = false;
+                        } 
                     }
                 })
     
@@ -348,6 +408,7 @@ cc.Class({
             socket.on("monsterInfo",function(data){
                 data.forEach(function(val){
                     let position = cc.p(val.position.x,val.position.y);
+                    roleObj[val.name].stopAllActions();
                     roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
                 })
             });
@@ -463,6 +524,7 @@ cc.Class({
         if(data<0) return false;
         return data<10?"0"+data:data;  
     },
+
     update (dt) {
         this.timerDisplay.string = this.transTime(parseInt(this.gameTime/60))+":"+this.transTime(this.gameTime%60);
         this.masterScoreDisplay.string = this.masterScore.toString();
@@ -473,5 +535,6 @@ cc.Class({
         this.speedScoreChallengerDisplay.string = speedScoreChallenger+"";
         this.strengthScoreMasterDisplay.string = strengthScoreMaster+"";
         this.strengthScoreChallengerDisplay.string =strengthScoreChallenger+"";
-    },
+    }
+
 });

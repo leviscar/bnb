@@ -302,8 +302,8 @@
     "_scaleY": 1.68,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 130.56,
-      "y": 24.319999999999993
+      "x": 48,
+      "y": 12.8
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -361,8 +361,8 @@
     "_scaleY": 0.7692308,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 319.5384615,
-      "y": 276
+      "x": 208,
+      "y": 176
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -450,13 +450,7 @@
     "target": null,
     "camera": {
       "__id__": 10
-    },
-    "smoothFollow": false,
-    "centerAtStart": true,
-    "followX": 0,
-    "followY": 0,
-    "minFollowDist": 0,
-    "followRatio": 0
+    }
   },
   {
     "__type__": "cc.Sprite",
@@ -504,17 +498,17 @@
     "_enabled": true,
     "isAlignOnce": true,
     "_target": null,
-    "_alignFlags": 18,
-    "_left": 0,
+    "_alignFlags": 12,
+    "_left": 0.05,
     "_right": 0,
     "_top": 0,
-    "_bottom": 0,
+    "_bottom": 0.02,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
-    "_isAbsLeft": true,
+    "_isAbsLeft": false,
     "_isAbsRight": true,
     "_isAbsTop": true,
-    "_isAbsBottom": true,
+    "_isAbsBottom": false,
     "_isAbsHorizontalCenter": true,
     "_isAbsVerticalCenter": true,
     "_originalWidth": 0,
@@ -571,6 +565,9 @@
       "__id__": 16
     },
     "player": null,
+    "cameraContatiner": {
+      "__id__": 8
+    },
     "bombBtn": {
       "__id__": 34
     },
