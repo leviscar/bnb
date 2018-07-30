@@ -170,13 +170,5 @@ cc.Class({
             this.flag = !this.flag;
             console.log(this.flag);
         }
-    },
-
-    update: function(dt) {
-        // try {
-        //     this.updateEvent();
-        // } catch (error) {
-        //     console.error(error)
-        // }
-    },
+    }
 });

@@ -37,7 +37,4 @@ cc.Class({
         console.log("cancel");
         com.moveMap = false;
     }
-
-
-    // update (dt) {},
 });
