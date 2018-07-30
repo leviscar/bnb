@@ -329,6 +329,7 @@ cc.Class({
                     let position = cc.p(val.position.x,val.position.y);
 
                     // roleObj[val.name].setPosition(position);
+                    roleObj[val.name].stopAllActions();
                     roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
 
                     if(val.gameTime>=0){
