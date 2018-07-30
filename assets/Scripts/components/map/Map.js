@@ -66,6 +66,7 @@ cc.Class({
         player:  cc.Node,
 
         cameraContatiner: cc.Node,
+        background: cc.Node,
         // 放置炸弹按钮
         bombBtn: cc.Button,
 
@@ -154,6 +155,8 @@ cc.Class({
         this.addItem = this.addItem.bind(this);
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
+
+        this.background.setScale(com.windowSize.width/960,com.windowSize.height/640);
 
         try {
             this.socketHandle(roleObj,socket,self);
