@@ -175,6 +175,40 @@ cc.Class({
 
     start: function () {
         this.mapInit();  
+        let self = this;
+
+        this.roleMoveInterval = setInterval(function(){
+            let data = com.roleInfos;
+            if(data == null || data.length ==0){
+                clearInterval(self.roleMoveInterval);
+            }
+            data.forEach(function(val){
+                let position = cc.p(val.position.x,val.position.y);
+
+                // roleObj[val.name].setPosition(position);
+                roleObj[val.name].stopAllActions();
+                roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
+
+                if(val.gameTime>=0){
+                    self.gameTime = val.gameTime;
+                }
+                
+                if(val.name === 'master'){
+                    self.masterScore = val.score;
+                    if(self.firstData.master === true)  {
+                        self.masterPos = position;
+                        self.firstData.master = false;
+                    }
+                }else if(val.name === 'challenger'){
+                    self.challengerScore = val.score;
+                    if(self.firstData.challenger === true) {
+                        self.challengerPos = position;
+                        self.firstData.challenger = false;
+                    } 
+                }
+            })
+        },1000/com.FPS)
+        
     },
 
     // 加载头像
@@ -376,32 +410,33 @@ cc.Class({
         try {
             socket.on("roleInfo",function(data){
                 // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
+                
+                com.roleInfos = data;
+                // data.forEach(function(val){
+                //     let position = cc.p(val.position.x,val.position.y);
 
-                data.forEach(function(val){
-                    let position = cc.p(val.position.x,val.position.y);
+                //     // roleObj[val.name].setPosition(position);
+                //     roleObj[val.name].stopAllActions();
+                //     roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
 
-                    // roleObj[val.name].setPosition(position);
-                    roleObj[val.name].stopAllActions();
-                    roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
-
-                    if(val.gameTime>=0){
-                        self.gameTime = val.gameTime;
-                    }
+                //     if(val.gameTime>=0){
+                //         self.gameTime = val.gameTime;
+                //     }
                     
-                    if(val.name === 'master'){
-                        self.masterScore = val.score;
-                        if(self.firstData.master === true)  {
-                            self.masterPos = position;
-                            self.firstData.master = false;
-                        }
-                    }else if(val.name === 'challenger'){
-                        self.challengerScore = val.score;
-                        if(self.firstData.challenger === true) {
-                            self.challengerPos = position;
-                            self.firstData.challenger = false;
-                        } 
-                    }
-                })
+                //     if(val.name === 'master'){
+                //         self.masterScore = val.score;
+                //         if(self.firstData.master === true)  {
+                //             self.masterPos = position;
+                //             self.firstData.master = false;
+                //         }
+                //     }else if(val.name === 'challenger'){
+                //         self.challengerScore = val.score;
+                //         if(self.firstData.challenger === true) {
+                //             self.challengerPos = position;
+                //             self.firstData.challenger = false;
+                //         } 
+                //     }
+                // })
     
             });
 

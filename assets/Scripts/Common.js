@@ -27,6 +27,7 @@ module.exports = {
     },
     isMaster: false,
     userInfos: [],
+    roleInfos: [],
     FPS: 30,
     map: {
         basicMap: []
