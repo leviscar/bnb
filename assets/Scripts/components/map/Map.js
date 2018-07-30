@@ -194,7 +194,7 @@ cc.Class({
 
     // 开始场景
     mapInit: function () {
-        let cameraAction,duration = 5;
+        let cameraAction,duration = 5 ,delayTime = 3;
         this.node.setScale(cc.v2(0.7,0.7));
         this.cameraContatiner.setPosition(cc.p(360,280));
         let mapAction = cc.sequence(
@@ -206,13 +206,13 @@ cc.Class({
         if(com.isMaster){
             cameraAction = cc.sequence(
                 // cc.moveTo(2,cc.p(32,32)),
-                cc.delayTime(3),
+                cc.delayTime(delayTime),
                 // cc.moveTo(2,cc.p(32*22,32*18))
                 cc.moveTo(duration,cc.p(32,32))
             );
         }else{
             cameraAction = cc.sequence(
-                cc.delayTime(3),
+                cc.delayTime(delayTime),
                 // cc.moveTo(2,cc.p(32,32)),
                 // cc.delayTime(1),
                 cc.moveTo(duration,cc.p(32*22,32*18))
@@ -230,7 +230,7 @@ cc.Class({
             com.moveMap = false;
             // this.node.setScale(cc.v2(1.68,1.68));
             
-        }, 9);
+        }, (delayTime+duration+1));
     },
 
     // 角色位置初始化
