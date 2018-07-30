@@ -20,6 +20,7 @@ const I_SCORE  = 104;
 
 let itemList = [];
 let prefabList  = {};
+let roleObj = {};
 
 //道具计数
 var bombAddScoreMaster = 0;
@@ -28,24 +29,7 @@ var speedScoreMaster = 0;
 var speedScoreChallenger = 0;
 var strengthScoreMaster = 0;
 var strengthScoreChallenger = 0;
-// let basicMap = [
-//     [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ],
-//     [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
-//     [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 11, 0, 11 ],
-//     [ 11, 0, 11, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
-//     [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 11, 0, 11 ],
-//     [ 11, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 11 ],
-//     [ 11, 0, 3, 3, 0, 3, 0, 3, 11, 3, 11, 0, 11 ],
-//     [ 11, 0, 3, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
-//     [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 11, 0, 11 ],
-//     [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
-//     [ 11, 0, 0, 3, 0, 3, 0, 3, 11, 3, 0, 0, 11 ],
-//     [ 11, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
-//     [ 11, 0, 11, 3, 11, 3, 11, 3, 11, 3, 11, 0, 11 ],
-//     [ 11, 0, 3, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
-//     [ 11, 0, 11, 3, 11, 3, 11, 3, 11, 3, 11, 0, 11 ],
-//     [ 11, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 11 ],
-//     [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ] ];
+
 
 cc.Class({
     extends: cc.Component,
@@ -114,10 +98,6 @@ cc.Class({
     onLoad: function(){
         let self = this;
         let socket = com.socket;
-        let roleObj = {};
-        let masterRole,challengerRole,masterPos,challengerPos;
-        //小怪物从0开始命名
-        let monster0,monsterPos0,monster1,monsterPos1;
 
         this.mapItemX = 32;
         this.mapItemY = 32;
@@ -157,6 +137,7 @@ cc.Class({
             999: self.explodePrefab
         };
 
+        this.initRole = this.initRole.bind(this);
         this.drawMapBG = this.drawMapBG.bind(this);
         this.drawMap = this.drawMap.bind(this);
         this.spawnNewItem = this.spawnNewItem.bind(this);
@@ -169,6 +150,7 @@ cc.Class({
             this.socketHandle(roleObj,socket,self);
             this.drawMapBG(com.map.basicMap);
             this.drawMap(com.map.basicMap);
+            this.initRole();
             if(wx){
                 this.loadAvatar(com.userInfos);
             }
@@ -178,20 +160,7 @@ cc.Class({
         }
 
  
-        masterPos = cc.p(32*22,32*18);
-        challengerPos = cc.p(32,32);
-        monsterPos0 = cc.p(32*22,32);
-        monsterPos1 = cc.p(32,32*18);
-
-        masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
-        challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
-        monster0 = this.spawnNewItem(monsterPos0,this.monsterPrefab);
-        monster1 = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
-
-        roleObj['master'] = masterRole;
-        roleObj['challenger'] = challengerRole;
-        roleObj['monster0'] = monster0;
-        roleObj['monster1'] = monster1;
+        
 
         // add key down and key up event
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -221,6 +190,29 @@ cc.Class({
             });
           }
         
+    },
+
+    // 角色位置初始化
+    initRole: function () {
+        let masterRole,challengerRole,masterPos,challengerPos;
+
+        //小怪物从0开始命名
+        let monster0,monsterPos0,monster1,monsterPos1;
+
+        masterPos = cc.p(32*22,32*18);
+        challengerPos = cc.p(32,32);
+        monsterPos0 = cc.p(32*22,32);
+        monsterPos1 = cc.p(32,32*18);
+
+        masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
+        challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
+        monster0 = this.spawnNewItem(monsterPos0,this.monsterPrefab);
+        monster1 = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
+
+        roleObj['master'] = masterRole;
+        roleObj['challenger'] = challengerRole;
+        roleObj['monster0'] = monster0;
+        roleObj['monster1'] = monster1;
     },
 
     // 在地图上生成新item
@@ -405,7 +397,7 @@ cc.Class({
             });
 
             socket.on("monsterBoom",function(data){
-                console.log(data.name+"Boom")
+                console.log(data.name+"Boom") 
                 self.node.removeChild(roleObj[data.name])
             });
 
