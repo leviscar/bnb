@@ -23,12 +23,7 @@ let prefabList  = {};
 let roleObj = {};
 
 //道具计数
-var bombAddScoreMaster = 0;
-var bombAddScoreChallenger = 0;
-var speedScoreMaster = 0;
-var speedScoreChallenger = 0;
-var strengthScoreMaster = 0;
-var strengthScoreChallenger = 0;
+let bombAddScoreMaster,bombAddScoreChallenger,speedScoreMaster,speedScoreChallenger,strengthScoreMaster,strengthScoreChallenger;
 
 
 cc.Class({
@@ -102,6 +97,13 @@ cc.Class({
         this.mapItemX = 32;
         this.mapItemY = 32;
 
+        //道具计数
+        bombAddScoreMaster = 0;
+        bombAddScoreChallenger = 0;
+        speedScoreMaster = 0;
+        speedScoreChallenger = 0;
+        strengthScoreMaster = 0;
+        strengthScoreChallenger = 0;
         prefabList = {
             // 地面预制资源 GROUND : 10
             0: self.groudPrefab,
@@ -161,13 +163,7 @@ cc.Class({
             console.error(error)
         }
         
-         //道具计数
-         bombAddScoreMaster = 0;
-         bombAddScoreChallenger = 0;
-         speedScoreMaster = 0;
-         speedScoreChallenger = 0;
-         strengthScoreMaster = 0;
-         strengthScoreChallenger = 0;
+         
 
     },
 
