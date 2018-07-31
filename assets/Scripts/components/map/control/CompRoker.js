@@ -114,36 +114,36 @@ cc.Class({
         let tanTwo = 1.73;
 
         if (tanTwo*x <= y && tanTwo*x > -y) {
-            console.log("up");
+            // console.log("up");
             this.slopeFlag = false;
             return com.KeyCode.w;
         }else if(tanOne*x <= y && tanTwo*x >= y){
-            console.log("up&right");
+            // console.log("up&right");
             this.slopeFlag = true;
             return [com.KeyCode.w,com.KeyCode.d];
         }else if (tanTwo*x >= y && tanTwo*x < -y) {
-            console.log("down");
+            // console.log("down");
             this.slopeFlag = false;
             return com.KeyCode.s;
         }else if(-tanTwo*x <= y && -tanOne*x >= y){
-            console.log("down&right");
+            // console.log("down&right");
             this.slopeFlag = true;
             return [com.KeyCode.s,com.KeyCode.d];
         }else if (tanOne*x <= y && tanOne*x < -y) {
-            console.log("left");
+            // console.log("left");
             this.slopeFlag = false;
             return com.KeyCode.a;
         }else if(tanTwo*x <= y && tanOne*x >= y){
-            console.log("down&left");
+            // console.log("down&left");
             this.slopeFlag = true;
             return [com.KeyCode.s,com.KeyCode.a];
         }else if(-tanOne*x <= y && -tanTwo*x >= y){
-            console.log("up&left");
+            // console.log("up&left");
             this.slopeFlag = true;
             return [com.KeyCode.w,com.KeyCode.a];
         }  
         else {
-            console.log("right");
+            // console.log("right");
             this.slopeFlag = false;
             return com.KeyCode.d;
         }
@@ -168,7 +168,7 @@ cc.Class({
                 com.socket.emit("KeyDown",this.moveDir[1]);
             }
             this.flag = !this.flag;
-            console.log(this.flag);
+            // console.log(this.flag);
         }
     }
 });

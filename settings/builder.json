@@ -30,7 +30,7 @@
   "title": "bnb",
   "webOrientation": "auto",
   "wechatgame": {
-    "REMOTE_SERVER_ROOT": "",
+    "REMOTE_SERVER_ROOT": "http://212.64.17.36/bnb/",
     "appid": "wx2212f5c7526e868d",
     "isSubdomain": false,
     "orientation": "landscape",

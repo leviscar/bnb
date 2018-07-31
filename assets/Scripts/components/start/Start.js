@@ -38,7 +38,7 @@ cc.Class({
           socket.on("start",function(data){
               let mapInfo = data.mapInfo;
               com.userInfos = [].concat(data.userInfos);
-              com.FPS = data.FPS;
+              com.FPS = data.FPS/2;
               cc.director.loadScene("map");
               com.map.basicMap = mapInfo.arr;
           });
