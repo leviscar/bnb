@@ -1,6 +1,6 @@
 const com = require("../../Common");
 
-const GROUND       = 10;
+const GROUND       = 0;
 
 const NG_W_1  = 1;
 const NG_W_2  = 2;
@@ -60,6 +60,9 @@ cc.Class({
         monsterPrefab: cc.Prefab,
         monsterGrayPrefab: cc.Prefab,
         
+        // map背景
+        mapBG: cc.Node,
+        
         // 结束页面
         endPage: cc.Node,
 
@@ -112,7 +115,7 @@ cc.Class({
         strengthScoreChallenger = 0;
         prefabList = {
             // 地面预制资源 GROUND : 10
-            0: self.groudPrefab,
+            // 0: self.groudPrefab,
 
             100: self.bombPrefab,
 
@@ -157,13 +160,14 @@ cc.Class({
         this.socketHandle = this.socketHandle.bind(this);
 
         this.background.setScale(com.windowSize.width/960,com.windowSize.height/640);
-
         try {
             this.socketHandle(roleObj,socket,self);
             this.drawMapBG(com.map.basicMap);
             this.drawMap(com.map.basicMap);
             this.roleInit();
             this.keyInit();
+            this.mapBG.width = com.map.basicMap[0].length*this.mapItemX;
+            this.mapBG.height = com.map.basicMap.length*this.mapItemY;
             if(wx){
                 // 头像显示有bug，调用两次函数可以解决这个bug
                 // 治标不治本，再研究
