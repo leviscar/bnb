@@ -24,9 +24,7 @@ cc.Class({
         this.background.setScaleX(com.windowSize.width/960);
         this.background.setScaleY(com.windowSize.height/640);
 
-        cc.director.preloadScene("map", function () {
-          cc.log("map scene preloaded");
-        });
+        
 
         try{
           this.wxHandle();
