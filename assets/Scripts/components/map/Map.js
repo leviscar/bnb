@@ -165,6 +165,9 @@ cc.Class({
             this.roleInit();
             this.keyInit();
             if(wx){
+                // 头像显示有bug，调用两次函数可以解决这个bug
+                // 治标不治本，再研究
+                this.loadAvatar(com.userInfos);
                 this.loadAvatar(com.userInfos);
             }
             
