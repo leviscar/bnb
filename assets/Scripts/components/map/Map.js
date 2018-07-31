@@ -209,9 +209,17 @@ cc.Class({
                         self.firstData.challenger = false;
                     } 
                 }
+
+                let monsterInfos = com.monsterInfos;
+                monsterInfos.forEach(function(val){
+                    let position = cc.p(val.position.x,val.position.y);
+                    roleObj[val.name].stopAllActions();
+                    roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
+                })
             })
-        },1000/com.FPS)
+        },1000/com.FPS);
         
+
     },
 
     // 加载头像
@@ -256,7 +264,7 @@ cc.Class({
             );
         }
 
-        console.log(cameraAction);
+        // console.log(cameraAction);
         com.moveMap = true;
         
         this.node.runAction(mapAction);
@@ -321,7 +329,7 @@ cc.Class({
                 itemList[j] = []; 
                 axisObj = this.transAxis(data.length,i,j);
                 pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
-                this.spawnNewItem(pos,this.groudPrefab);
+                // this.spawnNewItem(pos,this.groudPrefab);
                 
                 if(data[i][j]===S_W_1)  this.spawnNewItem(pos,this.blockPrefab);
             }
@@ -444,11 +452,7 @@ cc.Class({
             });
 
             socket.on("monsterInfo",function(data){
-                data.forEach(function(val){
-                    let position = cc.p(val.position.x,val.position.y);
-                    roleObj[val.name].stopAllActions();
-                    roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
-                })
+                com.monsterInfos = data;
             });
     
             socket.on("itemEaten",function(data){

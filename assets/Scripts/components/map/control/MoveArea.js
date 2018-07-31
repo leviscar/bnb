@@ -19,22 +19,22 @@ cc.Class({
         this.startTouchPos = this.node.convertToNodeSpaceAR(event.getLocation());
         this.previousPos = this.cameraContatiner.position; 
         com.moveMap = true;
-        console.log("start");
+        // console.log("start");
         
     },
     onTouchMove: function (event) {
         let touchPos = this.node.convertToNodeSpaceAR(event.getLocation());
         let changePos = cc.v2(this.previousPos.x+touchPos.x - this.startTouchPos.x,this.previousPos.y+touchPos.y-this.startTouchPos.y);
         this.cameraContatiner.position = cc.v2(changePos.x,changePos.y);
-        console.log("move");
-        console.log("moveAfter"+this.cameraContatiner.position);
+        // console.log("move");
+        // console.log("moveAfter"+this.cameraContatiner.position);
     },
     onTouchEnd: function () {
-        console.log("end");
+        // console.log("end");
         com.moveMap = false;
     },
     onTouchCancel: function () {
-        console.log("cancel");
+        // console.log("cancel");
         com.moveMap = false;
     }
 });
