@@ -690,7 +690,22 @@
     "mapDataLen": 0,
     "gameTime": 0,
     "masterScore": 0,
-    "challengerScore": 0
+    "challengerScore": 0,
+    "bgmAudio": {
+      "__uuid__": "2359e075-a6d8-4964-a5f6-966ab2e16158"
+    },
+    "giftAudio": {
+      "__uuid__": "9cb367b9-98a1-4a2d-a9c4-7b553f1bba37"
+    },
+    "monsterBoomAudio": {
+      "__uuid__": "759926f5-59c3-4ebb-894e-7d6324beb19d"
+    },
+    "roleBoomAudio": {
+      "__uuid__": "9c18afbf-3e66-4e24-a31c-cb1acb5414d2"
+    },
+    "paopaoBoomAudio": {
+      "__uuid__": "b19dfc10-d71d-46aa-99b7-8f8c2cab024e"
+    }
   },
   {
     "__type__": "cc.Node",

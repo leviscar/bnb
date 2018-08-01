@@ -24,7 +24,8 @@ let roleObj = {};
 
 //道具计数
 let bombAddScoreMaster,bombAddScoreChallenger,speedScoreMaster,speedScoreChallenger,strengthScoreMaster,strengthScoreChallenger;
-
+//背景音乐
+var bgmMusic;
 
 cc.Class({
     extends: cc.Component,
@@ -92,7 +93,36 @@ cc.Class({
         gameTime: 0,
         masterScore: 0,
         challengerScore: 0,
+
+        //背景音乐
+        bgmAudio:{
+            default: null,
+            url: cc.AudioClip
+        },
+
+        //吃礼物音乐
+        giftAudio:{
+            default: null,
+            url: cc.AudioClip
+        },
+
+        //怪物被炸音乐
+        monsterBoomAudio:{
+            default: null,
+            url: cc.AudioClip
+        },
+
+        //人物被炸音乐
+        roleBoomAudio:{
+            default: null,
+            url: cc.AudioClip
+        },
         
+        //泡泡爆炸音乐
+        paopaoBoomAudio:{
+            default: null,
+            url: cc.AudioClip
+        },
 
     },
     
@@ -179,14 +209,15 @@ cc.Class({
             console.error(error)
         }
         
-         
+       
 
     },
 
     start: function () {
         this.mapInit();  
         let self = this;
-
+        //播放背景音乐
+        bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
         this.roleMoveInterval = setInterval(function(){
             let data = com.roleInfos;
             if(data == null || data.length ==0){
@@ -464,6 +495,9 @@ cc.Class({
     
             socket.on("itemEaten",function(data){
                 console.log("item eaten"+ data);
+                if(data.role === 'master'||data.role === 'challenger'){
+                    cc.audioEngine.playEffect(self.giftAudio,false);
+                }
                 self.node.removeChild(itemList[data.x][data.y]);
                 itemList[data.x][data.y] = null;
                 if(data.itemCode == I_PAOPAO){
@@ -493,6 +527,7 @@ cc.Class({
     
             socket.on("boomInfo",function (data) {
                 // console.log(data);
+                cc.audioEngine.playEffect(self.paopaoBoomAudio,false);
                 self.dropItem(data.boomPaopaoArr);
                 self.dropItem(data.boomBoxArr);
                 self.addItem(data.itemArr);
@@ -504,11 +539,13 @@ cc.Class({
             });
     
             socket.on("roleBoom",function(data){
+                cc.audioEngine.playEffect(self.roleBoomAudio,false);
                 self.addRoleBoom(data);
             });
 
             socket.on("monsterBoom",function(data){
                 console.log(data.name+"Boom") 
+                cc.audioEngine.playEffect(self.monsterBoomAudio,false);
                 self.node.removeChild(roleObj[data.name])
             });
 
@@ -520,6 +557,7 @@ cc.Class({
     onDestroy () {
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+        cc.audioEngine.stop(bgmMusic);
     },
 
     onKeyDown: function (event) {
