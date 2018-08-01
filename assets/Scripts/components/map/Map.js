@@ -113,6 +113,7 @@ cc.Class({
         speedScoreChallenger = 0;
         strengthScoreMaster = 0;
         strengthScoreChallenger = 0;
+
         prefabList = {
             // 地面预制资源 GROUND : 10
             // 0: self.groudPrefab,
@@ -184,9 +185,12 @@ cc.Class({
     },
 
     start: function () {
-        this.mapInit();  
         let self = this;
+        
+        this.mapInit();  
+        
 
+        // 按照帧率移动
         this.roleMoveInterval = setInterval(function(){
             let data = com.roleInfos;
             if(data == null || data.length ==0){
@@ -569,6 +573,7 @@ cc.Class({
                 break;
         }
     },
+
     transTime: function (data) {
         if(data<0) return false;
         return data<10?"0"+data:data;  
