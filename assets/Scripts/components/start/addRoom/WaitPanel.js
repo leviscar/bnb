@@ -4,7 +4,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        label: cc.Label
+        label: cc.Label,
+        shareBtn: cc.Button
     },
 
     show: function () {
@@ -14,5 +15,13 @@ cc.Class({
     },
     hide: function (){
         this.node.emit('fade-out');
+    },
+    wxShare: function () {
+        
+    },
+    onEnable: function () {
+        if(wx){
+            // cc.loader.loadRes('assets/mapres')
+        }
     }
 });

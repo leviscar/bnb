@@ -103,5 +103,9 @@ cc.Class({
               console.log('用户登录失败！' + res.errMsg);
             }
           }); 
+    },
+
+    wxShare: function () {
+        wx.showShareMenu();
     }
 });
