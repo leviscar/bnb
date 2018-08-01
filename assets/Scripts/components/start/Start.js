@@ -1,4 +1,5 @@
 const com  = require('../../Common');
+// const waitPanel = require('../../components/start/addRoom/WaitPanel');
 
 cc.Class({
     extends: cc.Component,
@@ -8,7 +9,8 @@ cc.Class({
         JoinRoom: cc.Button,
         addRoomPanel:cc.Sprite,
         joinRoomScrollView:cc.ScrollView,
-        background: cc.Node
+        background: cc.Node,
+        waitPanel: cc.Node
     },
 
     onLoad: function(){
@@ -23,8 +25,9 @@ cc.Class({
 
         this.background.setScaleX(com.windowSize.width/960);
         this.background.setScaleY(com.windowSize.height/640);
-
+        // this.waitPanel.getComponent('WaitPanel').show();
         
+        // this.waitPanel.node.setPosition(cc.p(0,0));
 
         try{
           this.wxHandle();
@@ -46,6 +49,7 @@ cc.Class({
 
         
     },
+
     newRoom: function(){
         console.log("newRoom");
         try {
@@ -103,5 +107,9 @@ cc.Class({
               console.log('用户登录失败！' + res.errMsg);
             }
           }); 
+    },
+
+    wxShare: function () {
+        wx.showShareMenu();
     }
 });

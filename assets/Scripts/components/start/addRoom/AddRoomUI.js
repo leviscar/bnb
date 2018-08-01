@@ -36,6 +36,7 @@ cc.Class({
                 com.roomId = this.editbox.string;
                 com.isMaster = true;
                 this.hide();
+                cc.find('Canvas/waitPanel').emit('fade-in');
             }
         } catch (error) {
             console.error(error)
