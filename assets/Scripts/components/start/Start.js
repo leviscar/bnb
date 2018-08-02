@@ -1,5 +1,4 @@
 const com  = require('../../Common');
-// const waitPanel = require('../../components/start/addRoom/WaitPanel');
 
 cc.Class({
     extends: cc.Component,
@@ -16,49 +15,22 @@ cc.Class({
     onLoad: function(){
         let serverAdd = "http://" + com.host +":"+ com.port;
         let socket = window.io(serverAdd);
+
         com.socket = socket;
         com.windowSize = cc.view.getVisibleSize();
 
         this.wxHandle = this.wxHandle.bind(this);
-        this.NewRoom.node.on('click',this.newRoom,this);
-        this.JoinRoom.node.on('click',this.joinRoom,this);
+        this.socketHandle = this.socketHandle.bind(this);
 
         this.background.setScaleX(com.windowSize.width/960);
         this.background.setScaleY(com.windowSize.height/640);
-        // this.waitPanel.getComponent('WaitPanel').show();
-        
-        // this.waitPanel.node.setPosition(cc.p(0,0));
-        
-        try {
-          socket.on("start",function(data){
-              let mapInfo = data.mapInfo;
-              com.userInfos = [].concat(data.userInfos);
-              com.FPS = data.FPS/2;
-              cc.director.loadScene("map");
-              com.map.basicMap = mapInfo.arr;
-          });
-        } catch (error) {
-          console.error(error)
-        }
+        this.socketHandle();
 
         try{
           this.wxHandle();
         }catch(err){
           console.log('wx error:'+ err)
         }
-    },
-
-    newRoom: function(){
-        console.log("newRoom");
-        try {
-          // this.wxHandle();
-        } catch (error) {
-          console.log("微信包出错");
-          console.error(error);
-        }
-    },
-    joinRoom: function(){
-        console.log("joinRoom");
     },
 
     wxHandle: function () {
@@ -131,5 +103,33 @@ cc.Class({
 
     wxShare: function () {
         wx.showShareMenu();
+    },
+
+    socketHandle: function () {
+
+        com.socket.on('roomInfo',function (data) {
+            com.userInfos = data.userInfos;
+
+            if(com.isMaster&&data.code === 1){
+                cc.find('Canvas/addRoomPanel').emit('fade-out');
+                cc.find('Canvas/waitPanel').emit('fade-in');
+                cc.find('Canvas/waitPanel').emit('loadMasterAvatar');
+                if(com.userInfos.length === 2) cc.find('Canvas/waitPanel').emit('loadChallengerAvatar');
+                
+            }else if(data.code === 1){
+              cc.find('Canvas/joinRoomScrollView').emit('fade-out');
+                cc.find('Canvas/waitPanel').emit('fade-in');
+                cc.find('Canvas/waitPanel').emit('loadMasterAvatar');
+                cc.find('Canvas/waitPanel').emit('loadChallengerAvatar');
+            }
+        });
+
+        com.socket.on("start",function(data){
+            let mapInfo = data.mapInfo;
+            com.userInfos = [].concat(data.userInfos);
+            com.FPS = data.FPS/2;
+            cc.director.loadScene("map");
+            com.map.basicMap = mapInfo.arr;
+      });
     }
 });

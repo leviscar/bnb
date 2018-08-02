@@ -21,7 +21,7 @@ const I_SCORE  = 104;
 let itemList = [];
 let prefabList  = {};
 let roleObj = {};
-
+let roleInfos = [];
 //道具计数
 let bombAddScoreMaster,bombAddScoreChallenger,speedScoreMaster,speedScoreChallenger,strengthScoreMaster,strengthScoreChallenger;
 //背景音乐
@@ -132,6 +132,8 @@ cc.Class({
 
         this.mapItemX = 32;
         this.mapItemY = 32;
+
+        roleInfos = [];
         this.firstData = {"master":true,"challenger":false};
         this.masterPos = 0;
         this.challengerPos = 0;
@@ -216,15 +218,15 @@ cc.Class({
 
     start: function () {
         let self = this;
-        //播放背景音乐
-        bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
+        // //播放背景音乐
+        // bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
         
         this.mapInit();  
         
 
         // 按照帧率移动
         this.roleMoveInterval = setInterval(function(){
-            let data = com.roleInfos;
+            let data = roleInfos;
             if(data == null || data.length ==0){
                 clearInterval(self.roleMoveInterval);
             }
@@ -270,13 +272,13 @@ cc.Class({
         for (let index in userInfos) {
             let tag = "score"+(parseInt(index)+1)+"/avatar";
             cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex) {
-              cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
-              let spriteFrame = cc.find(tag).getComponent(cc.Sprite).spriteFrame;
+            //   cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
+            //   let spriteFrame = cc.find(tag).getComponent(cc.Sprite).spriteFrame;
               cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
               cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().width = 59;
               cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().height = 59;
             });
-          }
+        }
         
     },
 
@@ -334,14 +336,17 @@ cc.Class({
         monsterPos1 = cc.p(32,32*18);
 
         masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
-        challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
         monster0 = this.spawnNewItem(monsterPos0,this.monsterPrefab);
         monster1 = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
 
         roleObj['master'] = masterRole;
-        roleObj['challenger'] = challengerRole;
         roleObj['monster0'] = monster0;
         roleObj['monster1'] = monster1;
+
+        if(com.userInfos.length>1){
+            challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
+            roleObj['challenger'] = challengerRole;
+        }
     },
 
     // 键盘监听事件初始化
@@ -463,35 +468,7 @@ cc.Class({
         let moveAction ={};
         try {
             socket.on("roleInfo",function(data){
-                // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
-                
-                com.roleInfos = data;
-                // data.forEach(function(val){
-                //     let position = cc.p(val.position.x,val.position.y);
-
-                //     // roleObj[val.name].setPosition(position);
-                //     roleObj[val.name].stopAllActions();
-                //     roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
-
-                //     if(val.gameTime>=0){
-                //         self.gameTime = val.gameTime;
-                //     }
-                    
-                //     if(val.name === 'master'){
-                //         self.masterScore = val.score;
-                //         if(self.firstData.master === true)  {
-                //             self.masterPos = position;
-                //             self.firstData.master = false;
-                //         }
-                //     }else if(val.name === 'challenger'){
-                //         self.challengerScore = val.score;
-                //         if(self.firstData.challenger === true) {
-                //             self.challengerPos = position;
-                //             self.firstData.challenger = false;
-                //         } 
-                //     }
-                // })
-    
+                roleInfos = data;
             });
 
             socket.on("monsterInfo",function(data){
@@ -562,26 +539,23 @@ cc.Class({
     onDestroy () {
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-        cc.audioEngine.stop(bgmMusic);
+        // cc.audioEngine.stop(bgmMusic);
+        roleInfos = [];
     },
 
     onKeyDown: function (event) {
         let socket = com.socket;
         switch(event.keyCode) {
             case cc.KEY.a:
-                // console.log('Press a key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.s:
-                // console.log('Press s key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.w:
-                // console.log('Press w key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.d:
-                // console.log('Press d key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.j:
@@ -595,19 +569,15 @@ cc.Class({
         let socket = com.socket;
         switch(event.keyCode) {
             case cc.KEY.a:
-                // console.log('release a key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
             case cc.KEY.s:
-                // console.log('release s key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
             case cc.KEY.w:
-                // console.log('release w key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
             case cc.KEY.d:
-                // console.log('release d key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
         }
