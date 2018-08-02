@@ -18,10 +18,11 @@ cc.Class({
         }else{
             try {
                 this.node.on('touchend', function () {
-                    console.log("Room " + this.itemID + ' clicked');
+                    // console.log("Room " + this.itemID + ' clicked');
                     com.socket.role = 'challenger';
                     com.socket.emit("joinRoom",{roomId:roomData.roomName,userInfo:com.userInfo});
                     com.isMaster = false;
+                    cc.find('Canvas/joinRoomScrollView').emit('fade-out');
                     cc.find('Canvas/waitPanel').emit('fade-in');
                 }, this);
             } catch (error) {

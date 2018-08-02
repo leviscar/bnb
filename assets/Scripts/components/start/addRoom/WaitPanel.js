@@ -18,11 +18,6 @@ module.exports = cc.Class({
         this.node.on('loadMasterAvatar',this.loadAvatar,this);
     },
 
-    show: function () {
-        this.node.active = true;
-        this.node.emit('fade-in');
-        this.label.string ="等待其他用户连接房间:"+ com.roomId ;
-    },
     hide: function (){
         this.node.emit('fade-out');
     },

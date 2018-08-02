@@ -336,14 +336,17 @@ cc.Class({
         monsterPos1 = cc.p(32,32*18);
 
         masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
-        challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
         monster0 = this.spawnNewItem(monsterPos0,this.monsterPrefab);
         monster1 = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
 
         roleObj['master'] = masterRole;
-        roleObj['challenger'] = challengerRole;
         roleObj['monster0'] = monster0;
         roleObj['monster1'] = monster1;
+
+        if(com.userInfos.length>1){
+            challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
+            roleObj['challenger'] = challengerRole;
+        }
     },
 
     // 键盘监听事件初始化
