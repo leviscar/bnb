@@ -4,12 +4,10 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        NewRoom:cc.Button,
-        JoinRoom: cc.Button,
-        addRoomPanel:cc.Sprite,
-        joinRoomScrollView:cc.ScrollView,
+        // addRoomPanel:cc.Sprite,
+        // joinRoomScrollView:cc.ScrollView,
         background: cc.Node,
-        waitPanel: cc.Node
+        rankBtn: cc.Button
     },
 
     onLoad: function(){
@@ -21,9 +19,12 @@ cc.Class({
 
         this.wxHandle = this.wxHandle.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
+        this.rankBtn.node.on('click',this.showRankList,this);
 
         this.background.setScaleX(com.windowSize.width/960);
         this.background.setScaleY(com.windowSize.height/640);
+        
+
         this.socketHandle();
 
         try{
@@ -103,6 +104,10 @@ cc.Class({
 
     wxShare: function () {
         wx.showShareMenu();
+    },
+
+    showRankList: function () {
+        cc.find('Canvas/rankListPanel').emit('fade-in');
     },
 
     socketHandle: function () {
