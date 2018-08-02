@@ -28,10 +28,12 @@ module.exports = cc.Class({
         console.log('share');
         try {
             if(wx){
+                var queryString = 'roomName='+com.roomId;
                 cc.loader.loadRes('share/share.png',function (err,data) {
                     wx.shareAppMessage({
                         title: '不怕，就来PK',
                         imageUrl: data.url,
+                        query: queryString,
                         success(res){
                             console.log('转发成功');
                         },
