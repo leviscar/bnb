@@ -37,6 +37,7 @@ cc.Class({
                 com.isMaster = true;
                 this.hide();
                 cc.find('Canvas/waitPanel').emit('fade-in');
+                cc.find('Canvas/waitPanel').emit('loadMasterAvatar');
             }
         } catch (error) {
             console.error(error)

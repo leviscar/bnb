@@ -270,13 +270,13 @@ cc.Class({
         for (let index in userInfos) {
             let tag = "score"+(parseInt(index)+1)+"/avatar";
             cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex) {
-              cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
-              let spriteFrame = cc.find(tag).getComponent(cc.Sprite).spriteFrame;
+            //   cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
+            //   let spriteFrame = cc.find(tag).getComponent(cc.Sprite).spriteFrame;
               cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
               cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().width = 59;
               cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().height = 59;
             });
-          }
+        }
         
     },
 
@@ -463,35 +463,7 @@ cc.Class({
         let moveAction ={};
         try {
             socket.on("roleInfo",function(data){
-                // console.log(data[0].name+": "+data[0].position.x +","+data[0].position.y);
-                
                 com.roleInfos = data;
-                // data.forEach(function(val){
-                //     let position = cc.p(val.position.x,val.position.y);
-
-                //     // roleObj[val.name].setPosition(position);
-                //     roleObj[val.name].stopAllActions();
-                //     roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
-
-                //     if(val.gameTime>=0){
-                //         self.gameTime = val.gameTime;
-                //     }
-                    
-                //     if(val.name === 'master'){
-                //         self.masterScore = val.score;
-                //         if(self.firstData.master === true)  {
-                //             self.masterPos = position;
-                //             self.firstData.master = false;
-                //         }
-                //     }else if(val.name === 'challenger'){
-                //         self.challengerScore = val.score;
-                //         if(self.firstData.challenger === true) {
-                //             self.challengerPos = position;
-                //             self.firstData.challenger = false;
-                //         } 
-                //     }
-                // })
-    
             });
 
             socket.on("monsterInfo",function(data){
@@ -569,19 +541,15 @@ cc.Class({
         let socket = com.socket;
         switch(event.keyCode) {
             case cc.KEY.a:
-                // console.log('Press a key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.s:
-                // console.log('Press s key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.w:
-                // console.log('Press w key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.d:
-                // console.log('Press d key');
                 socket.emit("KeyDown",event.keyCode);
                 break;
             case cc.KEY.j:
@@ -595,19 +563,15 @@ cc.Class({
         let socket = com.socket;
         switch(event.keyCode) {
             case cc.KEY.a:
-                // console.log('release a key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
             case cc.KEY.s:
-                // console.log('release s key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
             case cc.KEY.w:
-                // console.log('release w key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
             case cc.KEY.d:
-                // console.log('release d key');
                 socket.emit("KeyUp",event.keyCode);
                 break;
         }

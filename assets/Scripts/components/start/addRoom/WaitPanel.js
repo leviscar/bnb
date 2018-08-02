@@ -6,11 +6,16 @@ module.exports = cc.Class({
     properties: {
         label: cc.Label,
         shareBtn: cc.Button,
-        startBtn: cc.Button
+        startBtn: cc.Button,
+        player1: cc.Sprite,
+        player2: cc.Sprite
     },
-    onLoad: function (params) {
+    onLoad: function () {
+        // this.loadAvatar = this.loadAvatar.bind(this);
+
         this.shareBtn.node.on('click',this.wxShare,this);
         this.startBtn.node.on('click',this.gameStart,this);
+        this.node.on('loadMasterAvatar',this.loadAvatar,this);
     },
 
     show: function () {
@@ -53,7 +58,15 @@ module.exports = cc.Class({
         } catch (error) {
             console.error(error)
         }
-    }
+    },
 
+    // 加载房主头像
+    loadAvatar: function () {
+        cc.loader.load(com.userInfo.avatarUrl + "?aaa=aa.png", function (err, tex) {
+              this.player1.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
+              this.player1.getComponent(cc.Sprite).spriteFrame.getTexture().width = 60;
+              this.player1.getComponent(cc.Sprite).spriteFrame.getTexture().height = 60;
+        });
+    }
 });
 
