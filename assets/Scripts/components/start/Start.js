@@ -28,12 +28,6 @@ cc.Class({
         // this.waitPanel.getComponent('WaitPanel').show();
         
         // this.waitPanel.node.setPosition(cc.p(0,0));
-
-        try{
-          this.wxHandle();
-        }catch(err){
-          console.log('wx error:'+ err)
-        }
         
         try {
           socket.on("start",function(data){
@@ -47,7 +41,11 @@ cc.Class({
           console.error(error)
         }
 
-        
+        try{
+          this.wxHandle();
+        }catch(err){
+          console.log('wx error:'+ err)
+        }
     },
 
     newRoom: function(){
@@ -106,7 +104,29 @@ cc.Class({
               // 失败处理
               console.log('用户登录失败！' + res.errMsg);
             }
-          }); 
+          });
+
+        wx.getLaunchOptionsSync(res => {
+          console.log('wx getLaunchOptionsSync')
+          console.log(res);
+          if(res.query.roomName){
+              let roomId = res.query.roomName;
+              com.socket.role = 'challenger';
+              com.isMaster = false;
+              com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
+          }
+        })
+
+        wx.onShow(res => {
+          console.log('wx onshow')
+          console.log(res);
+          if(res.query.roomName){
+              let roomId = res.query.roomName;
+              com.socket.role = 'challenger';
+              com.isMaster = false;
+              com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
+          }
+        })
     },
 
     wxShare: function () {
