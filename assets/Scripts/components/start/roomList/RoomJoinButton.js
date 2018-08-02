@@ -24,6 +24,7 @@ cc.Class({
                     com.isMaster = false;
                     cc.find('Canvas/joinRoomScrollView').emit('fade-out');
                     cc.find('Canvas/waitPanel').emit('fade-in');
+                    cc.find('Canvas/waitPanel').emit('loadChallengerAvatar');
                 }, this);
             } catch (error) {
                 console.error(error)

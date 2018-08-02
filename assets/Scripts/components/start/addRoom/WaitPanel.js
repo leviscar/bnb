@@ -15,7 +15,8 @@ module.exports = cc.Class({
 
         this.shareBtn.node.on('click',this.wxShare,this);
         this.startBtn.node.on('click',this.gameStart,this);
-        this.node.on('loadMasterAvatar',this.loadAvatar,this);
+        this.node.on('loadMasterAvatar',this.loadMasterAvatar,this);
+        this.node.on('loadChallengerAvatar',this.loadChallengerAvatar,this);
     },
 
     hide: function (){
@@ -56,11 +57,19 @@ module.exports = cc.Class({
     },
 
     // 加载房主头像
-    loadAvatar: function () {
+    loadMasterAvatar: function () {
         cc.loader.load(com.userInfo.avatarUrl + "?aaa=aa.png", function (err, tex) {
-              this.player1.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-              this.player1.getComponent(cc.Sprite).spriteFrame.getTexture().width = 60;
-              this.player1.getComponent(cc.Sprite).spriteFrame.getTexture().height = 60;
+            // cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
+            // console.log(cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame);
+            cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
+            // cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame.getTexture().width = 60;
+            // cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame.getTexture().height = 60;
+        });
+    },
+
+    loadChallengerAvatar: function () {
+        cc.loader.load(com.userInfo.avatarUrl + "?aaa=aa.png", function (err, tex) {
+            cc.find('Canvas/waitPanel/player2').getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
         });
     }
 });
