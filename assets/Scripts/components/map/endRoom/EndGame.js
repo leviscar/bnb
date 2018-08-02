@@ -11,8 +11,6 @@ cc.Class({
         try {
             socket.on("end",function () {
                 self.show();
-                // cc.find("map").getComponent("Map").unscheduleAllCallbacks();
-                com.roleInfos = [];
             });
         } catch (error) {
             console.error(error)

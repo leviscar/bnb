@@ -1,3 +1,6 @@
+
+// userInfo 用户资料
+// roleInfos 移动数据
 module.exports = {
     socket: null,
     roomId: 0,
@@ -27,7 +30,6 @@ module.exports = {
     },
     isMaster: false,
     userInfos: [],
-    roleInfos: [],
     monsterInfos: [],
     FPS: 30,
     map: {

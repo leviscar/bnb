@@ -21,7 +21,7 @@ const I_SCORE  = 104;
 let itemList = [];
 let prefabList  = {};
 let roleObj = {};
-
+let roleInfos = [];
 //道具计数
 let bombAddScoreMaster,bombAddScoreChallenger,speedScoreMaster,speedScoreChallenger,strengthScoreMaster,strengthScoreChallenger;
 //背景音乐
@@ -132,6 +132,8 @@ cc.Class({
 
         this.mapItemX = 32;
         this.mapItemY = 32;
+
+        roleInfos = [];
         this.firstData = {"master":true,"challenger":false};
         this.masterPos = 0;
         this.challengerPos = 0;
@@ -224,7 +226,7 @@ cc.Class({
 
         // 按照帧率移动
         this.roleMoveInterval = setInterval(function(){
-            let data = com.roleInfos;
+            let data = roleInfos;
             if(data == null || data.length ==0){
                 clearInterval(self.roleMoveInterval);
             }
@@ -463,7 +465,7 @@ cc.Class({
         let moveAction ={};
         try {
             socket.on("roleInfo",function(data){
-                com.roleInfos = data;
+                roleInfos = data;
             });
 
             socket.on("monsterInfo",function(data){
