@@ -16,6 +16,8 @@ cc.Class({
 
         com.socket = socket;
         com.windowSize = cc.view.getVisibleSize();
+        com.userInfo.guid = this.guid();
+        console.log(com.userInfo.guid);
 
         this.wxHandle = this.wxHandle.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
@@ -104,6 +106,13 @@ cc.Class({
 
     wxShare: function () {
         wx.showShareMenu();
+    },
+
+    guid: function() {
+        function S4() {
+          return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        }
+        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
     },
 
     showRankList: function () {
