@@ -35,9 +35,7 @@ cc.Class({
                 com.socket.emit("newRoom",{name:this.editbox.string,userInfo:com.userInfo});
                 com.roomId = this.editbox.string;
                 com.isMaster = true;
-                this.hide();
-                cc.find('Canvas/waitPanel').emit('fade-in');
-                cc.find('Canvas/waitPanel').emit('loadMasterAvatar');
+                // this.hide();
             }
         } catch (error) {
             console.error(error)

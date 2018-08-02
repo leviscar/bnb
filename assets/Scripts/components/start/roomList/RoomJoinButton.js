@@ -22,9 +22,7 @@ cc.Class({
                     com.socket.role = 'challenger';
                     com.socket.emit("joinRoom",{roomId:roomData.roomName,userInfo:com.userInfo});
                     com.isMaster = false;
-                    cc.find('Canvas/joinRoomScrollView').emit('fade-out');
-                    cc.find('Canvas/waitPanel').emit('fade-in');
-                    cc.find('Canvas/waitPanel').emit('loadChallengerAvatar');
+                    
                 }, this);
             } catch (error) {
                 console.error(error)

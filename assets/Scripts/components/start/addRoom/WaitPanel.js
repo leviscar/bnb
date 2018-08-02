@@ -58,7 +58,7 @@ module.exports = cc.Class({
 
     // 加载房主头像
     loadMasterAvatar: function () {
-        cc.loader.load(com.userInfo.avatarUrl + "?aaa=aa.png", function (err, tex) {
+        cc.loader.load(com.userInfos[0].avatarUrl + "?aaa=aa.png", function (err, tex) {
             // cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
             // console.log(cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame);
             cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
@@ -68,7 +68,7 @@ module.exports = cc.Class({
     },
 
     loadChallengerAvatar: function () {
-        cc.loader.load(com.userInfo.avatarUrl + "?aaa=aa.png", function (err, tex) {
+        cc.loader.load(com.userInfos[1].avatarUrl + "?aaa=aa.png", function (err, tex) {
             cc.find('Canvas/waitPanel/player2').getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
         });
     }

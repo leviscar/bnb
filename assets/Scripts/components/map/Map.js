@@ -218,8 +218,8 @@ cc.Class({
 
     start: function () {
         let self = this;
-        //播放背景音乐
-        bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
+        // //播放背景音乐
+        // bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
         
         this.mapInit();  
         
@@ -539,7 +539,8 @@ cc.Class({
     onDestroy () {
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-        cc.audioEngine.stop(bgmMusic);
+        // cc.audioEngine.stop(bgmMusic);
+        roleInfos = [];
     },
 
     onKeyDown: function (event) {
