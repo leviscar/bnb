@@ -1,0 +1,22 @@
+{
+  "name": "tiledmap",
+  "version": "1.0.0",
+  "description": "By 周爽 刘俊鹏 谢天帝",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leviscar/bnb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leviscar/bnb/issues"
+  },
+  "homepage": "https://github.com/leviscar/bnb#readme"
+}

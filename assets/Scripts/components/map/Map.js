@@ -1,22 +1,17 @@
 const com = require("../../Common");
 
-const GROUND       = 0;
-
+const GROUND = 0;
 const NG_W_1  = 1;
 const NG_W_2  = 2;
 const G_W  = 3;
-
 const S_W_1 = 11;
 const S_W_2 = 12;
 const S_W_3 = 13;
-
-const PAOPAO       = 100;
-
+const PAOPAO = 100;
 const I_PAOPAO = 101;
 const I_SPEED  = 102;
 const I_POWER  = 103;
 const I_SCORE  = 104;
-
 
 let itemList = [];
 let prefabList  = {};
@@ -192,7 +187,7 @@ cc.Class({
             }
             
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
         
        
@@ -224,9 +219,9 @@ cc.Class({
                     self.gameTime = val.gameTime;
                 }
                 
-                if(val.name === 'master'){
+                if(val.name === "master"){
                     self.masterScore = val.score;
-                }else if(val.name === 'challenger'){
+                }else if(val.name === "challenger"){
                     self.challengerScore = val.score;
                 }
 
@@ -235,8 +230,8 @@ cc.Class({
                     let position = cc.p(val.position.x,val.position.y);
                     roleObj[val.name].stopAllActions();
                     roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
-                })
-            })
+                });
+            });
         },1000/com.FPS);
         
 
@@ -249,9 +244,9 @@ cc.Class({
             cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex) {
             //   cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
             //   let spriteFrame = cc.find(tag).getComponent(cc.Sprite).spriteFrame;
-              cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-              cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().width = 59;
-              cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().height = 59;
+                cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
+                cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().width = 59;
+                cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().height = 59;
             });
         }
         
@@ -300,12 +295,12 @@ cc.Class({
         monsterPos0 = cc.p(com.mapInfo.monsterStartPointArr[0].x,com.mapInfo.monsterStartPointArr[0].y);
         monsterPos1 = cc.p(com.mapInfo.monsterStartPointArr[1].x,com.mapInfo.monsterStartPointArr[1].y);
 
-        roleObj['master']  = this.spawnNewItem(masterPos,this.masterPrefab);
-        roleObj['monster0'] = this.spawnNewItem(monsterPos0,this.monsterPrefab);
-        roleObj['monster1'] = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
+        roleObj["master"]  = this.spawnNewItem(masterPos,this.masterPrefab);
+        roleObj["monster0"] = this.spawnNewItem(monsterPos0,this.monsterPrefab);
+        roleObj["monster1"] = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
 
         if(com.userInfos.length>1){
-            roleObj['challenger']= this.spawnNewItem(challengerPos,this.challengerPrefab);
+            roleObj["challenger"]= this.spawnNewItem(challengerPos,this.challengerPrefab);
         }
     },
 
@@ -319,7 +314,7 @@ cc.Class({
     spawnNewItem: function(pos,prefab) {
         let item = cc.instantiate(prefab);
         this.node.addChild(item);
-        item.setPosition(pos)
+        item.setPosition(pos);
         return item;
     },
 
@@ -436,29 +431,29 @@ cc.Class({
     
             socket.on("itemEaten",function(data){
                 console.log("item eaten"+ data);
-                if(data.role === 'master'||data.role === 'challenger'){
+                if(data.role === "master"||data.role === "challenger"){
                     cc.audioEngine.playEffect(self.giftAudio,false);
                 }
                 self.node.removeChild(itemList[data.x][data.y]);
                 itemList[data.x][data.y] = null;
                 if(data.itemCode == I_PAOPAO){
-                    if(data.role === 'master'){
+                    if(data.role === "master"){
                         bombAddScoreMaster += 1;
-                    }else if(data.role === 'challenger'){
+                    }else if(data.role === "challenger"){
                         bombAddScoreChallenger += 1;
                         // console.log("item challenger"+ this. bombAddScoreChallenger);
                     }
                 }else if(data.itemCode == I_SPEED){
-                    if(data.role === 'master'){
+                    if(data.role === "master"){
                         speedScoreMaster += 1;
-                    }else if(data.role === 'challenger'){
+                    }else if(data.role === "challenger"){
                         speedScoreChallenger += 1;
                         // console.log("item challenger"+  this.speedScoreChallenger+"");
                     }
                 }else if(data.itemCode == I_POWER){
-                    if(data.role === 'master'){
+                    if(data.role === "master"){
                         strengthScoreMaster += 1;
-                    }else if(data.role === 'challenger'){
+                    }else if(data.role === "challenger"){
                         strengthScoreChallenger += 1;
                         // console.log("item challenger"+  this.strengthScoreChallenger)+"";
                     }
@@ -485,13 +480,13 @@ cc.Class({
             });
 
             socket.on("monsterBoom",function(data){
-                console.log(data.name+"Boom") 
+                console.log(data.name+"Boom"); 
                 cc.audioEngine.playEffect(self.monsterBoomAudio,false);
-                self.node.removeChild(roleObj[data.name])
+                self.node.removeChild(roleObj[data.name]);
             });
 
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
     },
 
@@ -505,40 +500,40 @@ cc.Class({
     onKeyDown: function (event) {
         let socket = com.socket;
         switch(event.keyCode) {
-            case cc.KEY.a:
-                socket.emit("KeyDown",event.keyCode);
-                break;
-            case cc.KEY.s:
-                socket.emit("KeyDown",event.keyCode);
-                break;
-            case cc.KEY.w:
-                socket.emit("KeyDown",event.keyCode);
-                break;
-            case cc.KEY.d:
-                socket.emit("KeyDown",event.keyCode);
-                break;
-            case cc.KEY.j:
-                console.log('Press j key');
-                socket.emit("KeyDown",event.keyCode);
-                break;
+        case cc.KEY.a:
+            socket.emit("KeyDown",event.keyCode);
+            break;
+        case cc.KEY.s:
+            socket.emit("KeyDown",event.keyCode);
+            break;
+        case cc.KEY.w:
+            socket.emit("KeyDown",event.keyCode);
+            break;
+        case cc.KEY.d:
+            socket.emit("KeyDown",event.keyCode);
+            break;
+        case cc.KEY.j:
+            console.log("Press j key");
+            socket.emit("KeyDown",event.keyCode);
+            break;
         }
     },
 
     onKeyUp: function (event) {
         let socket = com.socket;
         switch(event.keyCode) {
-            case cc.KEY.a:
-                socket.emit("KeyUp",event.keyCode);
-                break;
-            case cc.KEY.s:
-                socket.emit("KeyUp",event.keyCode);
-                break;
-            case cc.KEY.w:
-                socket.emit("KeyUp",event.keyCode);
-                break;
-            case cc.KEY.d:
-                socket.emit("KeyUp",event.keyCode);
-                break;
+        case cc.KEY.a:
+            socket.emit("KeyUp",event.keyCode);
+            break;
+        case cc.KEY.s:
+            socket.emit("KeyUp",event.keyCode);
+            break;
+        case cc.KEY.w:
+            socket.emit("KeyUp",event.keyCode);
+            break;
+        case cc.KEY.d:
+            socket.emit("KeyUp",event.keyCode);
+            break;
         }
     },
 
