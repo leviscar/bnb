@@ -5,10 +5,6 @@ cc.Class({
         rankingScrollView: cc.Sprite
     },
 
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {},
-
     start: function(){
         if (CC_WECHATGAME) {
             window.wx.showShareMenu({withShareTicket: true});//设置分享按钮，方便获取群id展示群排行榜

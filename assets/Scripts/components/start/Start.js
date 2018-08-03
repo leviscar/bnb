@@ -23,7 +23,6 @@ cc.Class({
 
         this.background.setScaleX(com.windowSize.width/960);
         this.background.setScaleY(com.windowSize.height/640);
-        
 
         this.socketHandle();
 
