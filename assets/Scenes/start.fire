@@ -3967,7 +3967,10 @@
       "__id__": 103
     },
     "_enabled": true,
-    "duration": 0.2
+    "duration": 0.2,
+    "rankListPanel": {
+      "__id__": 104
+    }
   },
   {
     "__type__": "cc.Widget",
