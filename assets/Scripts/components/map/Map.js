@@ -218,8 +218,8 @@ cc.Class({
 
     start: function () {
         let self = this;
-        // //播放背景音乐
-        // bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
+        //播放背景音乐
+        bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
         
         this.mapInit();  
         
@@ -379,7 +379,7 @@ cc.Class({
                 pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
                 // this.spawnNewItem(pos,this.groudPrefab);
                 
-                if(data[i][j]===S_W_1)  this.spawnNewItem(pos,this.blockPrefab);
+                if(data[i][j] === S_W_1)  this.spawnNewItem(pos,this.blockPrefab);
             }
         }
     },
@@ -445,13 +445,13 @@ cc.Class({
         if(!arr||arr.length===0) return false;
         for(let i=0;i<arr.length;i++){
             axisObj = this.transAxis(this.mapDataLen,arr[i].x,arr[i].y);
-            pos = cc.p(this.mapItemX*(axisObj.x+0.5),this.mapItemY*(axisObj.y+0.5));
+            pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
             itemList[arr[i].x][arr[i].y] = this.spawnNewItem(pos,prefabList[999]);
         }
         this.scheduleOnce(function() {
             // 这里的 this 指向 component
             this.dropItem(arr);
-        }, 0.1);
+        }, 0.2);
         
     },
 
@@ -539,7 +539,7 @@ cc.Class({
     onDestroy () {
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-        // cc.audioEngine.stop(bgmMusic);
+        cc.audioEngine.stop(bgmMusic);
         roleInfos = [];
     },
 

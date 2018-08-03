@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "e174d60b-9c9b-4bc3-aad4-bbd8c14b2e78",
+  "uuid": "e493133a-b7fb-42ec-a721-6ec0e3c3983e",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "banner_goumai_ocean": {
+    "blue": {
       "ver": "1.0.3",
-      "uuid": "98bc0fb2-1263-43df-852c-2674b064d689",
-      "rawTextureUuid": "e174d60b-9c9b-4bc3-aad4-bbd8c14b2e78",
+      "uuid": "ee470f33-755e-4281-99b1-b4bd9bfc2b17",
+      "rawTextureUuid": "e493133a-b7fb-42ec-a721-6ec0e3c3983e",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 494,
-      "height": 168,
-      "rawWidth": 494,
-      "rawHeight": 168,
+      "width": 20,
+      "height": 18,
+      "rawWidth": 20,
+      "rawHeight": 18,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

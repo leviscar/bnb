@@ -191,7 +191,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "f66746a9-285b-4887-9f45-0cf7032626b9"
+      "__uuid__": "47332048-be12-4f6f-848e-d9336314b4c5"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -376,7 +376,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "c4a201f4-6d58-47ed-a09e-55f42d15882f"
+      "__uuid__": "deb56230-58dd-417c-b3be-2298a80e9ed6"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -541,9 +541,7 @@
       "__id__": 10
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "6df5d7d1-2c88-4e22-be24-9f167f24b53b"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -613,7 +611,7 @@
       "__uuid__": "51e71db2-16bb-4798-bf6e-8808d1fd9a9d"
     },
     "explodePrefab": {
-      "__uuid__": "ddde0747-1cb6-40ad-99e6-1137f7029737"
+      "__uuid__": "247fe362-d9bb-4308-b95c-5da62c846c02"
     },
     "groudPrefab": {
       "__uuid__": "5596af37-5570-49bd-b064-ac8c4af7612d"
@@ -692,7 +690,7 @@
     "masterScore": 0,
     "challengerScore": 0,
     "bgmAudio": {
-      "__uuid__": "2359e075-a6d8-4964-a5f6-966ab2e16158"
+      "__uuid__": "0bc2d4c6-0c60-414f-be33-fee44c690ef8"
     },
     "giftAudio": {
       "__uuid__": "9cb367b9-98a1-4a2d-a9c4-7b553f1bba37"
@@ -1451,7 +1449,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "7a35ed81-16cb-41b9-b0ca-ecb53f6056e6"
+      "__uuid__": "ede52316-cebe-4553-af28-650663add639"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -2640,9 +2638,7 @@
       "__id__": 56
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "52897c43-6b78-462d-99e1-c5436ec11609"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -3304,9 +3300,7 @@
       "__id__": 74
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "52897c43-6b78-462d-99e1-c5436ec11609"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
