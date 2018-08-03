@@ -143,7 +143,10 @@ cc.Class({
             com.userInfos = [].concat(data.userInfos);
             com.FPS = data.FPS/2;
             cc.director.loadScene("map");
-            com.map.basicMap = mapInfo.arr;
+            com.mapInfo = mapInfo;
+
+            console.log(com.mapInfo.roleStartPointArr);
+            console.log(com.mapInfo.monsterStartPointArr);
       });
     }
 });

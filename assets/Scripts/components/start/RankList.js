@@ -2,7 +2,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        duration: 0
+        duration: 0,
+        rankListPanel: cc.Sprite
     },
 
     onLoad: function() {
