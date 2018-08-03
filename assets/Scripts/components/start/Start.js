@@ -4,8 +4,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // addRoomPanel:cc.Sprite,
-        // joinRoomScrollView:cc.ScrollView,
         background: cc.Node,
         rankBtn: cc.Button
     },
@@ -170,7 +168,10 @@ cc.Class({
             com.userInfos = [].concat(data.userInfos);
             com.FPS = data.FPS/2;
             cc.director.loadScene("map");
-            com.map.basicMap = mapInfo.arr;
-        });
+            com.mapInfo = mapInfo;
+
+            console.log(com.mapInfo.roleStartPointArr);
+            console.log(com.mapInfo.monsterStartPointArr);
+      });
     }
 });

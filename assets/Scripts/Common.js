@@ -33,10 +33,8 @@ module.exports = {
     userInfos: [],
     monsterInfos: [],
     FPS: 30,
-    map: {
-        basicMap: []
-    },
-    windowSize:null,
+    mapInfo: {}, // 地图缓存
+    windowSize:null, // 界面尺寸缓存
     host: 'localhost',
     // host:'212.64.17.36',
     port: 4000

@@ -86,43 +86,28 @@ cc.Class({
         strengthScoreChallengerDisplay: cc.Label,
 
 
-        mapItemX: 0,
-        mapItemY: 0,
-        mapDataLen: 0,
+        // mapItemX: 0,
+        // mapItemY: 0,
+        // mapDataLen: 0,
 
         gameTime: 0,
         masterScore: 0,
         challengerScore: 0,
 
         //背景音乐
-        bgmAudio:{
-            default: null,
-            url: cc.AudioClip
-        },
+        bgmAudio:cc.AudioClip,
 
         //吃礼物音乐
-        giftAudio:{
-            default: null,
-            url: cc.AudioClip
-        },
+        giftAudio:cc.AudioClip,
 
         //怪物被炸音乐
-        monsterBoomAudio:{
-            default: null,
-            url: cc.AudioClip
-        },
+        monsterBoomAudio:cc.AudioClip,
 
         //人物被炸音乐
-        roleBoomAudio:{
-            default: null,
-            url: cc.AudioClip
-        },
+        roleBoomAudio:cc.AudioClip,
         
         //泡泡爆炸音乐
-        paopaoBoomAudio:{
-            default: null,
-            url: cc.AudioClip
-        },
+        paopaoBoomAudio:cc.AudioClip,
 
     },
     
@@ -134,9 +119,6 @@ cc.Class({
         this.mapItemY = 32;
 
         roleInfos = [];
-        this.firstData = {"master":true,"challenger":false};
-        this.masterPos = 0;
-        this.challengerPos = 0;
 
         //道具计数
         bombAddScoreMaster = 0;
@@ -193,14 +175,15 @@ cc.Class({
         this.socketHandle = this.socketHandle.bind(this);
 
         this.background.setScale(com.windowSize.width/960,com.windowSize.height/640);
+
         try {
             this.socketHandle(roleObj,socket,self);
-            this.drawMapBG(com.map.basicMap);
-            this.drawMap(com.map.basicMap);
+            this.drawMapBG(com.mapInfo.arr);
+            this.drawMap(com.mapInfo.arr);
             this.roleInit();
             this.keyInit();
-            this.mapBG.width = com.map.basicMap[0].length*this.mapItemX;
-            this.mapBG.height = com.map.basicMap.length*this.mapItemY;
+            this.mapBG.width = com.mapInfo.arr[0].length*this.mapItemX;
+            this.mapBG.height = com.mapInfo.arr.length*this.mapItemY;
             if(wx){
                 // 头像显示有bug，调用两次函数可以解决这个bug
                 // 治标不治本，再研究
@@ -243,16 +226,8 @@ cc.Class({
                 
                 if(val.name === 'master'){
                     self.masterScore = val.score;
-                    if(self.firstData.master === true)  {
-                        self.masterPos = position;
-                        self.firstData.master = false;
-                    }
                 }else if(val.name === 'challenger'){
                     self.challengerScore = val.score;
-                    if(self.firstData.challenger === true) {
-                        self.challengerPos = position;
-                        self.firstData.challenger = false;
-                    } 
                 }
 
                 let monsterInfos = com.monsterInfos;
@@ -295,17 +270,13 @@ cc.Class({
 
         if(com.isMaster){
             cameraAction = cc.sequence(
-                // cc.moveTo(2,cc.p(32,32)),
                 cc.delayTime(delayTime),
-                // cc.moveTo(2,cc.p(32*22,32*18))
-                cc.moveTo(duration,cc.p(32,32))
+                cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y))
             );
         }else{
             cameraAction = cc.sequence(
                 cc.delayTime(delayTime),
-                // cc.moveTo(2,cc.p(32,32)),
-                // cc.delayTime(1),
-                cc.moveTo(duration,cc.p(32*22,32*18))
+                cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y))
             );
         }
 
@@ -316,42 +287,30 @@ cc.Class({
         this.cameraContatiner.runAction(cameraAction);
 
         this.scheduleOnce(function() {
-            // 这里的 this 指向 component
             com.moveMap = false;
-            // this.node.setScale(cc.v2(1.68,1.68));
-            
         }, (delayTime+duration+1));
     },
 
     // 角色位置初始化
     roleInit: function () {
-        let masterRole,challengerRole,masterPos,challengerPos;
+        let masterPos,challengerPos,monsterPos0,monsterPos1;
 
-        //小怪物从0开始命名
-        let monster0,monsterPos0,monster1,monsterPos1;
+        masterPos = cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y);
+        challengerPos = cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y);
+        monsterPos0 = cc.p(com.mapInfo.monsterStartPointArr[0].x,com.mapInfo.monsterStartPointArr[0].y);
+        monsterPos1 = cc.p(com.mapInfo.monsterStartPointArr[1].x,com.mapInfo.monsterStartPointArr[1].y);
 
-        masterPos = cc.p(32*22,32*18);
-        challengerPos = cc.p(32,32);
-        monsterPos0 = cc.p(32*22,32);
-        monsterPos1 = cc.p(32,32*18);
-
-        masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
-        monster0 = this.spawnNewItem(monsterPos0,this.monsterPrefab);
-        monster1 = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
-
-        roleObj['master'] = masterRole;
-        roleObj['monster0'] = monster0;
-        roleObj['monster1'] = monster1;
+        roleObj['master']  = this.spawnNewItem(masterPos,this.masterPrefab);
+        roleObj['monster0'] = this.spawnNewItem(monsterPos0,this.monsterPrefab);
+        roleObj['monster1'] = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
 
         if(com.userInfos.length>1){
-            challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
-            roleObj['challenger'] = challengerRole;
+            roleObj['challenger']= this.spawnNewItem(challengerPos,this.challengerPrefab);
         }
     },
 
     // 键盘监听事件初始化
     keyInit: function () {
-        // add key down and key up event
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
     },

@@ -30,7 +30,7 @@ cc.Class({
     // transLocate: function (pos) {
     //     let dotLeftUp = {
     //         x: this.visibleSize.width - this.map.x,
-    //         y: com.map.basicMap.length*32 - this.visibleSize.height/2 
+    //         y: com.mapInfo.arr.length*32 - this.visibleSize.height/2 
     //     }
     //     let dotLeftDown = {
     //         x: this.visibleSize.width - this.map.x,
