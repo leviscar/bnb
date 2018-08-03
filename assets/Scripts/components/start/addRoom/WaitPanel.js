@@ -17,10 +17,17 @@ module.exports = cc.Class({
         this.startBtn.node.on('click',this.gameStart,this);
         this.node.on('loadMasterAvatar',this.loadMasterAvatar,this);
         this.node.on('loadChallengerAvatar',this.loadChallengerAvatar,this);
+
+        let self = this;
+        com.socket.on('deleteRoom',function(data){
+            console.log('deleteRoom client')
+            self.node.emit('fade-out');
+            com.userInfos = [];
+        })
     },
 
     hide: function (){
-        this.node.emit('fade-out');
+        com.socket.emit('deleteRoom');
     },
     
     // 微信分享
