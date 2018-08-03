@@ -76,11 +76,10 @@ cc.Class({
         this.updateRokerCenterPos(cc.v2(0, 0));
 
         try {
-            com.socket.emit("KeyUp",this.moveDir);
+            com.socket.emit("TouchEnd");
         } catch (error) {
             console.error(error)
         }
-        // console.log("end");
         this.moveDir = null;
     },
 
@@ -88,7 +87,7 @@ cc.Class({
         this.updateRokerCenterPos(cc.v2(0, 0));
 
         try {
-            com.socket.emit("KeyUp",this.moveDir);
+            com.socket.emit("TouchEnd");
         } catch (error) {
             console.error(error)
         }
@@ -98,13 +97,11 @@ cc.Class({
 
     moveCallback: function(pos) {
         let angle = Math.atan2(pos.y, pos.x) * (180/Math.PI);
-        // console.log(angle);
         try {
             com.socket.emit("MoveByAngle",angle);
         } catch (error) {
             console.error(error)
         }
-        // this.moveDir = this.getDirection(pos);
     },
 
     getDirection: function(pos) {

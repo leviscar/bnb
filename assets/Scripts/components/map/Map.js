@@ -274,12 +274,12 @@ cc.Class({
         if(com.isMaster){
             cameraAction = cc.sequence(
                 cc.delayTime(delayTime),
-                cc.moveTo(duration,cc.p(32,32))
+                cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y))
             );
         }else{
             cameraAction = cc.sequence(
                 cc.delayTime(delayTime),
-                cc.moveTo(duration,cc.p(32*22,32*18))
+                cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y))
             );
         }
 
@@ -290,36 +290,25 @@ cc.Class({
         this.cameraContatiner.runAction(cameraAction);
 
         this.scheduleOnce(function() {
-            // 这里的 this 指向 component
             com.moveMap = false;
-            // this.node.setScale(cc.v2(1.68,1.68));
-            
         }, (delayTime+duration+1));
     },
 
     // 角色位置初始化
     roleInit: function () {
-        let masterRole,challengerRole,masterPos,challengerPos;
+        let masterPos,challengerPos,monsterPos0,monsterPos1;
 
-        //小怪物从0开始命名
-        let monster0,monsterPos0,monster1,monsterPos1;
+        masterPos = cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y);
+        challengerPos = cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y);
+        monsterPos0 = cc.p(com.mapInfo.monsterStartPointArr[0].x,com.mapInfo.monsterStartPointArr[0].y);
+        monsterPos1 = cc.p(com.mapInfo.monsterStartPointArr[1].x,com.mapInfo.monsterStartPointArr[1].y);
 
-        masterPos = cc.p(32*22,32*18);
-        challengerPos = cc.p(32,32);
-        monsterPos0 = cc.p(32*22,32);
-        monsterPos1 = cc.p(32,32*18);
-
-        masterRole = this.spawnNewItem(masterPos,this.masterPrefab);
-        monster0 = this.spawnNewItem(monsterPos0,this.monsterPrefab);
-        monster1 = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
-
-        roleObj['master'] = masterRole;
-        roleObj['monster0'] = monster0;
-        roleObj['monster1'] = monster1;
+        roleObj['master']  = this.spawnNewItem(masterPos,this.masterPrefab);
+        roleObj['monster0'] = this.spawnNewItem(monsterPos0,this.monsterPrefab);
+        roleObj['monster1'] = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
 
         if(com.userInfos.length>1){
-            challengerRole = this.spawnNewItem(challengerPos,this.challengerPrefab);
-            roleObj['challenger'] = challengerRole;
+            roleObj['challenger']= this.spawnNewItem(challengerPos,this.challengerPrefab);
         }
     },
 
