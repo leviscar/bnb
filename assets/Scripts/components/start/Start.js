@@ -4,8 +4,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // addRoomPanel:cc.Sprite,
-        // joinRoomScrollView:cc.ScrollView,
         background: cc.Node,
         rankBtn: cc.Button
     },
@@ -17,7 +15,7 @@ cc.Class({
         com.socket = socket;
         com.windowSize = cc.view.getVisibleSize();
         com.userInfo.guid = this.guid();
-        console.log(com.userInfo.guid);
+        // console.log(com.userInfo.guid);
 
         this.wxHandle = this.wxHandle.bind(this);
         this.socketHandle = this.socketHandle.bind(this);

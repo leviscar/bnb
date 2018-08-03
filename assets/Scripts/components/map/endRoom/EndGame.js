@@ -2,12 +2,21 @@ const com = require("../../../Common");
 
 cc.Class({
     extends: cc.Component,
-
-    onLoad () {
+    properties: {
+        resultPanel: cc.Label
+    },
+    onLoad: function () {
         const socket = com.socket;
         const self = this;
         try {
-            socket.on("end",function () {
+            socket.on("end",function (data) {
+                let result = '';
+                if(data.isTied){
+                    result = '平局'
+                }else{
+                    data.winner === com.userInfo.guid ? (result = '你赢了'):(result = '你输了');
+                };
+                self.resultPanel.string = result;
                 self.show();
             });
         } catch (error) {
@@ -19,7 +28,6 @@ cc.Class({
     show: function () {
         this.node.active = true;
         this.node.emit('fade-in');
-        // console.log(com.windowSize.width/2);
         this.node.position = cc.p(com.windowSize.width/2,com.windowSize.height/2);
     },
     

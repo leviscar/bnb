@@ -683,9 +683,6 @@
     "strengthScoreChallengerDisplay": {
       "__id__": 83
     },
-    "mapItemX": 0,
-    "mapItemY": 0,
-    "mapDataLen": 0,
     "gameTime": 0,
     "masterScore": 0,
     "challengerScore": 0,
@@ -766,7 +763,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bot_frame",
+    "_name": "outFrame",
     "_objFlags": 0,
     "_parent": {
       "__id__": 18
@@ -834,7 +831,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Label",
+    "_name": "resultLabel",
     "_objFlags": 0,
     "_parent": {
       "__id__": 19
@@ -1495,7 +1492,10 @@
     "node": {
       "__id__": 18
     },
-    "_enabled": true
+    "_enabled": true,
+    "resultPanel": {
+      "__id__": 21
+    }
   },
   {
     "__type__": "cc.Button",

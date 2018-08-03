@@ -119,9 +119,6 @@ cc.Class({
         this.mapItemY = 32;
 
         roleInfos = [];
-        // this.firstData = {"master":true,"challenger":false};
-        // this.masterPos = 0;
-        // this.challengerPos = 0;
 
         //道具计数
         bombAddScoreMaster = 0;
@@ -314,7 +311,6 @@ cc.Class({
 
     // 键盘监听事件初始化
     keyInit: function () {
-        // add key down and key up event
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
     },
