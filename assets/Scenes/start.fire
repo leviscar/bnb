@@ -422,7 +422,7 @@
     "target": {
       "__id__": 10
     },
-    "component": "JoinRoomScrollViewControl",
+    "component": "JoinRoomScrollView",
     "handler": "show",
     "customEventData": ""
   },
@@ -1651,7 +1651,7 @@
     "target": {
       "__id__": 44
     },
-    "component": "AddRoomUI",
+    "component": "AddRoomPanel",
     "handler": "show",
     "customEventData": ""
   },
