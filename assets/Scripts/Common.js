@@ -26,7 +26,8 @@ module.exports = {
     userInfo: {
         nickName: 'unknown',
         avatarUrl: null,
-        gender: 1
+        gender: 1,
+        guid: null
     },
     isMaster: false,
     userInfos: [],
@@ -36,7 +37,7 @@ module.exports = {
         basicMap: []
     },
     windowSize:null,
-    // host: 'localhost',
-    host:'212.64.17.36',
+    host: 'localhost',
+    // host:'212.64.17.36',
     port: 4000
 }

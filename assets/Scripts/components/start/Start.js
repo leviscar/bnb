@@ -11,12 +11,14 @@ cc.Class({
     },
 
     onLoad: function(){
-        let serverAdd = "http://" + com.host +":"+ com.port;
-        let socket = window.io(serverAdd);
-
-        com.socket = socket;
+        if(!com.socket){
+          let serverAdd = "http://" + com.host +":"+ com.port;
+          let socket = window.io(serverAdd);
+  
+          com.socket = socket;
+        }
         com.windowSize = cc.view.getVisibleSize();
-        com.userInfo.guid = this.guid();
+        if(!com.userInfo.guid) com.userInfo.guid = this.guid();
         console.log(com.userInfo.guid);
 
         this.wxHandle = this.wxHandle.bind(this);
@@ -25,7 +27,7 @@ cc.Class({
 
         this.background.setScaleX(com.windowSize.width/960);
         this.background.setScaleY(com.windowSize.height/640);
-        
+        cc.director.preloadScene("map", function () { cc.log("map scene preloaded"); }); 
 
         this.socketHandle();
 
@@ -97,6 +99,7 @@ cc.Class({
           console.log(res);
           if(res.query.roomName){
               let roomId = res.query.roomName;
+              com.roomId = roomId;
               com.socket.role = 'challenger';
               com.isMaster = false;
               com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
@@ -120,7 +123,7 @@ cc.Class({
     },
 
     socketHandle: function () {
-
+        let self = this;
         com.socket.on('roomInfo',function (data) {
             com.userInfos = data.userInfos;
 
@@ -138,12 +141,36 @@ cc.Class({
             }
         });
 
+        com.socket.on('playAgain',function (data) {
+            cc.director.loadScene("start",function(){
+                if(data.code === 1){
+                  com.userInfos = data.userInfos;
+                  cc.find('Canvas/waitPanel').emit('fade-in');
+                  cc.find('Canvas/waitPanel').emit('loadMasterAvatar');
+                  if(com.userInfos.length === 2) cc.find('Canvas/waitPanel').emit('loadChallengerAvatar');
+
+                  com.userInfos.forEach(function (userInfo) {  
+                      if(com.userInfo.guid === userInfo.guid){
+                        if(userInfo.isMaster){
+                          com.isMaster = true;
+                          com.socket.role = 'master';
+                        }else{
+                          com.isMaster = false;
+                          com.socket.role = 'challenger';
+                        }
+                      }
+                  })
+              }
+            });
+            
+        });
+
         com.socket.on("start",function(data){
             let mapInfo = data.mapInfo;
             com.userInfos = [].concat(data.userInfos);
             com.FPS = data.FPS/2;
             cc.director.loadScene("map");
             com.map.basicMap = mapInfo.arr;
-      });
+        });
     }
 });

@@ -541,6 +541,7 @@ cc.Class({
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         cc.audioEngine.stop(bgmMusic);
         roleInfos = [];
+        console.log("map destroyed!!!!!!!!!!!!!!!!!1");
     },
 
     onKeyDown: function (event) {
