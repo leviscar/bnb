@@ -1,4 +1,3 @@
-// 操作杆控制代码
 const com = require("../../../Common");
 
 const MoveDirection = cc.Enum({
@@ -27,7 +26,7 @@ cc.Class({
 
     },
 
-    onLoad: function () {
+    onLoad: function (){
         this.getDirection = this.getDirection.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
         this.moveCallback = this.moveCallback.bind(this);
@@ -38,7 +37,7 @@ cc.Class({
         this.spRoker.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
     },
 
-    onTouchStart: function(event) {
+    onTouchStart: function (event){
         // let touchPos = event.getLocation();
         // let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
         // let dir = this.getDirection(pos);
@@ -50,108 +49,118 @@ cc.Class({
         // this.updateRokerCenterPos(pos);
     },
 
-    onTouchMove: function(event) {
-        let touchPos = event.getLocation();
-        let pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
+    onTouchMove: function (event){
+        const touchPos = event.getLocation();
+        const pos = this.spRoker.node.convertToNodeSpaceAR(touchPos);
         // 获得外圈的半径
-        let radius = this.spRoker.node.width;
+        const radius = this.spRoker.node.width;
         // 获得触摸点和锚点之间的距离
-        let distance = cc.pDistance(pos,cc.p(0,0));
-        let angle = Math.atan2(pos.x-cc.p(0,0),pos.y-cc.p(0,0)) * (180/Math.PI)
+        const distance = cc.pDistance(pos,cc.p(0,0));
+        const angle = Math.atan2(pos.x - cc.p(0,0),pos.y - cc.p(0,0)) * (180 / Math.PI);
 
-        this.moveCallback(cc.p(pos.x-this._touchStartPos.x,pos.y-this._touchStartPos.y));
+        this.moveCallback(cc.p(pos.x - this._touchStartPos.x,pos.y - this._touchStartPos.y));
 
         // 当处在圆内时更新操作杆位置
-        if(radius>distance){
+        if(radius > distance){
             this.updateRokerCenterPos(pos);
         }else{
-            let x = pos.x*radius/distance;
-            let y = pos.y*radius/distance;
+            const x = pos.x * radius / distance;
+            const y = pos.y * radius / distance;
+
             this.updateRokerCenterPos(cc.p(x,y));
         }
         
     },
 
-    onTouchEnd: function(event) {
+    onTouchEnd: function (event){
         this.updateRokerCenterPos(cc.v2(0, 0));
 
         try {
             com.socket.emit("TouchEnd");
-        } catch (error) {
-            console.error(error)
+        } catch (error){
+            console.error(error);
         }
         this.moveDir = null;
     },
 
-    onTouchCancel: function(event) {
+    onTouchCancel: function (event){
         this.updateRokerCenterPos(cc.v2(0, 0));
 
         try {
             com.socket.emit("TouchEnd");
-        } catch (error) {
-            console.error(error)
+        } catch (error){
+            console.error(error);
         }
         // console.log("cancel");
         this.moveDir = null;
     },
 
-    moveCallback: function(pos) {
-        let angle = Math.atan2(pos.y, pos.x) * (180/Math.PI);
+    moveCallback: function (pos){
+        const angle = Math.atan2(pos.y, pos.x) * (180 / Math.PI);
+
         try {
             com.socket.emit("MoveByAngle",angle);
-        } catch (error) {
-            console.error(error)
+        } catch (error){
+            console.error(error);
         }
     },
 
-    getDirection: function(pos) {
-        let x = pos.x;
-        let y = pos.y;
-        let tanOne = 0.57;
-        let tanTwo = 1.73;
+    getDirection: function (pos){
+        const x = pos.x;
+        const y = pos.y;
+        const tanOne = 0.57;
+        const tanTwo = 1.73;
 
-        if (tanTwo*x <= y && tanTwo*x > -y) {
+        if (tanTwo * x <= y && tanTwo * x > -y){
             // console.log("up");
             this.slopeFlag = false;
+
             return com.KeyCode.w;
-        }else if(tanOne*x <= y && tanTwo*x >= y){
+        }else if(tanOne * x <= y && tanTwo * x >= y){
             // console.log("up&right");
             this.slopeFlag = true;
+
             return [com.KeyCode.w,com.KeyCode.d];
-        }else if (tanTwo*x >= y && tanTwo*x < -y) {
+        }else if (tanTwo * x >= y && tanTwo * x < -y){
             // console.log("down");
             this.slopeFlag = false;
+
             return com.KeyCode.s;
-        }else if(-tanTwo*x <= y && -tanOne*x >= y){
+        }else if(-tanTwo * x <= y && -tanOne * x >= y){
             // console.log("down&right");
             this.slopeFlag = true;
+
             return [com.KeyCode.s,com.KeyCode.d];
-        }else if (tanOne*x <= y && tanOne*x < -y) {
+        }else if (tanOne * x <= y && tanOne * x < -y){
             // console.log("left");
             this.slopeFlag = false;
+
             return com.KeyCode.a;
-        }else if(tanTwo*x <= y && tanOne*x >= y){
+        }else if(tanTwo * x <= y && tanOne * x >= y){
             // console.log("down&left");
             this.slopeFlag = true;
+
             return [com.KeyCode.s,com.KeyCode.a];
-        }else if(-tanOne*x <= y && -tanTwo*x >= y){
+        }else if(-tanOne * x <= y && -tanTwo * x >= y){
             // console.log("up&left");
             this.slopeFlag = true;
+
             return [com.KeyCode.w,com.KeyCode.a];
         }  
         else {
             // console.log("right");
             this.slopeFlag = false;
+
             return com.KeyCode.d;
         }
     },
 
-    updateRokerCenterPos: function(pos) {
+    updateRokerCenterPos: function (pos){
         this.spRokerCenter.node.setPosition(pos);
         // console.log("back");
     },
 
-    updateEvent: function() {
+    updateEvent: function (){
 
         if(this.moveDir === null) return;
 

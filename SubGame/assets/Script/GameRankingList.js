@@ -7,25 +7,25 @@ cc.Class({
         prefabRankItem: cc.Prefab,
         prefabGameOverRank: cc.Prefab,
         gameOverRankLayout: cc.Node,
-        loadingLabel: cc.Node,//加载文字
+        loadingLabel: cc.Node,// 加载文字
     },
 
-    start() {
+    start: function (){
         this.removeChild();
-        if (CC_WECHATGAME) {
+        if (CC_WECHATGAME){
             window.wx.onMessage(data => {
-                cc.log("接收主域发来消息：", data)
-                if (data.messageType == 0) {//移除排行榜
+                cc.log("接收主域发来消息：", data);
+                if (data.messageType == 0){// 移除排行榜
                     this.removeChild();
-                } else if (data.messageType == 1) {//获取好友排行榜
+                } else if (data.messageType == 1){// 获取好友排行榜
                     this.fetchFriendData(data.MAIN_MENU_NUM);
-                } else if (data.messageType == 3) {//提交得分
+                } else if (data.messageType == 3){// 提交得分
                     // this.submitScore(data.MAIN_MENU_NUM, data.score);
-                } else if (data.messageType == 4) {//获取好友排行榜横向排列展示模式
+                } else if (data.messageType == 4){// 获取好友排行榜横向排列展示模式
                     this.addWinCount();
                     // this.addLoseCount();
                     this.gameOverRank(data.MAIN_MENU_NUM);
-                } else if (data.messageType == 5) {//获取群排行榜
+                } else if (data.messageType == 5){// 获取群排行榜
                     this.fetchGroupFriendData(data.MAIN_MENU_NUM, data.shareTicket);
                 }
             });
@@ -34,16 +34,17 @@ cc.Class({
             // this.gameOverRank(1000);
         }
     },
-    addWinCount(){
-        if (CC_WECHATGAME) {
+    addWinCount: function (){
+        if (CC_WECHATGAME){
             window.wx.getUserCloudStorage({
                 // 以key/value形式存储
                 keyList: ["win","lose"],
-                success: function (getres) {
-                    console.log('getUserCloudStorage', 'success', getres)
+                success: function (getres){
+                    console.log("getUserCloudStorage", "success", getres);
                     let historyWinCount = 0;
                     let historyLoseCount = 0;
-                    if (getres.KVDataList.length != 0) {
+
+                    if (getres.KVDataList.length != 0){
                         historyWinCount = getres.KVDataList[0].value;
                         historyLoseCount = getres.KVDataList[1].value;
                     }
@@ -51,41 +52,42 @@ cc.Class({
                     // 对用户托管数据进行写数据操作
                     window.wx.setUserCloudStorage({
                         KVDataList: [
-                            {key: "win", value: parseInt(historyWinCount)+1+""},
-                            {key: "lose", value: parseInt(historyLoseCount)+""}
+                            {key: "win", value: parseInt(historyWinCount) + 1 + ""},
+                            {key: "lose", value: parseInt(historyLoseCount) + ""}
                         ],
-                        success: function (res) {
-                            console.log('setUserCloudStorage', 'success', res)
+                        success: function (res){
+                            console.log("setUserCloudStorage", "success", res);
                         },
-                        fail: function (res) {
-                            console.log('setUserCloudStorage', 'fail')
+                        fail: function (res){
+                            console.log("setUserCloudStorage", "fail");
                         },
-                        complete: function (res) {
-                            console.log('setUserCloudStorage', 'ok')
+                        complete: function (res){
+                            console.log("setUserCloudStorage", "ok");
                         }
                     });
                 },
-                fail: function (res) {
-                    console.log('getUserCloudStorage', 'fail')
+                fail: function (res){
+                    console.log("getUserCloudStorage", "fail");
                 },
-                complete: function (res) {
-                    console.log('getUserCloudStorage', 'ok')
+                complete: function (res){
+                    console.log("getUserCloudStorage", "ok");
                 }
             });
         } else {
-            cc.log("增加胜场:" + MAIN_MENU_NUM + " : " + score)
+            cc.log("增加胜场");
         }
     },
-    addLoseCount(){
-        if (CC_WECHATGAME) {
+    addLoseCount: function (){
+        if (CC_WECHATGAME){
             window.wx.getUserCloudStorage({
                 // 以key/value形式存储
                 keyList: ["win","lose"],
-                success: function (getres) {
-                    console.log('getUserCloudStorage', 'success', getres)
+                success: function (getres){
+                    console.log("getUserCloudStorage", "success", getres);
                     let historyWinCount = 0;
                     let historyLoseCount = 0;
-                    if (getres.KVDataList.length != 0) {
+
+                    if (getres.KVDataList.length != 0){
                         historyWinCount = getres.KVDataList[0].value;
                         historyLoseCount = getres.KVDataList[1].value;
                     }
@@ -93,73 +95,68 @@ cc.Class({
                     // 对用户托管数据进行写数据操作
                     window.wx.setUserCloudStorage({
                         KVDataList: [
-                            {key: "win", value: parseInt(historyWinCount)+""},
-                            {key: "lose", value: parseInt(historyLoseCount)+1+""}
+                            {key: "win", value: parseInt(historyWinCount) + ""},
+                            {key: "lose", value: parseInt(historyLoseCount) + 1 + ""}
                         ],
-                        success: function (res) {
-                            console.log('setUserCloudStorage', 'success', res)
+                        success: function (res){
+                            console.log("setUserCloudStorage", "success", res);
                         },
-                        fail: function (res) {
-                            console.log('setUserCloudStorage', 'fail')
+                        fail: function (res){
+                            console.log("setUserCloudStorage", "fail");
                         },
-                        complete: function (res) {
-                            console.log('setUserCloudStorage', 'ok')
+                        complete: function (res){
+                            console.log("setUserCloudStorage", "ok");
                         }
                     });
                 },
-                fail: function (res) {
-                    console.log('getUserCloudStorage', 'fail')
+                fail: function (res){
+                    console.log("getUserCloudStorage", "fail");
                 },
-                complete: function (res) {
-                    console.log('getUserCloudStorage', 'ok')
+                complete: function (res){
+                    console.log("getUserCloudStorage", "ok");
                 }
             });
         } else {
-            cc.log("增加负场:" + MAIN_MENU_NUM + " : " + score)
+            cc.log("增加负场");
         }
     },
-    submitScore(MAIN_MENU_NUM, score) { //提交得分
-        if (CC_WECHATGAME) {
+    submitScore (MAIN_MENU_NUM, score){ // 提交得分
+        if (CC_WECHATGAME){
             window.wx.getUserCloudStorage({
                 // 以key/value形式存储
                 keyList: ["win"],
-                success: function (getres) {
-                    console.log('getUserCloudStorage', 'success', getres)
-                    // if (getres.KVDataList.length != 0) {
-                    //     if (getres.KVDataList[0].value > score) {
-                    //         return;
-                    //     }
-                    // }
+                success: function (getres){
+                    console.log("getUserCloudStorage", "success", getres);
                     // 对用户托管数据进行写数据操作
                     window.wx.setUserCloudStorage({
                         KVDataList: [
                             {key: MAIN_MENU_NUM, value: "" + score},
-                            {key: "win", value: ""+score},
-                            {key: "lose", value: ""+score}
+                            {key: "win", value: "" + score},
+                            {key: "lose", value: "" + score}
                         ],
-                        success: function (res) {
-                            console.log('setUserCloudStorage', 'success', res)
+                        success: function (res){
+                            console.log("setUserCloudStorage", "success", res);
                         },
-                        fail: function (res) {
-                            console.log('setUserCloudStorage', 'fail')
+                        fail: function (res){
+                            console.log("setUserCloudStorage", "fail");
                         },
-                        complete: function (res) {
-                            console.log('setUserCloudStorage', 'ok')
+                        complete: function (res){
+                            console.log("setUserCloudStorage", "ok");
                         }
                     });
                 },
-                fail: function (res) {
-                    console.log('getUserCloudStorage', 'fail')
+                fail: function (res){
+                    console.log("getUserCloudStorage", "fail");
                 },
-                complete: function (res) {
-                    console.log('getUserCloudStorage', 'ok')
+                complete: function (res){
+                    console.log("getUserCloudStorage", "ok");
                 }
             });
         } else {
-            cc.log("提交得分:" + MAIN_MENU_NUM + " : " + score)
+            cc.log("提交得分:" + MAIN_MENU_NUM + " : " + score);
         }
     },
-    removeChild() {
+    removeChild (){
         this.node.removeChildByTag(1000);
         this.rankingScrollView.node.active = false;
         this.scrollViewContent.removeAllChildren();
@@ -168,48 +165,54 @@ cc.Class({
         this.loadingLabel.getComponent(cc.Label).string = "玩命加载中...";
         this.loadingLabel.active = true;
     },
-    fetchFriendData(MAIN_MENU_NUM) {
+    fetchFriendData (MAIN_MENU_NUM){
         this.removeChild();
         this.rankingScrollView.node.active = true;
-        if (CC_WECHATGAME) {
+        if (CC_WECHATGAME){
             wx.getUserInfo({
-                openIdList: ['selfOpenId'],
+                openIdList: ["selfOpenId"],
                 success: (userRes) => {
                     this.loadingLabel.active = false;
-                    console.log('success', userRes.data)
-                    let userData = userRes.data[0];
-                    //取出所有好友数据
+                    console.log("success", userRes.data);
+                    const userData = userRes.data[0];
+
+                    // 取出所有好友数据
                     wx.getFriendCloudStorage({
                         keyList: [MAIN_MENU_NUM],
                         success: res => {
                             console.log("wx.getFriendCloudStorage success", res);
-                            let data = res.data;
+                            const data = res.data;
+
                             data.sort((a, b) => {
-                                if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
+                                if (a.KVDataList.length == 0 && b.KVDataList.length == 0){
                                     return 0;
                                 }
-                                if (a.KVDataList.length == 0) {
+                                if (a.KVDataList.length == 0){
                                     return 1;
                                 }
-                                if (b.KVDataList.length == 0) {
+                                if (b.KVDataList.length == 0){
                                     return -1;
                                 }
+
                                 return b.KVDataList[0].value - a.KVDataList[0].value;
                             });
-                            for (let i = 0; i < data.length; i++) {
-                                var playerInfo = data[i];
-                                var item = cc.instantiate(this.prefabRankItem);
-                                item.getComponent('RankItem').init(i, playerInfo);
+                            for (let i = 0; i < data.length; i++){
+                                const playerInfo = data[i];
+                                const item = cc.instantiate(this.prefabRankItem);
+
+                                item.getComponent("RankItem").init(i, playerInfo);
                                 this.scrollViewContent.addChild(item);
-                                if (data[i].avatarUrl == userData.avatarUrl) {
-                                    let userItem = cc.instantiate(this.prefabRankItem);
-                                    userItem.getComponent('RankItem').init(i, playerInfo);
+                                if (data[i].avatarUrl == userData.avatarUrl){
+                                    const userItem = cc.instantiate(this.prefabRankItem);
+
+                                    userItem.getComponent("RankItem").init(i, playerInfo);
                                     userItem.y = -354;
                                     this.node.addChild(userItem, 1, 1000);
                                 }
                             }
-                            if (data.length <= 8) {
-                                let layout = this.scrollViewContent.getComponent(cc.Layout);
+                            if (data.length <= 8){
+                                const layout = this.scrollViewContent.getComponent(cc.Layout);
+
                                 layout.resizeMode = cc.Layout.ResizeMode.NONE;
                             }
                         },
@@ -225,49 +228,55 @@ cc.Class({
             });
         }
     },
-    fetchGroupFriendData(MAIN_MENU_NUM, shareTicket) {
+    fetchGroupFriendData (MAIN_MENU_NUM, shareTicket){
         this.removeChild();
         this.rankingScrollView.node.active = true;
-        if (CC_WECHATGAME) {
+        if (CC_WECHATGAME){
             wx.getUserInfo({
-                openIdList: ['selfOpenId'],
+                openIdList: ["selfOpenId"],
                 success: (userRes) => {
-                    console.log('success', userRes.data)
-                    let userData = userRes.data[0];
-                    //取出所有好友数据
+                    console.log("success", userRes.data);
+                    const userData = userRes.data[0];
+
+                    // 取出所有好友数据
                     wx.getGroupCloudStorage({
                         shareTicket: shareTicket,
                         keyList: [MAIN_MENU_NUM],
                         success: res => {
                             console.log("wx.getGroupCloudStorage success", res);
                             this.loadingLabel.active = false;
-                            let data = res.data;
+                            const data = res.data;
+
                             data.sort((a, b) => {
-                                if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
+                                if (a.KVDataList.length == 0 && b.KVDataList.length == 0){
                                     return 0;
                                 }
-                                if (a.KVDataList.length == 0) {
+                                if (a.KVDataList.length == 0){
                                     return 1;
                                 }
-                                if (b.KVDataList.length == 0) {
+                                if (b.KVDataList.length == 0){
                                     return -1;
                                 }
+
                                 return b.KVDataList[0].value - a.KVDataList[0].value;
                             });
-                            for (let i = 0; i < data.length; i++) {
-                                var playerInfo = data[i];
-                                var item = cc.instantiate(this.prefabRankItem);
-                                item.getComponent('RankItem').init(i, playerInfo);
+                            for (let i = 0; i < data.length; i++){
+                                const playerInfo = data[i];
+                                const item = cc.instantiate(this.prefabRankItem);
+
+                                item.getComponent("RankItem").init(i, playerInfo);
                                 this.scrollViewContent.addChild(item);
-                                if (data[i].avatarUrl == userData.avatarUrl) {
-                                    let userItem = cc.instantiate(this.prefabRankItem);
-                                    userItem.getComponent('RankItem').init(i, playerInfo);
+                                if (data[i].avatarUrl == userData.avatarUrl){
+                                    const userItem = cc.instantiate(this.prefabRankItem);
+
+                                    userItem.getComponent("RankItem").init(i, playerInfo);
                                     userItem.y = -354;
                                     this.node.addChild(userItem, 1, 1000);
                                 }
                             }
-                            if (data.length <= 8) {
-                                let layout = this.scrollViewContent.getComponent(cc.Layout);
+                            if (data.length <= 8){
+                                const layout = this.scrollViewContent.getComponent(cc.Layout);
+
                                 layout.resizeMode = cc.Layout.ResizeMode.NONE;
                             }
                         },
@@ -284,62 +293,71 @@ cc.Class({
         }
     },
 
-    gameOverRank(MAIN_MENU_NUM) {
+    gameOverRank (MAIN_MENU_NUM){
         this.removeChild();
         this.gameOverRankLayout.active = true;
-        if (CC_WECHATGAME) {
+        if (CC_WECHATGAME){
             wx.getUserInfo({
-                openIdList: ['selfOpenId'],
+                openIdList: ["selfOpenId"],
                 success: (userRes) => {
-                    cc.log('success', userRes.data)
-                    let userData = userRes.data[0];
-                    //取出所有好友数据
+                    cc.log("success", userRes.data);
+                    const userData = userRes.data[0];
+
+                    // 取出所有好友数据
                     wx.getFriendCloudStorage({
                         keyList: ["win","lose"],
                         success: res => {
                             cc.log("wx.getFriendCloudStorage success", res);
                             this.loadingLabel.active = false;
-                            let data = res.data;
+                            const data = res.data;
+
                             data.sort((a, b) => {
-                                if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
+                                if (a.KVDataList.length == 0 && b.KVDataList.length == 0){
                                     return 0;
                                 }
-                                if (a.KVDataList.length == 0) {
+                                if (a.KVDataList.length == 0){
                                     return 1;
                                 }
-                                if (b.KVDataList.length == 0) {
+                                if (b.KVDataList.length == 0){
                                     return -1;
                                 }
+
                                 return b.KVDataList[0].value - a.KVDataList[0].value;
                             });
-                            for (let i = 0; i < data.length; i++) {
-                                if (data[i].avatarUrl == userData.avatarUrl) {
-                                    if ((i - 1) >= 0) {
-                                        if ((i + 1) >= data.length && (i - 2) >= 0) {
-                                            let userItem = cc.instantiate(this.prefabGameOverRank);
-                                            userItem.getComponent('GameOverRank').init(i - 2, data[i - 2]);
+                            for (let i = 0; i < data.length; i++){
+                                if (data[i].avatarUrl == userData.avatarUrl){
+                                    if ((i - 1) >= 0){
+                                        if ((i + 1) >= data.length && (i - 2) >= 0){
+                                            const userItem = cc.instantiate(this.prefabGameOverRank);
+
+                                            userItem.getComponent("GameOverRank").init(i - 2, data[i - 2]);
                                             this.gameOverRankLayout.addChild(userItem);
                                         }
-                                        let userItem = cc.instantiate(this.prefabGameOverRank);
-                                        userItem.getComponent('GameOverRank').init(i - 1, data[i - 1]);
+                                        const userItem = cc.instantiate(this.prefabGameOverRank);
+
+                                        userItem.getComponent("GameOverRank").init(i - 1, data[i - 1]);
                                         this.gameOverRankLayout.addChild(userItem);
                                     } else {
-                                        if ((i + 2) >= data.length) {
-                                            let node = new cc.Node();
+                                        if ((i + 2) >= data.length){
+                                            const node = new cc.Node();
+
                                             node.width = 200;
                                             this.gameOverRankLayout.addChild(node);
                                         }
                                     }
-                                    let userItem = cc.instantiate(this.prefabGameOverRank);
-                                    userItem.getComponent('GameOverRank').init(i, data[i], true);
+                                    const userItem = cc.instantiate(this.prefabGameOverRank);
+
+                                    userItem.getComponent("GameOverRank").init(i, data[i], true);
                                     this.gameOverRankLayout.addChild(userItem);
-                                    if ((i + 1) < data.length) {
-                                        let userItem = cc.instantiate(this.prefabGameOverRank);
-                                        userItem.getComponent('GameOverRank').init(i + 1, data[i + 1]);
+                                    if ((i + 1) < data.length){
+                                        const userItem = cc.instantiate(this.prefabGameOverRank);
+
+                                        userItem.getComponent("GameOverRank").init(i + 1, data[i + 1]);
                                         this.gameOverRankLayout.addChild(userItem);
-                                        if ((i - 1) < 0 && (i + 2) < data.length) {
-                                            let userItem = cc.instantiate(this.prefabGameOverRank);
-                                            userItem.getComponent('GameOverRank').init(i + 2, data[i + 2]);
+                                        if ((i - 1) < 0 && (i + 2) < data.length){
+                                            const userItem = cc.instantiate(this.prefabGameOverRank);
+
+                                            userItem.getComponent("GameOverRank").init(i + 2, data[i + 2]);
                                             this.gameOverRankLayout.addChild(userItem);
                                         }
                                     }

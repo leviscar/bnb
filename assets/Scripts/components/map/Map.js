@@ -13,14 +13,14 @@ const I_SPEED  = 102;
 const I_POWER  = 103;
 const I_SCORE  = 104;
 
-let itemList = [];
+const itemList = [];
 let prefabList  = {};
-let roleObj = {};
+const roleObj = {};
 let roleInfos = [];
-//道具计数
+// 道具计数
 let bombAddScoreMaster,bombAddScoreChallenger,speedScoreMaster,speedScoreChallenger,strengthScoreMaster,strengthScoreChallenger;
-//背景音乐
-var bgmMusic;
+// 背景音乐
+let bgmMusic;
 
 cc.Class({
     extends: cc.Component,
@@ -28,8 +28,6 @@ cc.Class({
         requireComponent: cc.TiledMap
     },
     properties: {
-
-        // 这个属性引用了星星预制资源
         // 主角预制资源
         masterPrefab: cc.Prefab,
         // 挑战者预制资源
@@ -50,9 +48,9 @@ cc.Class({
         addBombPrefab: cc.Prefab,
         // 增加威力预制道具
         strengthPrefab: cc.Prefab,
-        //角色被炸效果
+        // 角色被炸效果
         roleBoomPrefab: cc.Prefab,
-        //小怪物
+        // 小怪物
         monsterPrefab: cc.Prefab,
         monsterGrayPrefab: cc.Prefab,
         
@@ -61,8 +59,6 @@ cc.Class({
         
         // 结束页面
         endPage: cc.Node,
-
-        player:  cc.Node,
 
         cameraContatiner: cc.Node,
         background: cc.Node,
@@ -80,42 +76,29 @@ cc.Class({
         strengthScoreMasterDisplay: cc.Label,
         strengthScoreChallengerDisplay: cc.Label,
 
-
-        // mapItemX: 0,
-        // mapItemY: 0,
-        // mapDataLen: 0,
-
         gameTime: 0,
         masterScore: 0,
         challengerScore: 0,
 
-        //背景音乐
+        // 背景音乐
         bgmAudio:cc.AudioClip,
-
-        //吃礼物音乐
         giftAudio:cc.AudioClip,
-
-        //怪物被炸音乐
         monsterBoomAudio:cc.AudioClip,
-
-        //人物被炸音乐
         roleBoomAudio:cc.AudioClip,
-        
-        //泡泡爆炸音乐
         paopaoBoomAudio:cc.AudioClip,
 
     },
     
-    onLoad: function(){
-        let self = this;
-        let socket = com.socket;
+    onLoad: function (){
+        const self = this;
+        const socket = com.socket;
 
         this.mapItemX = 32;
         this.mapItemY = 32;
 
         roleInfos = [];
 
-        //道具计数
+        // 道具计数
         bombAddScoreMaster = 0;
         bombAddScoreChallenger = 0;
         speedScoreMaster = 0;
@@ -124,9 +107,7 @@ cc.Class({
         strengthScoreChallenger = 0;
 
         prefabList = {
-            // 地面预制资源 GROUND : 10
-            // 0: self.groudPrefab,
-
+            // 炸弹预制资源
             100: self.bombPrefab,
 
             // 墙预制资源 S_W_1
@@ -148,7 +129,7 @@ cc.Class({
             103: self.strengthPrefab,
             104: self.strengthPrefab,
 
-            //小怪物
+            // 小怪物
             997:self.monsterPrefab,
 
             // 角色爆炸
@@ -169,7 +150,7 @@ cc.Class({
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
 
-        this.background.setScale(com.windowSize.width/960,com.windowSize.height/640);
+        this.background.setScale(com.windowSize.width / 960,com.windowSize.height / 640);
 
         try {
             this.socketHandle(roleObj,socket,self);
@@ -177,8 +158,8 @@ cc.Class({
             this.drawMap(com.mapInfo.arr);
             this.roleInit();
             this.keyInit();
-            this.mapBG.width = com.mapInfo.arr[0].length*this.mapItemX;
-            this.mapBG.height = com.mapInfo.arr.length*this.mapItemY;
+            this.mapBG.width = com.mapInfo.arr[0].length * this.mapItemX;
+            this.mapBG.height = com.mapInfo.arr.length * this.mapItemY;
             if(wx){
                 // 头像显示有bug，调用两次函数可以解决这个bug
                 // 治标不治本，再研究
@@ -186,36 +167,35 @@ cc.Class({
                 this.loadAvatar(com.userInfos);
             }
             
-        } catch (error) {
+        } catch (error){
             console.error(error);
         }
-        
-       
 
     },
 
-    start: function () {
-        let self = this;
-        //播放背景音乐
+    start: function (){
+        const self = this;
+
+        // 播放背景音乐
         bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
         
         this.mapInit();  
-        
 
         // 按照帧率移动
-        this.roleMoveInterval = setInterval(function(){
-            let data = roleInfos;
-            if(data == null || data.length ==0){
+        this.roleMoveInterval = setInterval(function (){
+            const data = roleInfos;
+
+            if(data == null || data.length == 0){
                 clearInterval(self.roleMoveInterval);
             }
-            data.forEach(function(val){
-                let position = cc.p(val.position.x,val.position.y);
+            data.forEach(function (val){
+                const position = cc.p(val.position.x,val.position.y);
 
                 // roleObj[val.name].setPosition(position);
                 roleObj[val.name].stopAllActions();
-                roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
+                roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
 
-                if(val.gameTime>=0){
+                if(val.gameTime >= 0){
                     self.gameTime = val.gameTime;
                 }
                 
@@ -225,23 +205,25 @@ cc.Class({
                     self.challengerScore = val.score;
                 }
 
-                let monsterInfos = com.monsterInfos;
-                monsterInfos.forEach(function(val){
-                    let position = cc.p(val.position.x,val.position.y);
+                const monsterInfos = com.monsterInfos;
+
+                monsterInfos.forEach(function (val){
+                    const position = cc.p(val.position.x,val.position.y);
+
                     roleObj[val.name].stopAllActions();
-                    roleObj[val.name].runAction(cc.moveTo((1/com.FPS),position));
+                    roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
                 });
             });
-        },1000/com.FPS);
-        
+        },1000 / com.FPS);
 
     },
 
     // 加载头像
-    loadAvatar: function (userInfos) {
-        for (let index in userInfos) {
-            let tag = "score"+(parseInt(index)+1)+"/avatar";
-            cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex) {
+    loadAvatar: function (userInfos){
+        for (const index in userInfos){
+            const tag = "score" + (parseInt(index) + 1) + "/avatar";
+
+            cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex){
             //   cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
             //   let spriteFrame = cc.find(tag).getComponent(cc.Sprite).spriteFrame;
                 cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
@@ -253,11 +235,14 @@ cc.Class({
     },
 
     // 开始场景
-    mapInit: function () {
-        let cameraAction,duration = 5 ,delayTime = 3;
+    mapInit: function (){
+        const duration = 5;
+        const delayTime = 3;
+        let cameraAction;
+
         this.node.setScale(cc.v2(0.7,0.7));
         this.cameraContatiner.setPosition(cc.p(360,280));
-        let mapAction = cc.sequence(
+        const mapAction = cc.sequence(
             // cc.scaleTo(2,0.7,0.7),
             cc.delayTime(3),
             cc.scaleTo(duration,1.68,1.68)
@@ -281,56 +266,56 @@ cc.Class({
         this.node.runAction(mapAction);
         this.cameraContatiner.runAction(cameraAction);
 
-        this.scheduleOnce(function() {
+        this.scheduleOnce(function (){
             com.moveMap = false;
-        }, (delayTime+duration+1));
+        }, (delayTime + duration + 1));
     },
 
     // 角色位置初始化
-    roleInit: function () {
-        let masterPos,challengerPos,monsterPos0,monsterPos1;
-
-        masterPos = cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y);
-        challengerPos = cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y);
-        monsterPos0 = cc.p(com.mapInfo.monsterStartPointArr[0].x,com.mapInfo.monsterStartPointArr[0].y);
-        monsterPos1 = cc.p(com.mapInfo.monsterStartPointArr[1].x,com.mapInfo.monsterStartPointArr[1].y);
+    roleInit: function (){
+        const masterPos = cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y);
+        const challengerPos = cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y);
+        const monsterPos0 = cc.p(com.mapInfo.monsterStartPointArr[0].x,com.mapInfo.monsterStartPointArr[0].y);
+        const monsterPos1 = cc.p(com.mapInfo.monsterStartPointArr[1].x,com.mapInfo.monsterStartPointArr[1].y);
 
         roleObj["master"]  = this.spawnNewItem(masterPos,this.masterPrefab);
         roleObj["monster0"] = this.spawnNewItem(monsterPos0,this.monsterPrefab);
         roleObj["monster1"] = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
 
-        if(com.userInfos.length>1){
-            roleObj["challenger"]= this.spawnNewItem(challengerPos,this.challengerPrefab);
+        if(com.userInfos.length > 1){
+            roleObj["challenger"] = this.spawnNewItem(challengerPos,this.challengerPrefab);
         }
     },
 
     // 键盘监听事件初始化
-    keyInit: function () {
+    keyInit: function (){
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
     },
 
     // 在地图上生成新item
-    spawnNewItem: function(pos,prefab) {
-        let item = cc.instantiate(prefab);
+    spawnNewItem: function (pos,prefab){
+        const item = cc.instantiate(prefab);
+
         this.node.addChild(item);
         item.setPosition(pos);
+
         return item;
     },
 
     // 绘制背景地图
-    drawMapBG: function (data) {
+    drawMapBG: function (data){
         let pos,axisObj;
 
-        if(!data||data.length === 0) return false;
+        if(!data || data.length === 0) return false;
         this.mapDataLen = data.length;
 
-        for(let i=0;i<data.length;i++){
-            for(let j=0;j<data[0].length;j++){
+        for(let i = 0;i < data.length;i++){
+            for(let j = 0;j < data[0].length;j++){
                 // 初始化itemList
                 itemList[j] = []; 
                 axisObj = this.transAxis(data.length,i,j);
-                pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+                pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
                 // this.spawnNewItem(pos,this.groudPrefab);
                 
                 if(data[i][j] === S_W_1)  this.spawnNewItem(pos,this.blockPrefab);
@@ -339,16 +324,17 @@ cc.Class({
     },
 
     // 绘制地图上的物体
-    drawMap: function (data) {
+    drawMap: function (data){
         let pos,axisObj;
-        if(!data||data.length === 0) return false;
 
-        for(let i=0;i<data.length;i++){
-            for(let j=0;j<data[0].length;j++){
+        if(!data || data.length === 0) return false;
+
+        for(let i = 0;i < data.length;i++){
+            for(let j = 0;j < data[0].length;j++){
                 axisObj = this.transAxis(data.length,i,j);
-                pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
-                if(data[i][j]!==GROUND&&data[i][j]!=S_W_1){
-                    itemList[i][j]=this.spawnNewItem(pos,prefabList[data[i][j]]);
+                pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
+                if(data[i][j] !== GROUND && data[i][j] != S_W_1){
+                    itemList[i][j] = this.spawnNewItem(pos,prefabList[data[i][j]]);
                 }                
                 
             }
@@ -356,53 +342,56 @@ cc.Class({
     },
 
     // 移除一组物体(道具或者是墙)
-    dropItem: function (arr) {
-        if(!arr||arr.length===0) return false;
-        for(let i=0;i<arr.length;i++){
+    dropItem: function (arr){
+        if(!arr || arr.length === 0) return false;
+        for(let i = 0;i < arr.length;i++){
             this.node.removeChild(itemList[arr[i].x][arr[i].y]);
             itemList[arr[i].x][arr[i].y] = null;
         }
     } ,
 
     // 增加一组物体(道具或者是墙)
-    addItem: function (arr) {
+    addItem: function (arr){
         let pos,axisObj;
-        if(!arr||arr.length===0) return false;
-        for(let i=0;i<arr.length;i++){
+
+        if(!arr || arr.length === 0) return false;
+        for(let i = 0;i < arr.length;i++){
             axisObj = this.transAxis(this.mapDataLen,arr[i].x,arr[i].y);
-            pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+            pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
             itemList[arr[i].x][arr[i].y] = this.spawnNewItem(pos,prefabList[arr[i].itemCode]);
         }
     },
 
     // 添加炸弹
-    addBoom: function (obj) {
-        let pos,axisObj;
+    addBoom: function (obj){
         if(!obj) return false;
  
-        axisObj = this.transAxis(this.mapDataLen,obj.position.x,obj.position.y);
-        pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+        const axisObj = this.transAxis(this.mapDataLen,obj.position.x,obj.position.y);
+        const pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
+        
         itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,prefabList[100]);
 
     },
 
     // 增加角色爆炸效果
-    addRoleBoom: function (obj) {
+    addRoleBoom: function (obj){
         if(!obj) return false;
-        let pos = cc.p(obj.x,obj.y);
+        const pos = cc.p(obj.x,obj.y);
+
         this.spawnNewItem(pos,prefabList[998]);
     },
 
     // 爆炸动作
-    boomAction: function (arr) {
+    boomAction: function (arr){
         let pos,axisObj;
-        if(!arr||arr.length===0) return false;
-        for(let i=0;i<arr.length;i++){
+
+        if(!arr || arr.length === 0) return false;
+        for(let i = 0;i < arr.length;i++){
             axisObj = this.transAxis(this.mapDataLen,arr[i].x,arr[i].y);
-            pos = cc.p(this.mapItemX*axisObj.x,this.mapItemY*axisObj.y);
+            pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
             itemList[arr[i].x][arr[i].y] = this.spawnNewItem(pos,prefabList[999]);
         }
-        this.scheduleOnce(function() {
+        this.scheduleOnce(function (){
             // 这里的 this 指向 component
             this.dropItem(arr);
         }, 0.2);
@@ -410,28 +399,31 @@ cc.Class({
     },
 
     // 后台二维数组索引 转为 世界坐标系
-    transAxis: function (len,x,y) {
-        let axisObj ={};
+    transAxis: function (len,x,y){
+        const axisObj = {};
+
         axisObj.x = y;
-        axisObj.y = len-x-1;
+        axisObj.y = len - x - 1;
+
         return axisObj;
     },
 
     // socket事件
-    socketHandle: function (roleObj,socket,self) {
-        let moveAction ={};
+    socketHandle: function (roleObj,socket,self){
+        const moveAction = {};
+
         try {
-            socket.on("roleInfo",function(data){
+            socket.on("roleInfo",function (data){
                 roleInfos = data;
             });
 
-            socket.on("monsterInfo",function(data){
+            socket.on("monsterInfo",function (data){
                 com.monsterInfos = data;
             });
     
-            socket.on("itemEaten",function(data){
-                console.log("item eaten"+ data);
-                if(data.role === "master"||data.role === "challenger"){
+            socket.on("itemEaten",function (data){
+                console.log("item eaten" + data);
+                if(data.role === "master" || data.role === "challenger"){
                     cc.audioEngine.playEffect(self.giftAudio,false);
                 }
                 self.node.removeChild(itemList[data.x][data.y]);
@@ -460,8 +452,7 @@ cc.Class({
                 }
             });
     
-    
-            socket.on("boomInfo",function (data) {
+            socket.on("boomInfo",function (data){
                 // console.log(data);
                 cc.audioEngine.playEffect(self.paopaoBoomAudio,false);
                 self.dropItem(data.boomPaopaoArr);
@@ -470,36 +461,37 @@ cc.Class({
                 self.boomAction(data.boomXYArr);
             });
     
-            socket.on("paopaoCreated",function (data) {
+            socket.on("paopaoCreated",function (data){
                 self.addBoom(data);
             });
     
-            socket.on("roleBoom",function(data){
+            socket.on("roleBoom",function (data){
                 cc.audioEngine.playEffect(self.roleBoomAudio,false);
                 self.addRoleBoom(data);
             });
 
-            socket.on("monsterBoom",function(data){
-                console.log(data.name+"Boom"); 
+            socket.on("monsterBoom",function (data){
+                console.log(data.name + "Boom"); 
                 cc.audioEngine.playEffect(self.monsterBoomAudio,false);
                 self.node.removeChild(roleObj[data.name]);
             });
 
-        } catch (error) {
+        } catch (error){
             console.error(error);
         }
     },
 
-    onDestroy () {
+    onDestroy (){
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         cc.audioEngine.stop(bgmMusic);
         roleInfos = [];
     },
 
-    onKeyDown: function (event) {
-        let socket = com.socket;
-        switch(event.keyCode) {
+    onKeyDown: function (event){
+        const socket = com.socket;
+
+        switch(event.keyCode){
         case cc.KEY.a:
             socket.emit("KeyDown",event.keyCode);
             break;
@@ -519,9 +511,10 @@ cc.Class({
         }
     },
 
-    onKeyUp: function (event) {
-        let socket = com.socket;
-        switch(event.keyCode) {
+    onKeyUp: function (event){
+        const socket = com.socket;
+
+        switch(event.keyCode){
         case cc.KEY.a:
             socket.emit("KeyUp",event.keyCode);
             break;
@@ -537,21 +530,22 @@ cc.Class({
         }
     },
 
-    transTime: function (data) {
-        if(data<0) return false;
-        return data<10?"0"+data:data;  
+    transTime: function (data){
+        if(data < 0) return false;
+
+        return data < 10 ? "0" + data : data;  
     },
 
-    update (dt) {
-        this.timerDisplay.string = this.transTime(parseInt(this.gameTime/60))+":"+this.transTime(this.gameTime%60);
+    update (dt){
+        this.timerDisplay.string = this.transTime(parseInt(this.gameTime / 60)) + ":" + this.transTime(this.gameTime % 60);
         this.masterScoreDisplay.string = this.masterScore.toString();
         this.challengerScoreDisplay.string = this.challengerScore.toString();
-        this.bombAddScoreMasterDisplay.string = bombAddScoreMaster+"";
-        this.bombAddScoreChallengerDisplay.string = bombAddScoreChallenger+"";
-        this.speedScoreMasterDisplay.string = speedScoreMaster+"";
-        this.speedScoreChallengerDisplay.string = speedScoreChallenger+"";
-        this.strengthScoreMasterDisplay.string = strengthScoreMaster+"";
-        this.strengthScoreChallengerDisplay.string =strengthScoreChallenger+"";
+        this.bombAddScoreMasterDisplay.string = bombAddScoreMaster + "";
+        this.bombAddScoreChallengerDisplay.string = bombAddScoreChallenger + "";
+        this.speedScoreMasterDisplay.string = speedScoreMaster + "";
+        this.speedScoreChallengerDisplay.string = speedScoreChallenger + "";
+        this.strengthScoreMasterDisplay.string = strengthScoreMaster + "";
+        this.strengthScoreChallengerDisplay.string = strengthScoreChallenger + "";
     }
 
 });

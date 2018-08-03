@@ -9,7 +9,7 @@ cc.Class({
         itemID: 0
     },
 
-    updateItem: function(roomData) {
+    updateItem: function (roomData){
         this.label.string = roomData.roomName;
         
         if(roomData.isFull){
@@ -17,16 +17,16 @@ cc.Class({
             this.button.interactable = false;
         }else{
             try {
-                this.node.on('touchend', function () {
+                this.node.on("touchend", function (){
                     // console.log("Room " + this.itemID + ' clicked');
-                    com.socket.role = 'challenger';
+                    com.socket.role = "challenger";
                     com.roomId = roomData.roomName;
                     com.socket.emit("joinRoom",{roomId:roomData.roomName,userInfo:com.userInfo});
                     com.isMaster = false;
                     
                 }, this);
-            } catch (error) {
-                console.error(error)
+            } catch (error){
+                console.error(error);
             }
         }
         

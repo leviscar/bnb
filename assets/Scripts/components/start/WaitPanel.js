@@ -10,75 +10,73 @@ module.exports = cc.Class({
         player1: cc.Sprite,
         player2: cc.Sprite
     },
-    onLoad: function () {
+    onLoad: function (){
         // this.loadAvatar = this.loadAvatar.bind(this);
 
-        this.shareBtn.node.on('click',this.wxShare,this);
-        this.startBtn.node.on('click',this.gameStart,this);
-        this.node.on('loadMasterAvatar',this.loadMasterAvatar,this);
-        this.node.on('loadChallengerAvatar',this.loadChallengerAvatar,this);
+        this.shareBtn.node.on("click",this.wxShare,this);
+        this.startBtn.node.on("click",this.gameStart,this);
+        this.node.on("loadMasterAvatar",this.loadMasterAvatar,this);
+        this.node.on("loadChallengerAvatar",this.loadChallengerAvatar,this);
 
-        let self = this;
-        com.socket.on('deleteRoom',function(data){
-            console.log('deleteRoom client')
-            self.node.emit('fade-out');
+        const self = this;
+
+        com.socket.on("deleteRoom",function (data){
+            console.log("deleteRoom client");
+            self.node.emit("fade-out");
             com.userInfos = [];
-        })
+        });
     },
 
     hide: function (){
-        com.socket.emit('deleteRoom');
+        com.socket.emit("deleteRoom");
     },
     
     // 微信分享
-    wxShare: function () {
-        console.log('share');
+    wxShare: function (){
+        console.log("share");
         try {
             if(wx){
-                var queryString = 'roomName='+com.roomId;
-                cc.loader.loadRes('share/share.png',function (err,data) {
+                const queryString = "roomName=" + com.roomId;
+
+                cc.loader.loadRes("share/share.png",function (err,data){
                     wx.shareAppMessage({
-                        title: '不怕，就来PK',
+                        title: "不怕，就来PK",
                         imageUrl: data.url,
                         query: queryString,
-                        success(res){
-                            console.log('转发成功');
+                        success (res){
+                            console.log("转发成功");
                         },
-                        fail(res){
-                            console.log('转发失败');
+                        fail (res){
+                            console.log("转发失败");
                         }
-                    })
-                })
+                    });
+                });
             }
-        } catch (error) {
-            console.error(error)
+        } catch (error){
+            console.error(error);
         }
     },
 
     // 开始游戏
-    gameStart: function () {
-        console.log('start');
+    gameStart: function (){
+        console.log("start");
         try {
             com.socket.emit("startGame");
-        } catch (error) {
-            console.error(error)
+        } catch (error){
+            console.error(error);
         }
     },
 
     // 加载房主头像
-    loadMasterAvatar: function () {
-        cc.loader.load(com.userInfos[0].avatarUrl + "?aaa=aa.png", function (err, tex) {
-            // cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
-            // console.log(cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame);
-            cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-            // cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame.getTexture().width = 60;
-            // cc.find('Canvas/waitPanel/player1').getComponent(cc.Sprite).spriteFrame.getTexture().height = 60;
+    loadMasterAvatar: function (){
+        cc.loader.load(com.userInfos[0].avatarUrl + "?aaa=aa.png", function (err, tex){
+            cc.find("Canvas/waitPanel/player1").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
         });
     },
 
-    loadChallengerAvatar: function () {
-        cc.loader.load(com.userInfos[1].avatarUrl + "?aaa=aa.png", function (err, tex) {
-            cc.find('Canvas/waitPanel/player2').getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
+    loadChallengerAvatar: function (){
+        cc.loader.load(com.userInfos[1].avatarUrl + "?aaa=aa.png", function (err, tex){
+            cc.find("Canvas/waitPanel/player2").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
         });
     }
 });

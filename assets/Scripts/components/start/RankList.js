@@ -6,13 +6,13 @@ cc.Class({
         rankListPanel: cc.Sprite
     },
 
-    onLoad: function() {
+    onLoad: function (){
         this.node.active = false;
-        this.node.on('fade-in',this.show,this);
+        this.node.on("fade-in",this.show,this);
     },
 
-    start: function(){
-        if (CC_WECHATGAME) {
+    start: function (){
+        if (CC_WECHATGAME){
             this.tex = new cc.Texture2D();
             window.sharedCanvas.width = 720;
             window.sharedCanvas.height = 1280;
@@ -26,20 +26,20 @@ cc.Class({
         }
     },
     
-    show: function() {
+    show: function (){
         this.node.active = !this.node.active;
     },
 
     // 刷新子域的纹理
-    _updateSubDomainCanvas() {
-        if (window.sharedCanvas != undefined) {
+    _updateSubDomainCanvas (){
+        if (window.sharedCanvas != undefined){
             this.tex.initWithElement(window.sharedCanvas);
             this.tex.handleLoadedTexture();
             this.rankListPanel.spriteFrame = new cc.SpriteFrame(this.tex);
         }
     },
 
-    update() {
+    update (){
         this._updateSubDomainCanvas();
     },
 });

@@ -5,9 +5,9 @@ cc.Class({
         rankingScrollView: cc.Sprite
     },
 
-    start: function(){
-        if (CC_WECHATGAME) {
-            window.wx.showShareMenu({withShareTicket: true});//设置分享按钮，方便获取群id展示群排行榜
+    start: function (){
+        if (CC_WECHATGAME){
+            window.wx.showShareMenu({withShareTicket: true});// 设置分享按钮，方便获取群id展示群排行榜
             this.tex = new cc.Texture2D();
             window.sharedCanvas.width = 1000;
             window.sharedCanvas.height = 300;
@@ -22,14 +22,14 @@ cc.Class({
     },
 
     // 刷新子域的纹理
-    _updateSubDomainCanvas() {
-        if (window.sharedCanvas != undefined) {
+    _updateSubDomainCanvas (){
+        if (window.sharedCanvas != undefined){
             this.tex.initWithElement(window.sharedCanvas);
             this.tex.handleLoadedTexture();
             this.rankingScrollView.spriteFrame = new cc.SpriteFrame(this.tex);
         }
     },
-    update() {
+    update (){
         this._updateSubDomainCanvas();
     },
   
