@@ -14,13 +14,11 @@ const I_POWER  = 103;
 const I_SCORE  = 104;
 
 const itemList = [];
-let prefabList  = {};
+const score = [0,0,0,0,0,0];
 const roleObj = {};
+let prefabList  = {};
 let roleInfos = [];
-// 道具计数
-let bombAddScoreMaster,bombAddScoreChallenger,speedScoreMaster,speedScoreChallenger,strengthScoreMaster,strengthScoreChallenger;
-// 背景音乐
-let bgmMusic;
+let bgmMusic = null;
 
 cc.Class({
     extends: cc.Component,
@@ -53,33 +51,23 @@ cc.Class({
         // 小怪物
         monsterPrefab: cc.Prefab,
         monsterGrayPrefab: cc.Prefab,
-        
-        // map背景
+        // Node
         mapBG: cc.Node,
-        
-        // 结束页面
         endPage: cc.Node,
-
         cameraContatiner: cc.Node,
         background: cc.Node,
         // 放置炸弹按钮
         bombBtn: cc.Button,
-
+        // Labels
         timerDisplay:cc.Label,
         masterScoreDisplay: cc.Label,
         challengerScoreDisplay:cc.Label,
-
         bombAddScoreMasterDisplay: cc.Label,
         bombAddScoreChallengerDisplay: cc.Label,
         speedScoreMasterDisplay: cc.Label,
         speedScoreChallengerDisplay: cc.Label,
         strengthScoreMasterDisplay: cc.Label,
         strengthScoreChallengerDisplay: cc.Label,
-
-        gameTime: 0,
-        masterScore: 0,
-        challengerScore: 0,
-
         // 背景音乐
         bgmAudio:cc.AudioClip,
         giftAudio:cc.AudioClip,
@@ -95,16 +83,10 @@ cc.Class({
 
         this.mapItemX = 32;
         this.mapItemY = 32;
-
+        this.gameTime = 0;
+        this.masterScore = 0;
+        this.challengerScore = 0;
         roleInfos = [];
-
-        // 道具计数
-        bombAddScoreMaster = 0;
-        bombAddScoreChallenger = 0;
-        speedScoreMaster = 0;
-        speedScoreChallenger = 0;
-        strengthScoreMaster = 0;
-        strengthScoreChallenger = 0;
 
         prefabList = {
             // 炸弹预制资源
@@ -140,30 +122,27 @@ cc.Class({
         };
 
         this.roleInit = this.roleInit.bind(this);
+        this.roleMove = this.roleMove.bind(this);
         this.keyInit = this.keyInit.bind(this);
         this.mapInit = this.mapInit.bind(this);
-        this.drawMapBG = this.drawMapBG.bind(this);
         this.drawMap = this.drawMap.bind(this);
         this.spawnNewItem = this.spawnNewItem.bind(this);
         this.dropItem = this.dropItem.bind(this);
         this.addItem = this.addItem.bind(this);
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
+        this.updatePanel = this.updatePanel.bind(this);
 
         this.background.setScale(com.windowSize.width / 960,com.windowSize.height / 640);
+        this.mapBG.width = com.mapInfo.arr[0].length * this.mapItemX;
+        this.mapBG.height = com.mapInfo.arr.length * this.mapItemY;
 
         try {
             this.socketHandle(roleObj,socket,self);
-            this.drawMapBG(com.mapInfo.arr);
             this.drawMap(com.mapInfo.arr);
             this.roleInit();
             this.keyInit();
-            this.mapBG.width = com.mapInfo.arr[0].length * this.mapItemX;
-            this.mapBG.height = com.mapInfo.arr.length * this.mapItemY;
             if(wx){
-                // 头像显示有bug，调用两次函数可以解决这个bug
-                // 治标不治本，再研究
-                this.loadAvatar(com.userInfos);
                 this.loadAvatar(com.userInfos);
             }
             
@@ -180,42 +159,7 @@ cc.Class({
         bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
         
         this.mapInit();  
-
-        // 按照帧率移动
-        this.roleMoveInterval = setInterval(function (){
-            const data = roleInfos;
-
-            if(data == null || data.length == 0){
-                clearInterval(self.roleMoveInterval);
-            }
-            data.forEach(function (val){
-                const position = cc.p(val.position.x,val.position.y);
-
-                // roleObj[val.name].setPosition(position);
-                roleObj[val.name].stopAllActions();
-                roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
-
-                if(val.gameTime >= 0){
-                    self.gameTime = val.gameTime;
-                }
-                
-                if(val.name === "master"){
-                    self.masterScore = val.score;
-                }else if(val.name === "challenger"){
-                    self.challengerScore = val.score;
-                }
-
-                const monsterInfos = com.monsterInfos;
-
-                monsterInfos.forEach(function (val){
-                    const position = cc.p(val.position.x,val.position.y);
-
-                    roleObj[val.name].stopAllActions();
-                    roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
-                });
-            });
-        },1000 / com.FPS);
-
+        this.roleMove();
     },
 
     // 加载头像
@@ -224,8 +168,6 @@ cc.Class({
             const tag = "score" + (parseInt(index) + 1) + "/avatar";
 
             cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex){
-            //   cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
-            //   let spriteFrame = cc.find(tag).getComponent(cc.Sprite).spriteFrame;
                 cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
                 cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().width = 59;
                 cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().height = 59;
@@ -239,15 +181,14 @@ cc.Class({
         const duration = 5;
         const delayTime = 3;
         let cameraAction;
-
-        this.node.setScale(cc.v2(0.7,0.7));
-        this.cameraContatiner.setPosition(cc.p(360,280));
         const mapAction = cc.sequence(
-            // cc.scaleTo(2,0.7,0.7),
             cc.delayTime(3),
             cc.scaleTo(duration,1.68,1.68)
         );
 
+        this.node.setScale(cc.v2(0.7,0.7));
+        this.cameraContatiner.setPosition(cc.p(360,280));
+        
         if(com.isMaster){
             cameraAction = cc.sequence(
                 cc.delayTime(delayTime),
@@ -260,7 +201,6 @@ cc.Class({
             );
         }
 
-        // console.log(cameraAction);
         com.moveMap = true;
         
         this.node.runAction(mapAction);
@@ -287,6 +227,34 @@ cc.Class({
         }
     },
 
+    roleMove: function (){
+        this.roleMoveInterval = setInterval(function (){
+            const roleData = roleInfos;
+            const monsterInfos = com.monsterInfos;
+
+            if(roleData == null || roleData.length == 0){
+                clearInterval(self.roleMoveInterval);
+            }
+
+            roleData.forEach(function (val){
+                const position = cc.p(val.position.x,val.position.y);
+                
+                roleObj[val.name].stopAllActions();
+                roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
+
+                val.gameTime >= 0 ? self.gameTime = val.gameTime : "";
+                val.name === "master" ? score[0] = val.score : score[1] = val.score;
+            });
+
+            monsterInfos.forEach(function (val){
+                const position = cc.p(val.position.x,val.position.y);
+
+                roleObj[val.name].stopAllActions();
+                roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
+            });
+        },1000 / com.FPS);  
+    },
+
     // 键盘监听事件初始化
     keyInit: function (){
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -303,26 +271,6 @@ cc.Class({
         return item;
     },
 
-    // 绘制背景地图
-    drawMapBG: function (data){
-        let pos,axisObj;
-
-        if(!data || data.length === 0) return false;
-        this.mapDataLen = data.length;
-
-        for(let i = 0;i < data.length;i++){
-            for(let j = 0;j < data[0].length;j++){
-                // 初始化itemList
-                itemList[j] = []; 
-                axisObj = this.transAxis(data.length,i,j);
-                pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
-                // this.spawnNewItem(pos,this.groudPrefab);
-                
-                if(data[i][j] === S_W_1)  this.spawnNewItem(pos,this.blockPrefab);
-            }
-        }
-    },
-
     // 绘制地图上的物体
     drawMap: function (data){
         let pos,axisObj;
@@ -331,17 +279,19 @@ cc.Class({
 
         for(let i = 0;i < data.length;i++){
             for(let j = 0;j < data[0].length;j++){
+                itemList[j] = []; 
                 axisObj = this.transAxis(data.length,i,j);
                 pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
                 if(data[i][j] !== GROUND && data[i][j] != S_W_1){
                     itemList[i][j] = this.spawnNewItem(pos,prefabList[data[i][j]]);
+                }else if(data[i][j] === S_W_1){
+                    this.spawnNewItem(pos,this.blockPrefab);
                 }                
-                
             }
         }
     },
 
-    // 移除一组物体(道具或者是墙)
+    // 移除一组物体
     dropItem: function (arr){
         if(!arr || arr.length === 0) return false;
         for(let i = 0;i < arr.length;i++){
@@ -350,7 +300,7 @@ cc.Class({
         }
     } ,
 
-    // 增加一组物体(道具或者是墙)
+    // 增加一组物体
     addItem: function (arr){
         let pos,axisObj;
 
@@ -392,7 +342,6 @@ cc.Class({
             itemList[arr[i].x][arr[i].y] = this.spawnNewItem(pos,prefabList[999]);
         }
         this.scheduleOnce(function (){
-            // 这里的 this 指向 component
             this.dropItem(arr);
         }, 0.2);
         
@@ -406,6 +355,12 @@ cc.Class({
         axisObj.y = len - x - 1;
 
         return axisObj;
+    },
+
+    transTime: function (data){
+        if(data < 0) return false;
+
+        return data < 10 ? "0" + data : data;  
     },
 
     // socket事件
@@ -422,38 +377,28 @@ cc.Class({
             });
     
             socket.on("itemEaten",function (data){
-                console.log("item eaten" + data);
+                const isMaster = data.role === "master";
+
                 if(data.role === "master" || data.role === "challenger"){
                     cc.audioEngine.playEffect(self.giftAudio,false);
                 }
                 self.node.removeChild(itemList[data.x][data.y]);
                 itemList[data.x][data.y] = null;
-                if(data.itemCode == I_PAOPAO){
-                    if(data.role === "master"){
-                        bombAddScoreMaster += 1;
-                    }else if(data.role === "challenger"){
-                        bombAddScoreChallenger += 1;
-                        // console.log("item challenger"+ this. bombAddScoreChallenger);
-                    }
-                }else if(data.itemCode == I_SPEED){
-                    if(data.role === "master"){
-                        speedScoreMaster += 1;
-                    }else if(data.role === "challenger"){
-                        speedScoreChallenger += 1;
-                        // console.log("item challenger"+  this.speedScoreChallenger+"");
-                    }
-                }else if(data.itemCode == I_POWER){
-                    if(data.role === "master"){
-                        strengthScoreMaster += 1;
-                    }else if(data.role === "challenger"){
-                        strengthScoreChallenger += 1;
-                        // console.log("item challenger"+  this.strengthScoreChallenger)+"";
-                    }
+
+                switch(data.itemCode){
+                case I_PAOPAO:
+                    isMaster ? score[2] += 1 : score[3] += 1;
+                    break;
+                case I_SPEED:
+                    isMaster ? score[4] += 1 : score[5] += 1;
+                    break;
+                case I_POWER:
+                    isMaster ? score[6] += 1 : score[7] += 1;
+                    break;
                 }
             });
     
             socket.on("boomInfo",function (data){
-                // console.log(data);
                 cc.audioEngine.playEffect(self.paopaoBoomAudio,false);
                 self.dropItem(data.boomPaopaoArr);
                 self.dropItem(data.boomBoxArr);
@@ -471,7 +416,6 @@ cc.Class({
             });
 
             socket.on("monsterBoom",function (data){
-                console.log(data.name + "Boom"); 
                 cc.audioEngine.playEffect(self.monsterBoomAudio,false);
                 self.node.removeChild(roleObj[data.name]);
             });
@@ -479,13 +423,6 @@ cc.Class({
         } catch (error){
             console.error(error);
         }
-    },
-
-    onDestroy (){
-        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-        cc.audioEngine.stop(bgmMusic);
-        roleInfos = [];
     },
 
     onKeyDown: function (event){
@@ -530,22 +467,27 @@ cc.Class({
         }
     },
 
-    transTime: function (data){
-        if(data < 0) return false;
-
-        return data < 10 ? "0" + data : data;  
+    updatePanel: function (){
+        this.timerDisplay.string = this.transTime(parseInt(this.gameTime / 60)) + ":" + this.transTime(this.gameTime % 60);
+        this.masterScoreDisplay.string = score[0];
+        this.challengerScoreDisplay.string = score[1];
+        this.bombAddScoreMasterDisplay.string = score[2];
+        this.bombAddScoreChallengerDisplay.string = score[3];
+        this.speedScoreMasterDisplay.string = score[4];
+        this.speedScoreChallengerDisplay.string = score[5];
+        this.strengthScoreMasterDisplay.string = score[6];
+        this.strengthScoreChallengerDisplay.string = score[7];
     },
 
-    update (dt){
-        this.timerDisplay.string = this.transTime(parseInt(this.gameTime / 60)) + ":" + this.transTime(this.gameTime % 60);
-        this.masterScoreDisplay.string = this.masterScore.toString();
-        this.challengerScoreDisplay.string = this.challengerScore.toString();
-        this.bombAddScoreMasterDisplay.string = bombAddScoreMaster + "";
-        this.bombAddScoreChallengerDisplay.string = bombAddScoreChallenger + "";
-        this.speedScoreMasterDisplay.string = speedScoreMaster + "";
-        this.speedScoreChallengerDisplay.string = speedScoreChallenger + "";
-        this.strengthScoreMasterDisplay.string = strengthScoreMaster + "";
-        this.strengthScoreChallengerDisplay.string = strengthScoreChallenger + "";
+    onDestroy: function (){
+        roleInfos = [];
+        cc.audioEngine.stop(bgmMusic);
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    },
+
+    update: function (){
+        this.updatePanel();
     }
 
 });

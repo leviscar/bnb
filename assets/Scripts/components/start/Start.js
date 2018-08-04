@@ -7,7 +7,7 @@ cc.Class({
         background: cc.Node,
         rankBtn: cc.Button
     },
-
+    
     onLoad: function (){
         const serverAdd = "http://" + com.host + ":" + com.port;
         const socket = window.io(serverAdd);
@@ -144,9 +144,6 @@ cc.Class({
             com.FPS = data.FPS / 2;
             cc.director.loadScene("map");
             com.mapInfo = mapInfo;
-
-            console.log(com.mapInfo.roleStartPointArr);
-            console.log(com.mapInfo.monsterStartPointArr);
         });
     }
 });

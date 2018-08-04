@@ -15,11 +15,11 @@ cc.Class({
         if (CC_WECHATGAME){
             window.wx.onMessage(data => {
                 cc.log("接收主域发来消息：", data);
-                if (data.messageType == 0){// 移除排行榜
+                if (data.messageType == 0){ // 移除排行榜
                     this.removeChild();
-                } else if (data.messageType == 1){// 获取好友排行榜
+                } else if (data.messageType == 1){ // 获取好友排行榜
                     this.fetchFriendData(data.MAIN_MENU_NUM);
-                } else if (data.messageType == 3){// 提交得分
+                } else if (data.messageType == 3){ // 提交得分
                     // this.submitScore(data.MAIN_MENU_NUM, data.score);
                 } else if (data.messageType == 4){// 获取好友排行榜横向排列展示模式
                     this.addWinCount();
@@ -31,9 +31,9 @@ cc.Class({
             });
         } else {
             this.fetchFriendData(1000);
-            // this.gameOverRank(1000);
         }
     },
+
     addWinCount: function (){
         if (CC_WECHATGAME){
             window.wx.getUserCloudStorage({

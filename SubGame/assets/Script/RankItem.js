@@ -34,7 +34,7 @@ cc.Class({
         this.nickLabel.string = nick;
         this.topScoreLabel.string = grade.toString();
     },
-    createImage (avatarUrl){
+    createImage: function (avatarUrl){
         if (CC_WECHATGAME){
             try {
                 const image = wx.createImage();
