@@ -7,7 +7,7 @@ cc.Class({
         background: cc.Node,
         rankBtn: cc.Button
     },
-    
+
     onLoad: function (){
         const serverAdd = "http://" + com.host + ":" + com.port;
         const socket = window.io(serverAdd);
@@ -16,12 +16,12 @@ cc.Class({
         com.windowSize = cc.view.getVisibleSize();
         com.userInfo.guid = this.guid();
 
+        this.background.setScaleX(com.windowSize.width / 960);
+        this.background.setScaleY(com.windowSize.height / 640);
+        
         this.wxHandle = this.wxHandle.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
         this.rankBtn.node.on("click",this.showRankList,this);
-
-        this.background.setScaleX(com.windowSize.width / 960);
-        this.background.setScaleY(com.windowSize.height / 640);
 
         this.socketHandle();
 
@@ -33,6 +33,15 @@ cc.Class({
     },
 
     wxHandle: function (){
+        this.wxGetSetting();
+        this.wxGetUserInfo();
+        this.wxLogin();
+        this.wxGetLaunchOptionsSync();
+        this.wxOnShow();
+        this.wxShare();
+    },
+
+    wxGetSetting: function (){
         wx.getSetting({
             success: (response) => {
                 console.log(response);
@@ -45,8 +54,10 @@ cc.Class({
                     });
                 }
             }
-        });
+        });    
+    },
 
+    wxGetUserInfo: function (){
         wx.getUserInfo({
             success: res => {
                 console.log(res);
@@ -58,7 +69,9 @@ cc.Class({
                 console.log(res);
             }
         });
+    },
 
+    wxLogin: function (){
         wx.login({
             success: function (res){
                 // res.code 为用户的登录凭证
@@ -76,25 +89,29 @@ cc.Class({
                 console.log("用户登录失败！" + res.errMsg);
             }
         });
+    },
 
+    wxGetLaunchOptionsSync: function (){
         wx.getLaunchOptionsSync(res => {
             console.log("wx getLaunchOptionsSync");
             console.log(res);
             if(res.query.roomName){
                 const roomId = res.query.roomName;
-
+    
                 com.socket.role = "challenger";
                 com.isMaster = false;
                 com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
             }
         });
+    },
 
+    wxOnShow: function (){
         wx.onShow(res => {
             console.log("wx onshow");
             console.log(res);
             if(res.query.roomName){
                 const roomId = res.query.roomName;
-
+    
                 com.socket.role = "challenger";
                 com.isMaster = false;
                 com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
