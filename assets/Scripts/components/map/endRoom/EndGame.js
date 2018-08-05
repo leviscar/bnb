@@ -24,7 +24,7 @@ cc.Class({
     },
 
     playAgain: function(){
-        com.socket.emit('playAgain',{userInfo:com.userInfo});
+        com.socket.emit('playAgain',{roomId:com.roomId, userInfo:com.userInfo});
     },
 
     // 显示endGame面板
