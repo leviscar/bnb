@@ -15,6 +15,7 @@ cc.Class({
   
           com.socket = socket;
         }
+        com.socket.removeAllListeners();
         com.windowSize = cc.view.getVisibleSize();
         if(!com.userInfo.guid) com.userInfo.guid = this.guid();
         console.log(com.userInfo.guid);
