@@ -5,7 +5,6 @@ cc.Class({
         duration: 0,
     },
 
-    // use this for initialization
     onLoad: function (){
         this.outOfWorld = cc.p(3000, 0);
         this.node.position = this.outOfWorld;
@@ -37,10 +36,5 @@ cc.Class({
 
     onFadeOutFinish: function (){
         this.node.position = this.outOfWorld;
-    },
-
-    // called every frame, uncomment this function to activate update callback
-    // update: function (dt) {
-
-    // },
+    }
 });

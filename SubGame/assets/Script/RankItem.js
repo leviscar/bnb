@@ -1,6 +1,8 @@
 cc.Class({
     extends: cc.Component,
+    
     name: "RankItem",
+
     properties: {
         backSprite: cc.Node,
         rankLabel: cc.Label,
@@ -11,7 +13,6 @@ cc.Class({
 
     init: function (rank, data){
         const avatarUrl = data.avatarUrl;
-        // let nick = data.nickname.length <= 10 ? data.nickname : data.nickname.substr(0, 10) + "...";
         const nick = data.nickname;
         const grade = data.KVDataList.length != 0 ? data.KVDataList[0].value : 0;
 

@@ -10,7 +10,6 @@ cc.Class({
 
     onLoad: function (){
         this.visibleSize = cc.view.getVisibleSize();
-        // this.initZoomRatio = this.camera.zoomRatio;
         
         try {
             this.target = cc.find("map").getChildByName(com.socket.role);

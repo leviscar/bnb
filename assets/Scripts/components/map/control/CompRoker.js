@@ -1,13 +1,5 @@
 const com = require("../../../Common");
 
-const MoveDirection = cc.Enum({
-    NONE: 0,
-    UP: 1,
-    DOWN: 2,
-    LEFT: 3,
-    RIGHT: 4
-});
-
 cc.Class({
     extends: cc.Component,
 
@@ -79,7 +71,6 @@ cc.Class({
         } catch (error){
             console.error(error);
         }
-        // console.log("cancel");
         this.moveDir = null;
     },
 

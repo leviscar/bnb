@@ -23,9 +23,8 @@ cc.Class({
         this.socketHandle = this.socketHandle.bind(this);
         this.rankBtn.node.on("click",this.showRankList,this);
 
-        this.socketHandle();
-
         try{
+            this.socketHandle();
             this.wxHandle();
         }catch(err){
             console.log("wx error:" + err);

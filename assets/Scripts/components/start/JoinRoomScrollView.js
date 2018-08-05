@@ -18,11 +18,11 @@ cc.Class({
         const self = this;
 
         this.totalCount = 11;
-        this.rooms = []; // array to store spawned items
         this.leftSpacing = 20;
         this.updateTimer = 0;
         this.updateInterval = 0.2;
         this.node.active = false;
+        this.rooms = []; 
         this.updateRoom.bind(self);
     },
     
@@ -36,7 +36,6 @@ cc.Class({
 
         for(let i = 0;i < this.totalCount; ++i){
             const room = cc.instantiate(this.roomPrefab);
-            // let left = (i%3===0)?this.leftSpacing:0;
             const left = (content.width - 3 * room.width) / 4;
 
             content.addChild(room);
@@ -46,13 +45,11 @@ cc.Class({
         } 
     },
 
-    // 显示roomlist面板
     show: function (){
         this.node.active = true;
         this.node.emit("fade-in");
     },
 
-    // 隐藏roomlist面板
     hide: function (){
         this.node.active = false;
         this.node.emit("fade-out");

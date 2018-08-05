@@ -10,15 +10,14 @@ module.exports = cc.Class({
         player1: cc.Sprite,
         player2: cc.Sprite
     },
+
     onLoad: function (){
-        // this.loadAvatar = this.loadAvatar.bind(this);
+        const self = this;
 
         this.shareBtn.node.on("click",this.wxShare,this);
         this.startBtn.node.on("click",this.gameStart,this);
         this.node.on("loadMasterAvatar",this.loadMasterAvatar,this);
         this.node.on("loadChallengerAvatar",this.loadChallengerAvatar,this);
-
-        const self = this;
 
         com.socket.on("deleteRoom",function (data){
             console.log("deleteRoom client");
@@ -31,7 +30,6 @@ module.exports = cc.Class({
         com.socket.emit("deleteRoom");
     },
     
-    // 微信分享
     wxShare: function (){
         console.log("share");
         try {
@@ -57,7 +55,6 @@ module.exports = cc.Class({
         }
     },
 
-    // 开始游戏
     gameStart: function (){
         console.log("start");
         try {
@@ -67,7 +64,6 @@ module.exports = cc.Class({
         }
     },
 
-    // 加载房主头像
     loadMasterAvatar: function (){
         cc.loader.load(com.userInfos[0].avatarUrl + "?aaa=aa.png", function (err, tex){
             cc.find("Canvas/waitPanel/player1").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);

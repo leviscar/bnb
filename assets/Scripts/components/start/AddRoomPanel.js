@@ -9,7 +9,6 @@ cc.Class({
     },
 
     onLoad: function (){
-        // this.editbox.node.on('text-changed', this.editCallback, this);
         this.createBtn.node.on("touchend",this.addRoom,this);
     },
 
@@ -23,10 +22,6 @@ cc.Class({
         this.node.emit("fade-out");
     },
 
-    editCallback: function (){
-        console.log(this.editbox.string);
-    },
-
     addRoom: function (){
         try {
             if(this.editbox.string != ""){
@@ -34,7 +29,6 @@ cc.Class({
                 com.socket.emit("newRoom",{name:this.editbox.string,userInfo:com.userInfo});
                 com.roomId = this.editbox.string;
                 com.isMaster = true;
-                // this.hide();
             }
         } catch (error){
             console.error(error);

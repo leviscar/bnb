@@ -123,12 +123,10 @@ cc.Class({
     submitScore (MAIN_MENU_NUM, score){ // 提交得分
         if (CC_WECHATGAME){
             window.wx.getUserCloudStorage({
-                // 以key/value形式存储
-                keyList: ["win"],
+                keyList: ["win"], // 以key/value形式存储
                 success: function (getres){
                     console.log("getUserCloudStorage", "success", getres);
-                    // 对用户托管数据进行写数据操作
-                    window.wx.setUserCloudStorage({
+                    window.wx.setUserCloudStorage({ // 对用户托管数据进行写数据操作
                         KVDataList: [
                             {key: MAIN_MENU_NUM, value: "" + score},
                             {key: "win", value: "" + score},
@@ -176,7 +174,6 @@ cc.Class({
                     console.log("success", userRes.data);
                     const userData = userRes.data[0];
 
-                    // 取出所有好友数据
                     wx.getFriendCloudStorage({
                         keyList: [MAIN_MENU_NUM],
                         success: res => {
@@ -238,14 +235,14 @@ cc.Class({
                     console.log("success", userRes.data);
                     const userData = userRes.data[0];
 
-                    // 取出所有好友数据
                     wx.getGroupCloudStorage({
                         shareTicket: shareTicket,
                         keyList: [MAIN_MENU_NUM],
                         success: res => {
+                            const data = res.data;
+                            
                             console.log("wx.getGroupCloudStorage success", res);
                             this.loadingLabel.active = false;
-                            const data = res.data;
 
                             data.sort((a, b) => {
                                 if (a.KVDataList.length == 0 && b.KVDataList.length == 0){
@@ -303,7 +300,6 @@ cc.Class({
                     cc.log("success", userRes.data);
                     const userData = userRes.data[0];
 
-                    // 取出所有好友数据
                     wx.getFriendCloudStorage({
                         keyList: ["win","lose"],
                         success: res => {

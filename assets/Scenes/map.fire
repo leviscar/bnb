@@ -646,7 +646,6 @@
     "endPage": {
       "__id__": 18
     },
-    "player": null,
     "cameraContatiner": {
       "__id__": 10
     },
@@ -683,9 +682,6 @@
     "strengthScoreChallengerDisplay": {
       "__id__": 87
     },
-    "gameTime": 0,
-    "masterScore": 0,
-    "challengerScore": 0,
     "bgmAudio": {
       "__uuid__": "0bc2d4c6-0c60-414f-be33-fee44c690ef8"
     },
@@ -3864,11 +3860,9 @@
     "spRokerCenter": {
       "__id__": 97
     },
-    "moveSpeed": 1,
-    "slopeFlag": false,
     "updateFlag": false,
-    "_touching": false,
-    "_touchStartPos": null
+    "touching": false,
+    "touchStartPos": null
   },
   {
     "__type__": "cc.Widget",
