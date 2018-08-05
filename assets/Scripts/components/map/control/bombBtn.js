@@ -3,7 +3,7 @@ const com = require("../../../Common");
 cc.Class({
     extends: cc.Component,
 
-    onLoad (){
+    onLoad: function (){
         const duration = 0.04;
 
         this.node.on("touchend",function (){
@@ -13,14 +13,12 @@ cc.Class({
             this.putBomb();
         },this);
     },
+
     putBomb: function (){
-        console.log("bomd down");
         try {
             com.socket.emit("KeyDown",com.KeyCode.j);
         } catch (error){
             console.error(error);
         }
     }
-
-    // update (dt) {},
 });
