@@ -1,4 +1,4 @@
-const com = require("../../../Common");
+const com = require("../../Common");
 
 module.exports = cc.Class({
     extends: cc.Component,

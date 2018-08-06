@@ -526,10 +526,5 @@ cc.Class({
         cc.audioEngine.stop(bgmMusic);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-    },
-
-    update: function (){
-        // this.updatePanel();
     }
-
 });
