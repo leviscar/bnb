@@ -16,12 +16,17 @@ cc.Class({
         this.socketHandle = this.socketHandle.bind(this);
         this.backStartButton.node.on("click",this.backStart,this);
         this.showOffButton.node.on("click",this.showOff,this);
-
+        this.oneMoreButton.node.on("click",this.playAgain,this);
+        
         try {
             this.socketHandle(self);
         } catch (error){
             console.error(error);
         }
+    },
+
+    playAgain: function (){
+        com.socket.emit("playAgain",{roomId:com.roomId, userInfo:com.userInfo});
     },
 
     /**
