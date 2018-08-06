@@ -14,7 +14,7 @@ const I_POWER  = 103;
 const I_SCORE  = 104;
 
 const itemList = [];
-const score = [0,0,0,0,0,0];
+const score = [0,0,0,0,0,0,0,0];
 const roleObj = {};
 let prefabList  = {};
 let roleInfos = [];
