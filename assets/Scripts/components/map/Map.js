@@ -173,8 +173,8 @@ cc.Class({
 
             cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex){
                 cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-                cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().width = 59;
-                cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().height = 59;
+                // cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().width = 59;
+                // cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().height = 59;
             });
         }
         
