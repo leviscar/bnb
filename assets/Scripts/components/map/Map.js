@@ -133,6 +133,7 @@ cc.Class({
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
         this.updatePanel = this.updatePanel.bind(this);
+        this.updateTime = this.updateTime.bind(this);
 
         this.background.setScale(com.windowSize.width / 960,com.windowSize.height / 640);
         this.mapBG.width = com.mapInfo.arr[0].length * this.mapItemX;
@@ -142,7 +143,6 @@ cc.Class({
             this.socketHandle(roleObj,socket,self);
             this.drawMap(com.mapInfo.arr);
             this.roleInit();
-            this.keyInit();
             if(wx){
                 this.loadAvatar(com.userInfos);
             }
@@ -159,8 +159,9 @@ cc.Class({
         // 播放背景音乐
         bgmMusic = cc.audioEngine.play(self.bgmAudio,true,1);
         
-        this.mapInit();  
-        this.roleMove();
+        this.mapInit();
+        this.keyInit();
+        this.roleMove(self);  
     },
 
     /** 
@@ -237,7 +238,7 @@ cc.Class({
     /** 
      * 角色移动
     */
-    roleMove: function (){
+    roleMove: function (self){
         this.roleMoveInterval = setInterval(function (){
             const roleData = roleInfos;
             const monsterInfos = com.monsterInfos;
@@ -252,8 +253,9 @@ cc.Class({
                 roleObj[val.name].stopAllActions();
                 roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
 
-                val.gameTime >= 0 ? self.gameTime = val.gameTime : "";
                 val.name === "master" ? score[0] = val.score : score[1] = val.score;
+
+                self.updateTime(val.gameTime >= 0 ? val.gameTime : 0);
             });
 
             monsterInfos.forEach(function (val){
@@ -425,6 +427,7 @@ cc.Class({
                     isMaster ? score[6] += 1 : score[7] += 1;
                     break;
                 }
+                self.updatePanel();
             });
     
             socket.on("boomInfo",function (data){
@@ -496,11 +499,17 @@ cc.Class({
         }
     },
 
+    /** 
+     * 更新时间
+    */
+    updateTime: function (gameTime){
+        this.timerDisplay.string = this.transTime(parseInt(gameTime / 60)) + ":" + this.transTime(gameTime % 60);
+    },
+
     /**
      * 更新得分面板
      */
     updatePanel: function (){
-        this.timerDisplay.string = this.transTime(parseInt(this.gameTime / 60)) + ":" + this.transTime(this.gameTime % 60);
         this.masterScoreDisplay.string = score[0];
         this.challengerScoreDisplay.string = score[1];
         this.bombAddScoreMasterDisplay.string = score[2];
@@ -520,7 +529,7 @@ cc.Class({
     },
 
     update: function (){
-        this.updatePanel();
+        // this.updatePanel();
     }
 
 });
