@@ -22,20 +22,26 @@ cc.Class({
         }
     },
 
-    // 显示endGame面板
+    /**
+     * 显示endGame面板
+     */
     show: function (){
         this.node.active = true;
         this.node.emit("fade-in");
         this.node.position = cc.p(com.windowSize.width / 2,com.windowSize.height / 2);
     },
     
-    // 隐藏endGame面板
+    /**
+     * 隐藏endGame面板
+     */
     hide: function (){
         this.node.active = false;
         this.node.emit("fade-out");
     },
 
-    // socket handle
+    /**
+     * socket handle
+     */
     socketHandle: function (self){
         com.socket.on("end",function (data){
             let result = "";
@@ -50,7 +56,9 @@ cc.Class({
         });
     },
 
-    // 炫耀功能
+    /**
+     * 炫耀功能
+     */
     showOff: function (){
         try {
             if(wx){
@@ -71,7 +79,9 @@ cc.Class({
         }
     },
 
-    // 返回大厅
+    /**
+     * 返回大厅
+     */
     backStart: function (){
         cc.director.loadScene("start");
     }

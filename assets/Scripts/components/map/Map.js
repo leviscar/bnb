@@ -22,9 +22,11 @@ let bgmMusic = null;
 
 cc.Class({
     extends: cc.Component,
+
     editor: {
         requireComponent: cc.TiledMap
     },
+
     properties: {
         // 主角预制资源
         masterPrefab: cc.Prefab,
@@ -87,7 +89,6 @@ cc.Class({
         this.masterScore = 0;
         this.challengerScore = 0;
         roleInfos = [];
-
         prefabList = {
             // 炸弹预制资源
             100: self.bombPrefab,
@@ -162,7 +163,9 @@ cc.Class({
         this.roleMove();
     },
 
-    // 加载头像
+    /** 
+     * 加载头像
+    */
     loadAvatar: function (userInfos){
         for (const index in userInfos){
             const tag = "score" + (parseInt(index) + 1) + "/avatar";
@@ -176,7 +179,9 @@ cc.Class({
         
     },
 
-    // 开始场景
+    /** 
+     * 开始场景
+    */
     mapInit: function (){
         const duration = 5;
         const delayTime = 3;
@@ -211,7 +216,9 @@ cc.Class({
         }, (delayTime + duration + 1));
     },
 
-    // 角色位置初始化
+    /** 
+     * 角色位置初始化
+    */
     roleInit: function (){
         const masterPos = cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y);
         const challengerPos = cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y);
@@ -255,13 +262,17 @@ cc.Class({
         },1000 / com.FPS);  
     },
 
-    // 键盘监听事件初始化
+    /**
+     * 键盘监听事件初始化
+     */
     keyInit: function (){
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
     },
 
-    // 在地图上生成新item
+    /**
+     * 在地图上生成新item
+     */
     spawnNewItem: function (pos,prefab){
         const item = cc.instantiate(prefab);
 
@@ -271,7 +282,9 @@ cc.Class({
         return item;
     },
 
-    // 绘制地图上的物体
+    /**
+     * 绘制地图上的物体
+     */
     drawMap: function (data){
         let pos,axisObj;
 
@@ -291,7 +304,9 @@ cc.Class({
         }
     },
 
-    // 移除一组物体
+    /**
+     * 移除一组物体
+     */
     dropItem: function (arr){
         if(!arr || arr.length === 0) return false;
         for(let i = 0;i < arr.length;i++){
@@ -300,7 +315,9 @@ cc.Class({
         }
     } ,
 
-    // 增加一组物体
+    /**
+     * 增加一组物体
+     */
     addItem: function (arr){
         let pos,axisObj;
 
@@ -312,7 +329,9 @@ cc.Class({
         }
     },
 
-    // 添加炸弹
+    /**
+     * 添加炸弹
+     */
     addBoom: function (obj){
         if(!obj) return false;
  
@@ -323,7 +342,9 @@ cc.Class({
 
     },
 
-    // 增加角色爆炸效果
+    /**
+     * 增加角色爆炸效果
+     */
     addRoleBoom: function (obj){
         if(!obj) return false;
         const pos = cc.p(obj.x,obj.y);
@@ -331,7 +352,9 @@ cc.Class({
         this.spawnNewItem(pos,prefabList[998]);
     },
 
-    // 爆炸动作
+    /**
+     * 爆炸动作
+     */
     boomAction: function (arr){
         let pos,axisObj;
 
@@ -347,7 +370,9 @@ cc.Class({
         
     },
 
-    // 后台二维数组索引 转为 世界坐标系
+    /**
+     * 后台二维数组索引 转为 世界坐标系
+     */
     transAxis: function (len,x,y){
         const axisObj = {};
 
@@ -363,7 +388,9 @@ cc.Class({
         return data < 10 ? "0" + data : data;  
     },
 
-    // socket事件
+    /**
+     * socket事件
+     */
     socketHandle: function (roleObj,socket,self){
         const moveAction = {};
 
@@ -467,6 +494,9 @@ cc.Class({
         }
     },
 
+    /**
+     * 更新得分面板
+     */
     updatePanel: function (){
         this.timerDisplay.string = this.transTime(parseInt(this.gameTime / 60)) + ":" + this.transTime(this.gameTime % 60);
         this.masterScoreDisplay.string = score[0];

@@ -13,8 +13,6 @@ cc.Class({
     },
 
     onLoad: function (){
-        this.getDirection = this.getDirection.bind(this);
-        this.updateEvent = this.updateEvent.bind(this);
         this.moveCallback = this.moveCallback.bind(this);
 
         this.spRoker.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
