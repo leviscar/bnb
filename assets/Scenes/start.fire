@@ -1262,7 +1262,9 @@
       "__id__": 30
     },
     "_enabled": true,
-    "_spriteFrame": null,
+    "_spriteFrame": {
+      "__uuid__": "1f6e2d1d-91c1-4aa8-b62e-efe7472857e5"
+    },
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -1339,7 +1341,7 @@
     "target": {
       "__id__": 10
     },
-    "component": "JoinRoomScrollViewControl",
+    "component": "JoinRoomScrollView",
     "handler": "hide",
     "customEventData": ""
   },
@@ -3261,7 +3263,7 @@
     "target": {
       "__id__": 44
     },
-    "component": "AddRoomUI",
+    "component": "AddRoomPanel",
     "handler": "hide",
     "customEventData": ""
   },

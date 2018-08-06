@@ -234,6 +234,9 @@ cc.Class({
         }
     },
 
+    /** 
+     * 角色移动
+    */
     roleMove: function (){
         this.roleMoveInterval = setInterval(function (){
             const roleData = roleInfos;
@@ -289,10 +292,10 @@ cc.Class({
         let pos,axisObj;
 
         if(!data || data.length === 0) return false;
-
+        this.mapDataLen = data.length;
         for(let i = 0;i < data.length;i++){
+            itemList[i] = [];
             for(let j = 0;j < data[0].length;j++){
-                itemList[j] = []; 
                 axisObj = this.transAxis(data.length,i,j);
                 pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
                 if(data[i][j] !== GROUND && data[i][j] != S_W_1){
@@ -339,7 +342,6 @@ cc.Class({
         const pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
         
         itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,prefabList[100]);
-
     },
 
     /**
@@ -511,6 +513,7 @@ cc.Class({
 
     onDestroy: function (){
         roleInfos = [];
+        com.monsterInfos = [];
         cc.audioEngine.stop(bgmMusic);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
