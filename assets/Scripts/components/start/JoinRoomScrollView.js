@@ -6,7 +6,7 @@ cc.Class({
     properties: {
         totalCount: 0,
         roomId:0,
-        spacing: 0, // spacing between each item
+        spacing: 0, 
         leftSpacing: 0,
         roomPrefab: {
             default: null,

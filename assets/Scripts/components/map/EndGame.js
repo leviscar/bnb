@@ -2,12 +2,14 @@ const com = require("../../../Common");
 
 cc.Class({
     extends: cc.Component,
+    
     properties: {
         resultPanel: cc.Label,
         oneMoreButton: cc.Button,
         backStartButton: cc.Button,
         showOffButton: cc.Button
     },
+
     onLoad: function (){
         const self = this;
 

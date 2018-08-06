@@ -30,8 +30,10 @@ cc.Class({
         this.node.active = !this.node.active;
     },
 
-    // 刷新子域的纹理
-    _updateSubDomainCanvas (){
+    /**
+     * 刷新子域的Canvas
+     */
+    updateSubDomainCanvas (){
         if (window.sharedCanvas != undefined){
             this.tex.initWithElement(window.sharedCanvas);
             this.tex.handleLoadedTexture();
@@ -40,6 +42,6 @@ cc.Class({
     },
 
     update (){
-        this._updateSubDomainCanvas();
+        this.updateSubDomainCanvas();
     },
 });
