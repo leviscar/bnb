@@ -22,7 +22,7 @@ module.exports = {
         guid: null,
         nickName: "unknown",
         avatarUrl: null,
-        gender: 1
-    },
+        gender: 1,
+    }
     
 };

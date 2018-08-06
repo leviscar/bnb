@@ -9,12 +9,16 @@ cc.Class({
     },
 
     onLoad: function (){
-        const serverAdd = "http://" + com.host + ":" + com.port;
-        const socket = window.io(serverAdd);
-
-        com.socket = socket;
+        if(!com.socket){
+            const serverAdd = "http://" + com.host + ":" + com.port;
+            const socket = window.io(serverAdd);
+  
+            com.socket = socket;
+        }
+        com.socket.removeAllListeners();
         com.windowSize = cc.view.getVisibleSize();
-        com.userInfo.guid = this.guid();
+        if(!com.userInfo.guid) com.userInfo.guid = this.guid();
+        console.log(com.userInfo.guid);
 
         this.background.setScaleX(com.windowSize.width / 960);
         this.background.setScaleY(com.windowSize.height / 640);
@@ -22,6 +26,12 @@ cc.Class({
         this.wxHandle = this.wxHandle.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
         this.rankBtn.node.on("click",this.showRankList,this);
+
+        this.background.setScaleX(com.windowSize.width / 960);
+        this.background.setScaleY(com.windowSize.height / 640);
+        cc.director.preloadScene("map", function (){ cc.log("map scene preloaded"); }); 
+
+        this.socketHandle();
 
         try{
             this.socketHandle();
@@ -110,7 +120,8 @@ cc.Class({
             console.log(res);
             if(res.query.roomName){
                 const roomId = res.query.roomName;
-    
+
+                com.roomId = roomId;
                 com.socket.role = "challenger";
                 com.isMaster = false;
                 com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
@@ -151,6 +162,30 @@ cc.Class({
                 cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
                 cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
             }
+        });
+
+        com.socket.on("playAgain",function (data){
+            cc.director.loadScene("start",function (){
+                if(data.code === 1){
+                    com.userInfos = data.userInfos;
+                    cc.find("Canvas/waitPanel").emit("fade-in");
+                    cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
+                    if(com.userInfos.length === 2) cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
+
+                    com.userInfos.forEach(function (userInfo){  
+                        if(com.userInfo.guid === userInfo.guid){
+                            if(userInfo.isMaster){
+                                com.isMaster = true;
+                                com.socket.role = "master";
+                            }else{
+                                com.isMaster = false;
+                                com.socket.role = "challenger";
+                            }
+                        }
+                    });
+                }
+            });
+            
         });
 
         com.socket.on("start",function (data){
