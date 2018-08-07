@@ -91,17 +91,6 @@ cc.Class({
                         console.log("炫耀失败");
                     }
                 });
-                // cc.loader.loadRes("share/share.png",function (err,data){
-                //     wx.shareAppMessage({
-                //         title: res,
-                //         success (res){
-                //             console.log("炫耀成功");
-                //         },
-                //         fail (res){
-                //             console.log("炫耀失败");
-                //         }
-                //     });
-                // });
             }
         } catch (error){
             console.error(error);

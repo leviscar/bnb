@@ -48,19 +48,6 @@ module.exports = cc.Class({
                         console.log("转发失败");
                     }
                 });
-                // cc.loader.loadRes("share/share.png",function (err,data){
-                //     wx.shareAppMessage({
-                //         title: res,
-                //         imageUrl: com.showImgUrl,
-                //         query: queryString,
-                //         success (res){
-                //             console.log("转发成功");
-                //         },
-                //         fail (res){
-                //             console.log("转发失败");
-                //         }
-                //     });
-                // });
             }
         } catch (error){
             console.error(error);
