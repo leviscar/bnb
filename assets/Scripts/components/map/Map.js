@@ -33,7 +33,8 @@ cc.Class({
         // 挑战者预制资源
         challengerPrefab: cc.Prefab,
         // 炸弹预制资源
-        bombPrefab: cc.Prefab,
+        bomb1Prefab: cc.Prefab,
+        bomb2Prefab: cc.Prefab,
         // 爆炸资源
         explodePrefab: cc.Prefab,
         // 地面预制资源
@@ -75,9 +76,7 @@ cc.Class({
         giftAudio:cc.AudioClip,
         monsterBoomAudio:cc.AudioClip,
         roleBoomAudio:cc.AudioClip,
-        paopaoBoomAudio:cc.AudioClip,
-
-        // avatarImgSprite: cc.Sprite
+        paopaoBoomAudio:cc.AudioClip
     },
     
     onLoad: function (){
@@ -91,8 +90,8 @@ cc.Class({
         this.challengerScore = 0;
         roleInfos = [];
         prefabList = {
-            // 炸弹预制资源
-            100: self.bombPrefab,
+            // // 炸弹预制资源
+            // 100: self.bomb1Prefab,
 
             // 墙预制资源 S_W_1
             11:  self.blockPrefab,
@@ -179,39 +178,6 @@ cc.Class({
         
     },
 
-    // /** 
-    //  * 生成头像 
-    // */
-    // createImage: function (avatarUrl){
-    //     if (CC_WECHATGAME){
-    //         try {
-    //             const image = wx.createImage();
-
-    //             image.onload = () => {
-    //                 try {
-    //                     const texture = new cc.Texture2D();
-
-    //                     texture.initWithElement(image);
-    //                     texture.handleLoadedTexture();
-    //                     this.avatarImgSprite.spriteFrame = new cc.SpriteFrame(texture);
-    //                 } catch (e){
-    //                     cc.log(e);
-    //                     this.avatarImgSprite.node.active = false;
-    //                 }
-    //             };
-    //             image.src = avatarUrl;
-    //         }catch (e){
-    //             cc.log(e);
-    //             this.avatarImgSprite.node.active = false;
-    //         }
-    //     } else {
-    //         cc.loader.load({
-    //             url: avatarUrl, type: "jpg"
-    //         }, (err, texture) => {
-    //             this.avatarImgSprite.spriteFrame = new cc.SpriteFrame(texture);
-    //         });
-    //     }
-    // },
     /** 
      * 开始场景
     */
@@ -375,7 +341,11 @@ cc.Class({
         const axisObj = this.transAxis(this.mapDataLen,obj.position.x,obj.position.y);
         const pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
         
-        itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,prefabList[100]);
+        if(com.isMaster){
+            itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,this.bomb1Prefab);
+        }else{
+            itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,this.bomb2Prefab);
+        }
     },
 
     /**

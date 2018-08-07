@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bombItem",
+    "_name": "bombItem1",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -229,7 +229,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "736c7a45-993d-4fc7-b593-045b11d47e13"
+      "__uuid__": "a047f20b-55b6-40b6-b9be-31c39e70f3f2"
     },
     "_type": 0,
     "_sizeMode": 0,

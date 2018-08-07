@@ -607,8 +607,11 @@
     "challengerPrefab": {
       "__uuid__": "e69da005-b562-453f-b8c2-c9d56c02f76d"
     },
-    "bombPrefab": {
+    "bomb1Prefab": {
       "__uuid__": "51e71db2-16bb-4798-bf6e-8808d1fd9a9d"
+    },
+    "bomb2Prefab": {
+      "__uuid__": "a24b23f9-49ce-4144-a8dd-c6edf70a1b7f"
     },
     "explodePrefab": {
       "__uuid__": "247fe362-d9bb-4308-b95c-5da62c846c02"
@@ -696,9 +699,6 @@
     },
     "paopaoBoomAudio": {
       "__uuid__": "b19dfc10-d71d-46aa-99b7-8f8c2cab024e"
-    },
-    "avatarImgSprite": {
-      "__id__": 71
     }
   },
   {
