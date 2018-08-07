@@ -184,14 +184,17 @@ cc.Class({
     mapInit: function (){
         const duration = 5;
         const delayTime = 3;
+        const setScale = 1.68;
+        const originScale = cc.v2(0.7,0.7);
+        const originPos = cc.p(360,280);
         let cameraAction;
         const mapAction = cc.sequence(
             cc.delayTime(3),
-            cc.scaleTo(duration,1.68,1.68)
+            cc.scaleTo(duration,setScale,setScale)
         );
 
-        this.node.setScale(cc.v2(0.7,0.7));
-        this.cameraContatiner.setPosition(cc.p(360,280));
+        this.node.setScale(originScale);
+        this.cameraContatiner.setPosition(originPos);
         
         if(com.isMaster){
             cameraAction = cc.sequence(
@@ -340,7 +343,7 @@ cc.Class({
  
         const axisObj = this.transAxis(this.mapDataLen,obj.position.x,obj.position.y);
         const pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
-        
+
         if(com.isMaster){
             itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,this.bomb1Prefab);
         }else{
