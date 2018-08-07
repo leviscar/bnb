@@ -4,6 +4,7 @@ module.exports = {
     host: "localhost",
     // host:'212.64.17.36',
     port: 4000,
+    showImgUrl: "http://212.64.17.36/share.png",
     moveMap: false, // 是否正在移动地图
     isMaster: false, // 是否是房主
     socket: null,
@@ -24,5 +25,4 @@ module.exports = {
         avatarUrl: null,
         gender: 1,
     }
-    
 };

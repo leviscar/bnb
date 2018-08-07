@@ -13,6 +13,7 @@ cc.Class({
     onLoad: function (){
         const self = this;
 
+        this.winnerGuid = null;
         this.socketHandle = this.socketHandle.bind(this);
         this.backStartButton.node.on("click",this.backStart,this);
         this.showOffButton.node.on("click",this.showOff,this);
@@ -58,6 +59,7 @@ cc.Class({
             }else{
                 data.winner === com.userInfo.guid ? (result = "你赢了") : (result = "你输了");
             }
+            self.winnerGuid = data.winner;
             self.resultPanel.string = result;
             self.show();
         });
@@ -67,19 +69,39 @@ cc.Class({
      * 炫耀功能
      */
     showOff: function (){
+        let res = "";
+
+        if(com.userInfos.length < 2){
+            res = "我在玩泡泡堂";
+        }else if(this.winnerGuid === com.userInfos[0].guid){
+            res = com.userInfos[0].nickName + " 战胜了 " + com.userInfos[1].nickName;
+        }else{
+            res = com.userInfos[1].nickName + " 战胜了 " + com.userInfos[0].nickName;
+        }
+
         try {
             if(wx){
-                cc.loader.loadRes("share/share.png",function (err,data){
-                    wx.shareAppMessage({
-                        title: "我在玩泡泡堂",
-                        success (res){
-                            console.log("炫耀成功");
-                        },
-                        fail (res){
-                            console.log("炫耀失败");
-                        }
-                    });
+                wx.shareAppMessage({
+                    title: res,
+                    imageUrl: com.showImgUrl,
+                    success (res){
+                        console.log("炫耀成功");
+                    },
+                    fail (res){
+                        console.log("炫耀失败");
+                    }
                 });
+                // cc.loader.loadRes("share/share.png",function (err,data){
+                //     wx.shareAppMessage({
+                //         title: res,
+                //         success (res){
+                //             console.log("炫耀成功");
+                //         },
+                //         fail (res){
+                //             console.log("炫耀失败");
+                //         }
+                //     });
+                // });
             }
         } catch (error){
             console.error(error);

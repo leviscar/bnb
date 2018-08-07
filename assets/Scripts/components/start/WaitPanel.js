@@ -31,24 +31,36 @@ module.exports = cc.Class({
     },
     
     wxShare: function (){
-        console.log("share");
+        const res = "我在" + com.roomId + "房间等你";
+
         try {
             if(wx){
                 const queryString = "roomName=" + com.roomId;
 
-                cc.loader.loadRes("share/share.png",function (err,data){
-                    wx.shareAppMessage({
-                        title: "不怕，就来PK",
-                        imageUrl: data.url,
-                        query: queryString,
-                        success (res){
-                            console.log("转发成功");
-                        },
-                        fail (res){
-                            console.log("转发失败");
-                        }
-                    });
+                wx.shareAppMessage({
+                    title: res,
+                    imageUrl: com.showImgUrl,
+                    query: queryString,
+                    success (res){
+                        console.log("转发成功");
+                    },
+                    fail (res){
+                        console.log("转发失败");
+                    }
                 });
+                // cc.loader.loadRes("share/share.png",function (err,data){
+                //     wx.shareAppMessage({
+                //         title: res,
+                //         imageUrl: com.showImgUrl,
+                //         query: queryString,
+                //         success (res){
+                //             console.log("转发成功");
+                //         },
+                //         fail (res){
+                //             console.log("转发失败");
+                //         }
+                //     });
+                // });
             }
         } catch (error){
             console.error(error);
