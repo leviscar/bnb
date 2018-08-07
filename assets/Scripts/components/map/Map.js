@@ -77,6 +77,7 @@ cc.Class({
         roleBoomAudio:cc.AudioClip,
         paopaoBoomAudio:cc.AudioClip,
 
+        // avatarImgSprite: cc.Sprite
     },
     
     onLoad: function (){
@@ -173,13 +174,44 @@ cc.Class({
 
             cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex){
                 cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-                // cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().width = 59;
-                // cc.find(tag).getComponent(cc.Sprite).spriteFrame.getTexture().height = 59;
             });
         }
         
     },
 
+    // /** 
+    //  * 生成头像 
+    // */
+    // createImage: function (avatarUrl){
+    //     if (CC_WECHATGAME){
+    //         try {
+    //             const image = wx.createImage();
+
+    //             image.onload = () => {
+    //                 try {
+    //                     const texture = new cc.Texture2D();
+
+    //                     texture.initWithElement(image);
+    //                     texture.handleLoadedTexture();
+    //                     this.avatarImgSprite.spriteFrame = new cc.SpriteFrame(texture);
+    //                 } catch (e){
+    //                     cc.log(e);
+    //                     this.avatarImgSprite.node.active = false;
+    //                 }
+    //             };
+    //             image.src = avatarUrl;
+    //         }catch (e){
+    //             cc.log(e);
+    //             this.avatarImgSprite.node.active = false;
+    //         }
+    //     } else {
+    //         cc.loader.load({
+    //             url: avatarUrl, type: "jpg"
+    //         }, (err, texture) => {
+    //             this.avatarImgSprite.spriteFrame = new cc.SpriteFrame(texture);
+    //         });
+    //     }
+    // },
     /** 
      * 开始场景
     */

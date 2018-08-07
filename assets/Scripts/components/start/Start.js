@@ -18,7 +18,6 @@ cc.Class({
         com.socket.removeAllListeners();
         com.windowSize = cc.view.getVisibleSize();
         if(!com.userInfo.guid) com.userInfo.guid = this.guid();
-        console.log(com.userInfo.guid);
 
         this.background.setScaleX(com.windowSize.width / 960);
         this.background.setScaleY(com.windowSize.height / 640);
@@ -27,11 +26,7 @@ cc.Class({
         this.socketHandle = this.socketHandle.bind(this);
         this.rankBtn.node.on("click",this.showRankList,this);
 
-        this.background.setScaleX(com.windowSize.width / 960);
-        this.background.setScaleY(com.windowSize.height / 640);
         cc.director.preloadScene("map", function (){ cc.log("map scene preloaded"); }); 
-
-        this.socketHandle();
 
         try{
             this.socketHandle();
