@@ -7,12 +7,12 @@ cc.Class({
 
     start: function (){
         if (CC_WECHATGAME){
-            window.wx.showShareMenu({withShareTicket: true});// 设置分享按钮
+            window.wx.showShareMenu({withShareTicket: true}); // 设置分享按钮
             this.tex = new cc.Texture2D();
-            window.sharedCanvas.width = 1000;
+            window.sharedCanvas.width = 720;
             window.sharedCanvas.height = 300;
 
-            window.wx.postMessage({// 发消息给子域
+            window.wx.postMessage({ // 发消息给子域
                 messageType: 4,
                 MAIN_MENU_NUM: "x1"
             });

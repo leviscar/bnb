@@ -17,7 +17,7 @@ cc.Class({
             window.sharedCanvas.width = 720;
             window.sharedCanvas.height = 1280;
 
-            window.wx.postMessage({// 发消息给子域
+            window.wx.postMessage({ // 发消息给子域
                 messageType: 1,
                 MAIN_MENU_NUM: "win"
             });

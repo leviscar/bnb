@@ -239,9 +239,13 @@ cc.Class({
                                     this.gameOverRankLayout.addChild(userItem);
                                     if ((i + 1) < data.length){
                                         const userItem = cc.instantiate(this.prefabGameOverRank);
+                                        const userItem1 = cc.instantiate(this.prefabGameOverRank);
 
                                         userItem.getComponent("GameOverRank").init(i + 1, data[i + 1]);
                                         this.gameOverRankLayout.addChild(userItem);
+
+                                        userItem1.getComponent("GameOverRank").init(i + 2, data[i + 2]);
+                                        this.gameOverRankLayout.addChild(userItem1);
                                         if ((i - 1) < 0 && (i + 2) < data.length){
                                             const userItem = cc.instantiate(this.prefabGameOverRank);
 
