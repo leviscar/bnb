@@ -14,8 +14,8 @@ const I_POWER  = 103;
 const I_SCORE  = 104;
 
 const itemList = [];
-const score = [0,0,0,0,0,0,0,0];
 const roleObj = {};
+let score = [0,0,0,0,0,0,0,0];
 let prefabList  = {};
 let roleInfos = [];
 let bgmMusic = null;
@@ -89,6 +89,7 @@ cc.Class({
         this.masterScore = 0;
         this.challengerScore = 0;
         roleInfos = [];
+        score = [0,0,0,0,0,0,0,0];
         prefabList = {
             // // 炸弹预制资源
             // 100: self.bomb1Prefab,
