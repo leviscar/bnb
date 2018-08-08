@@ -10,7 +10,9 @@ cc.Class({
 
     onLoad: function (){
         this.visibleSize = cc.view.getVisibleSize();
-        
+        this.tmpPos = null;
+        this.radio = 0;
+
         try {
             this.target = cc.find("map").getChildByName(com.socket.role);
         } catch (error){
@@ -30,8 +32,11 @@ cc.Class({
         try {
             const targetPos = this.target.position;
 
+            this.tmpPos = this.node.position;
+            this.radio = com.FPS / 60;
+            this.outPos = this.tmpPos.lerp(targetPos,this.radio);
             if(!com.moveMap){
-                this.node.position = targetPos;
+                this.node.position = this.outPos;
             }
         } catch (error){
             console.error(error);
