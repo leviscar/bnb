@@ -34,7 +34,7 @@ cc.Class({
 
             this.tmpPos = this.node.position;
             this.radio = com.FPS / 60;
-            this.outPos = this.tmpPos.lerp(targetPos,this.radio);
+            this.outPos = this.tmpPos.lerp(targetPos,this.radio); // 线性插值
             if(!com.moveMap){
                 this.node.position = this.outPos;
             }

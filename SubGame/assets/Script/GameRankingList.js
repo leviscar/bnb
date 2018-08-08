@@ -19,14 +19,13 @@ cc.Class({
                     this.removeChild();
                 } else if (data.messageType == 1){ // 获取好友排行榜
                     this.fetchFriendData(data.MAIN_MENU_NUM);
-                } else if (data.messageType == 3){ // 提交得分
+                } else if (data.messageType == 2){ // 提交得分
                     // this.submitScore(data.MAIN_MENU_NUM, data.score);
-                } else if (data.messageType == 4){// 获取好友排行榜横向排列展示模式
-                    this.addWinCount();
-                    // this.addLoseCount();
+                }else if(data.messageType == 3){ // 绘制横向排行榜
                     this.gameOverRank(data.MAIN_MENU_NUM);
-                } else if (data.messageType == 5){// 获取群排行榜
-                    this.fetchGroupFriendData(data.MAIN_MENU_NUM, data.shareTicket);
+                }else if (data.messageType == 4){// 获胜更新排行榜
+                    this.addWinCount();
+                    this.gameOverRank(data.MAIN_MENU_NUM);
                 }
             });
         } else {
@@ -75,49 +74,6 @@ cc.Class({
             });
         } else {
             cc.log("增加胜场");
-        }
-    },
-    addLoseCount: function (){
-        if (CC_WECHATGAME){
-            window.wx.getUserCloudStorage({
-                // 以key/value形式存储
-                keyList: ["win","lose"],
-                success: function (getres){
-                    console.log("getUserCloudStorage", "success", getres);
-                    let historyWinCount = 0;
-                    let historyLoseCount = 0;
-
-                    if (getres.KVDataList.length != 0){
-                        historyWinCount = getres.KVDataList[0].value;
-                        historyLoseCount = getres.KVDataList[1].value;
-                    }
-
-                    // 对用户托管数据进行写数据操作
-                    window.wx.setUserCloudStorage({
-                        KVDataList: [
-                            {key: "win", value: parseInt(historyWinCount) + ""},
-                            {key: "lose", value: parseInt(historyLoseCount) + 1 + ""}
-                        ],
-                        success: function (res){
-                            console.log("setUserCloudStorage", "success", res);
-                        },
-                        fail: function (res){
-                            console.log("setUserCloudStorage", "fail");
-                        },
-                        complete: function (res){
-                            console.log("setUserCloudStorage", "ok");
-                        }
-                    });
-                },
-                fail: function (res){
-                    console.log("getUserCloudStorage", "fail");
-                },
-                complete: function (res){
-                    console.log("getUserCloudStorage", "ok");
-                }
-            });
-        } else {
-            cc.log("增加负场");
         }
     },
     submitScore (MAIN_MENU_NUM, score){ // 提交得分
@@ -203,71 +159,7 @@ cc.Class({
                                     const userItem = cc.instantiate(this.prefabRankItem);
 
                                     userItem.getComponent("RankItem").init(i, playerInfo);
-                                    userItem.y = -354;
-                                    this.node.addChild(userItem, 1, 1000);
-                                }
-                            }
-                            if (data.length <= 8){
-                                const layout = this.scrollViewContent.getComponent(cc.Layout);
-
-                                layout.resizeMode = cc.Layout.ResizeMode.NONE;
-                            }
-                        },
-                        fail: res => {
-                            console.log("wx.getFriendCloudStorage fail", res);
-                            this.loadingLabel.getComponent(cc.Label).string = "数据加载失败，请检测网络，谢谢。";
-                        },
-                    });
-                },
-                fail: (res) => {
-                    this.loadingLabel.getComponent(cc.Label).string = "数据加载失败，请检测网络，谢谢。";
-                }
-            });
-        }
-    },
-    fetchGroupFriendData (MAIN_MENU_NUM, shareTicket){
-        this.removeChild();
-        this.rankingScrollView.node.active = true;
-        if (CC_WECHATGAME){
-            wx.getUserInfo({
-                openIdList: ["selfOpenId"],
-                success: (userRes) => {
-                    console.log("success", userRes.data);
-                    const userData = userRes.data[0];
-
-                    wx.getGroupCloudStorage({
-                        shareTicket: shareTicket,
-                        keyList: [MAIN_MENU_NUM],
-                        success: res => {
-                            const data = res.data;
-                            
-                            console.log("wx.getGroupCloudStorage success", res);
-                            this.loadingLabel.active = false;
-
-                            data.sort((a, b) => {
-                                if (a.KVDataList.length == 0 && b.KVDataList.length == 0){
-                                    return 0;
-                                }
-                                if (a.KVDataList.length == 0){
-                                    return 1;
-                                }
-                                if (b.KVDataList.length == 0){
-                                    return -1;
-                                }
-
-                                return b.KVDataList[0].value - a.KVDataList[0].value;
-                            });
-                            for (let i = 0; i < data.length; i++){
-                                const playerInfo = data[i];
-                                const item = cc.instantiate(this.prefabRankItem);
-
-                                item.getComponent("RankItem").init(i, playerInfo);
-                                this.scrollViewContent.addChild(item);
-                                if (data[i].avatarUrl == userData.avatarUrl){
-                                    const userItem = cc.instantiate(this.prefabRankItem);
-
-                                    userItem.getComponent("RankItem").init(i, playerInfo);
-                                    userItem.y = -354;
+                                    userItem.y = -200;
                                     this.node.addChild(userItem, 1, 1000);
                                 }
                             }
@@ -337,7 +229,7 @@ cc.Class({
                                         if ((i + 2) >= data.length){
                                             const node = new cc.Node();
 
-                                            node.width = 200;
+                                            node.width = 120;
                                             this.gameOverRankLayout.addChild(node);
                                         }
                                     }
