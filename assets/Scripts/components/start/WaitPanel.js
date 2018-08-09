@@ -7,8 +7,6 @@ module.exports = cc.Class({
         label: cc.Label,
         shareBtn: cc.Button,
         startBtn: cc.Button,
-        player1: cc.Sprite,
-        player2: cc.Sprite
     },
 
     onLoad: function (){
@@ -17,8 +15,7 @@ module.exports = cc.Class({
         this.shareBtn.node.on("click",this.wxShare,this);
         this.startBtn.node.on("click",this.gameStart,this);
         // TODO
-        this.node.on("loadMasterAvatar",this.loadMasterAvatar,this);
-        this.node.on("loadChallengerAvatar",this.loadChallengerAvatar,this);
+        this.node.on("loadAvatar",this.loadAvatar,this);
         this.node.on("clearAvatar",this.clearAvatar,this);
 
         com.socket.on("deleteRoom",function (data){
@@ -64,21 +61,26 @@ module.exports = cc.Class({
             console.error(error);
         }
     },
+
+    // TODO
     clearAvatar: function (){
-        cc.find("Canvas/waitPanel/player1").getComponent(cc.Sprite).spriteFrame = null;
-        cc.find("Canvas/waitPanel/player2").getComponent(cc.Sprite).spriteFrame = null;
+        for(let i = 1; i < 5;i++){
+            const tag = "Canvas/waitPanel/player" + i;
+
+            cc.find(tag).getComponent(cc.Sprite).spriteFrame = null;
+        }
     },
 
-    loadMasterAvatar: function (){
-        cc.loader.load(com.userInfos[0].avatarUrl + "?aaa=aa.png", function (err, tex){
-            cc.find("Canvas/waitPanel/player1").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-        });
-    },
+    loadAvatar: function (){
+        for(let i = 0; i < com.userInfos.length;i++){
+            const tag = "Canvas/waitPanel/player" + (i + 1);
 
-    loadChallengerAvatar: function (){
-        cc.loader.load(com.userInfos[1].avatarUrl + "?aaa=aa.png", function (err, tex){
-            cc.find("Canvas/waitPanel/player2").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-        });
+            if(com.userInfos[i].avatarUrl){
+                cc.loader.load(com.userInfos[i].avatarUrl + "?aaa=aa.png", function (err, tex){
+                    cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
+                });
+            }
+        }
     }
 });
 

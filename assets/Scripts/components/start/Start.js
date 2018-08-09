@@ -103,8 +103,8 @@ cc.Class({
             if(res.query.roomName){
                 const roomId = res.query.roomName;
     
-                com.socket.role = "challenger";
-                com.isMaster = false;
+                // com.socket.role = "challenger";
+                // com.isMaster = false;
                 com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
             }
         });
@@ -119,8 +119,8 @@ cc.Class({
                 const roomId = res.query.roomName;
 
                 com.roomId = roomId;
-                com.socket.role = "challenger";
-                com.isMaster = false;
+                // com.socket.role = "challenger";
+                // com.isMaster = false;
                 com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
             }
         });
@@ -150,42 +150,36 @@ cc.Class({
 
             cc.find("Canvas/waitPanel").emit("clearAvatar");
             if(data.code === successCode){
-                if(com.isMaster ){
-                    cc.find("Canvas/addRoomPanel").emit("fade-out");
-                    cc.find("Canvas/waitPanel").emit("fade-in");
-                    cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
-                    if(com.userInfos.length === 2) cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
-                    
-                }else {
-                    cc.find("Canvas/joinRoomScrollView").emit("fade-out");
-                    cc.find("Canvas/waitPanel").emit("fade-in");
-                    cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
-                    cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
-                }
+                // TODO
+                cc.find("Canvas/addRoomPanel").emit("fade-out");
+                cc.find("Canvas/waitPanel").emit("fade-in");
+                cc.find("Canvas/waitPanel").emit("clearAvatar");
+                cc.find("Canvas/waitPanel").emit("loadAvatar");
             }
             
         });
 
         com.socket.on("playAgain",function (data){
             cc.director.loadScene("start",function (){
-                if(data.code === 1){
+                if(data.code === successCode){
                     com.userInfos = data.userInfos;
                     cc.find("Canvas/waitPanel").emit("fade-in");
-                    cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
-                    if(com.userInfos.length === 2) cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
+                    cc.find("Canvas/waitPanel").emit("clearAvatar");
+                    cc.find("Canvas/waitPanel").emit("loadAvatar");
+                    // if(com.userInfos.length === 2) cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
 
-                    com.userInfos.forEach(function (userInfo){  
-                        if(com.userInfo.guid === userInfo.guid){
-                            // TODO
-                            if(userInfo.isMaster){
-                                com.isMaster = true;
-                                com.socket.role = "master";
-                            }else{
-                                com.isMaster = false;
-                                com.socket.role = "challenger";
-                            }
-                        }
-                    });
+                    // com.userInfos.forEach(function (userInfo){  
+                    //     if(com.userInfo.guid === userInfo.guid){
+                    //         // TODO
+                    //         if(userInfo.isMaster){
+                    //             com.isMaster = true;
+                    //             com.socket.role = "master";
+                    //         }else{
+                    //             com.isMaster = false;
+                    //             com.socket.role = "challenger";
+                    //         }
+                    //     }
+                    // });
                 }
             });
             
