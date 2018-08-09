@@ -14,7 +14,7 @@ cc.Class({
         this.radio = 0;
 
         try {
-            this.target = cc.find("map").getChildByName(com.socket.role);
+            this.target = cc.find("map").getChildByName(com.userInfo.guid);
         } catch (error){
             console.error(error);
         }

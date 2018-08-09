@@ -217,27 +217,13 @@ cc.Class({
      * 角色位置初始化
     */
     roleInit: function (){
-        // TODO
-        // const masterPos = cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y);
-        // const challengerPos = cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y);
-        // const monsterPos0 = cc.p(com.mapInfo.monsterStartPointArr[0].x,com.mapInfo.monsterStartPointArr[0].y);
-        // const monsterPos1 = cc.p(com.mapInfo.monsterStartPointArr[1].x,com.mapInfo.monsterStartPointArr[1].y);
-        // const rolePos = [];
-
         com.mapInfo.roleStartPointArr.forEach(function (item,index){
-            roleObj[item.guid] = this.spawnNewItem(cc.p(item.x,item.y),rolePrefabArr[index]);
+            roleObj[com.userInfos[index].guid] = this.spawnNewRole(cc.p(item.x,item.y),rolePrefabArr[index],com.userInfos[index].guid);
         });
 
         com.mapInfo.monsterStartPointArr.forEach(function (item,index){
             monsterObj[index] = this.spawnNewItem(cc.p(item.x,item.y),monsterPrefabArr[index]);
         });
-        // roleObj["master"]  = this.spawnNewItem(masterPos,this.masterPrefab);
-        // roleObj["monster0"] = this.spawnNewItem(monsterPos0,this.monsterPrefab);
-        // roleObj["monster1"] = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
-
-        // if(com.userInfos.length > 1){
-        //     roleObj["challenger"] = this.spawnNewItem(challengerPos,this.challengerPrefab);
-        // }
     },
 
     /** 
@@ -255,8 +241,8 @@ cc.Class({
             roleData.forEach(function (val){
                 const position = cc.p(val.position.x,val.position.y);
                 
-                roleObj[val.name].stopAllActions();
-                roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
+                roleObj[val.roleGuid].stopAllActions();
+                roleObj[val.roleGuid].runAction(cc.moveTo((1 / com.FPS),position));
 
                 // TODO
                 val.name === "master" ? score[0] = val.score : score[1] = val.score;
@@ -268,8 +254,8 @@ cc.Class({
             monsterInfos.forEach(function (val){
                 const position = cc.p(val.position.x,val.position.y);
 
-                roleObj[val.name].stopAllActions();
-                roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
+                roleObj[val.monsterIndex].stopAllActions();
+                roleObj[val.monsterIndex].runAction(cc.moveTo((1 / com.FPS),position));
             });
         },1000 / com.FPS);  
     },
@@ -297,9 +283,10 @@ cc.Class({
     /**
      * 在地图上生成新Role
      */
-    spawnNewRole: function (pos,prefab){
+    spawnNewRole: function (pos,prefab,name){
         const item = cc.instantiate(prefab);
-
+        
+        item.name = name;
         this.node.addChild(item);
         item.setPosition(pos);
 
