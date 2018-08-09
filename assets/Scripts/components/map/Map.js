@@ -341,15 +341,12 @@ cc.Class({
      */
     addBoom: function (obj){
         if(!obj) return false;
- 
+        const boomPrefab = obj.name === "master" ? this.bomb1Prefab : this.bomb2Prefab;
         const axisObj = this.transAxis(this.mapDataLen,obj.position.x,obj.position.y);
         const pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
 
-        if(com.isMaster){
-            itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,this.bomb1Prefab);
-        }else{
-            itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,this.bomb2Prefab);
-        }
+        itemList[obj.position.x][obj.position.y] = this.spawnNewItem(pos,boomPrefab);
+        
     },
 
     /**
