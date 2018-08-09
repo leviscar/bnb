@@ -18,6 +18,7 @@ module.exports = cc.Class({
         this.startBtn.node.on("click",this.gameStart,this);
         this.node.on("loadMasterAvatar",this.loadMasterAvatar,this);
         this.node.on("loadChallengerAvatar",this.loadChallengerAvatar,this);
+        this.node.on("clearAvatar",this.clearAvatar,this);
 
         com.socket.on("deleteRoom",function (data){
             console.log("deleteRoom client");
@@ -61,6 +62,10 @@ module.exports = cc.Class({
         } catch (error){
             console.error(error);
         }
+    },
+    clearAvatar: function (){
+        cc.find("Canvas/waitPanel/player1").getComponent(cc.Sprite).spriteFrame = null;
+        cc.find("Canvas/waitPanel/player2").getComponent(cc.Sprite).spriteFrame = null;
     },
 
     loadMasterAvatar: function (){

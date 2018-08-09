@@ -141,17 +141,19 @@ cc.Class({
     },
 
     socketHandle: function (){
+        const successCode = 1;
 
         com.socket.on("roomInfo",function (data){
             com.userInfos = data.userInfos;
 
-            if(com.isMaster && data.code === 1){
+            cc.find("Canvas/waitPanel").emit("clearAvatar");
+            if(com.isMaster && data.code === successCode){
                 cc.find("Canvas/addRoomPanel").emit("fade-out");
                 cc.find("Canvas/waitPanel").emit("fade-in");
                 cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
                 if(com.userInfos.length === 2) cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
                 
-            }else if(data.code === 1){
+            }else if(data.code === successCode){
                 cc.find("Canvas/joinRoomScrollView").emit("fade-out");
                 cc.find("Canvas/waitPanel").emit("fade-in");
                 cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
