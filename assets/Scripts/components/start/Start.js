@@ -147,18 +147,21 @@ cc.Class({
             com.userInfos = data.userInfos;
 
             cc.find("Canvas/waitPanel").emit("clearAvatar");
-            if(com.isMaster && data.code === successCode){
-                cc.find("Canvas/addRoomPanel").emit("fade-out");
-                cc.find("Canvas/waitPanel").emit("fade-in");
-                cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
-                if(com.userInfos.length === 2) cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
-                
-            }else if(data.code === successCode){
-                cc.find("Canvas/joinRoomScrollView").emit("fade-out");
-                cc.find("Canvas/waitPanel").emit("fade-in");
-                cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
-                cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
+            if(data.code === successCode){
+                if(com.isMaster ){
+                    cc.find("Canvas/addRoomPanel").emit("fade-out");
+                    cc.find("Canvas/waitPanel").emit("fade-in");
+                    cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
+                    if(com.userInfos.length === 2) cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
+                    
+                }else {
+                    cc.find("Canvas/joinRoomScrollView").emit("fade-out");
+                    cc.find("Canvas/waitPanel").emit("fade-in");
+                    cc.find("Canvas/waitPanel").emit("loadMasterAvatar");
+                    cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
+                }
             }
+            
         });
 
         com.socket.on("playAgain",function (data){
