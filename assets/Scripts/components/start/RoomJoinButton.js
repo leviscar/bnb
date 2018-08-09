@@ -17,6 +17,7 @@ cc.Class({
             this.button.interactable = false;
         }else{
             try {
+                // TODO
                 this.node.on("touchend", function (){
                     // console.log("Room " + this.itemID + ' clicked');
                     com.socket.role = "challenger";

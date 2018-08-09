@@ -99,6 +99,7 @@ cc.Class({
         wx.getLaunchOptionsSync(res => {
             console.log("wx getLaunchOptionsSync");
             console.log(res);
+            // TODO
             if(res.query.roomName){
                 const roomId = res.query.roomName;
     
@@ -113,6 +114,7 @@ cc.Class({
         wx.onShow(res => {
             console.log("wx onshow");
             console.log(res);
+            // TODO
             if(res.query.roomName){
                 const roomId = res.query.roomName;
 
@@ -174,6 +176,7 @@ cc.Class({
 
                     com.userInfos.forEach(function (userInfo){  
                         if(com.userInfo.guid === userInfo.guid){
+                            // TODO
                             if(userInfo.isMaster){
                                 com.isMaster = true;
                                 com.socket.role = "master";

@@ -24,6 +24,7 @@ cc.Class({
 
     addRoom: function (){
         try {
+            // TODO
             if(this.editbox.string != ""){
                 com.socket.role = "master";
                 com.socket.emit("newRoom",{name:this.editbox.string,userInfo:com.userInfo});

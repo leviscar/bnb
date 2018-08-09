@@ -63,14 +63,6 @@ cc.Class({
         bombBtn: cc.Button,
         // Labels
         timerDisplay:cc.Label,
-        masterScoreDisplay: cc.Label,
-        challengerScoreDisplay:cc.Label,
-        bombAddScoreMasterDisplay: cc.Label,
-        bombAddScoreChallengerDisplay: cc.Label,
-        speedScoreMasterDisplay: cc.Label,
-        speedScoreChallengerDisplay: cc.Label,
-        strengthScoreMasterDisplay: cc.Label,
-        strengthScoreChallengerDisplay: cc.Label,
         // 背景音乐
         bgmAudio:cc.AudioClip,
         giftAudio:cc.AudioClip,
@@ -86,14 +78,10 @@ cc.Class({
         this.mapItemX = 32;
         this.mapItemY = 32;
         this.gameTime = 0;
-        this.masterScore = 0;
-        this.challengerScore = 0;
+
         roleInfos = [];
         score = [0,0,0,0,0,0,0,0];
         prefabList = {
-            // // 炸弹预制资源
-            // 100: self.bomb1Prefab,
-
             // 墙预制资源 S_W_1
             11:  self.blockPrefab,
 
@@ -223,6 +211,7 @@ cc.Class({
      * 角色位置初始化
     */
     roleInit: function (){
+        // TODO
         const masterPos = cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y);
         const challengerPos = cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y);
         const monsterPos0 = cc.p(com.mapInfo.monsterStartPointArr[0].x,com.mapInfo.monsterStartPointArr[0].y);
@@ -255,11 +244,13 @@ cc.Class({
                 roleObj[val.name].stopAllActions();
                 roleObj[val.name].runAction(cc.moveTo((1 / com.FPS),position));
 
+                // TODO
                 val.name === "master" ? score[0] = val.score : score[1] = val.score;
 
                 self.updateTime(val.gameTime >= 0 ? val.gameTime : 0);
             });
 
+            // TODO
             monsterInfos.forEach(function (val){
                 const position = cc.p(val.position.x,val.position.y);
 
@@ -341,6 +332,7 @@ cc.Class({
      */
     addBoom: function (obj){
         if(!obj) return false;
+        // TODO
         const boomPrefab = obj.name === "master" ? this.bomb1Prefab : this.bomb2Prefab;
         const axisObj = this.transAxis(this.mapDataLen,obj.position.x,obj.position.y);
         const pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
@@ -411,6 +403,7 @@ cc.Class({
             });
     
             socket.on("itemEaten",function (data){
+                // TODO
                 const isMaster = data.role === "master";
 
                 if(data.role === "master" || data.role === "challenger"){
@@ -513,6 +506,7 @@ cc.Class({
      * 更新得分面板
      */
     updatePanel: function (){
+        // TODO
         this.masterScoreDisplay.string = score[0];
         this.challengerScoreDisplay.string = score[1];
         this.bombAddScoreMasterDisplay.string = score[2];

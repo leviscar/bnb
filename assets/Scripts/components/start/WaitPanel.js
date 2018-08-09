@@ -16,6 +16,7 @@ module.exports = cc.Class({
 
         this.shareBtn.node.on("click",this.wxShare,this);
         this.startBtn.node.on("click",this.gameStart,this);
+        // TODO
         this.node.on("loadMasterAvatar",this.loadMasterAvatar,this);
         this.node.on("loadChallengerAvatar",this.loadChallengerAvatar,this);
         this.node.on("clearAvatar",this.clearAvatar,this);
