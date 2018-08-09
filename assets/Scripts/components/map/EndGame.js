@@ -60,6 +60,9 @@ cc.Class({
                 data.winner === com.userInfo.guid ? (result = "你赢了") : (result = "你输了");
             }
             self.winnerGuid = data.winner;
+            if(data.winner === com.userInfo.guid){
+                com.isWinner = true;
+            }
             self.resultPanel.string = result;
             self.show();
         });

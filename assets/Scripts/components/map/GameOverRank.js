@@ -1,3 +1,5 @@
+const com = require("../../Common");
+
 cc.Class({
     extends: cc.Component,
 
@@ -12,10 +14,17 @@ cc.Class({
             window.sharedCanvas.width = 720;
             window.sharedCanvas.height = 300;
 
-            window.wx.postMessage({ // 发消息给子域
-                messageType: 4,
-                MAIN_MENU_NUM: "x1"
-            });
+            if(com.isWinner){
+                window.wx.postMessage({ // 发赢消息给子域
+                    messageType: 4,
+                    MAIN_MENU_NUM: "x1"
+                });
+            }else{
+                window.wx.postMessage({ // 发消息给子域
+                    messageType: 3,
+                    MAIN_MENU_NUM: "x1"
+                });
+            }
         } else {
             cc.log("获取横向展示排行榜数据。x1");
         }

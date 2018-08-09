@@ -7,6 +7,7 @@ module.exports = {
     showImgUrl: "https://www.x-lab.ac/pic/share.png",
     moveMap: false, // 是否正在移动地图
     isMaster: false, // 是否是房主
+    isWinner: false,
     socket: null,
     windowSize:null, // 界面尺寸缓存
     userInfos: [], // 角色信息
