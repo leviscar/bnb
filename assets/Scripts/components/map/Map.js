@@ -15,6 +15,10 @@ const I_SCORE  = 104;
 
 const itemList = [];
 const roleObj = {};
+const monsterObj = {};
+let rolePrefabArr = [];
+let bombPrefabArr = [];
+let monsterPrefabArr = [];
 let score = [0,0,0,0,0,0,0,0];
 let prefabList  = {};
 let roleInfos = [];
@@ -28,13 +32,15 @@ cc.Class({
     },
 
     properties: {
-        // 主角预制资源
-        masterPrefab: cc.Prefab,
-        // 挑战者预制资源
-        challengerPrefab: cc.Prefab,
+        // 角色
+        player1Prefab: cc.Prefab,
+        player2Prefab: cc.Prefab,
         // 炸弹预制资源
         bomb1Prefab: cc.Prefab,
         bomb2Prefab: cc.Prefab,
+        // 小怪物
+        monster1Prefab: cc.Prefab,
+        monster2Prefab: cc.Prefab,
         // 爆炸资源
         explodePrefab: cc.Prefab,
         // 地面预制资源
@@ -51,9 +57,6 @@ cc.Class({
         strengthPrefab: cc.Prefab,
         // 角色被炸效果
         roleBoomPrefab: cc.Prefab,
-        // 小怪物
-        monsterPrefab: cc.Prefab,
-        monsterGrayPrefab: cc.Prefab,
         // Node
         mapBG: cc.Node,
         endPage: cc.Node,
@@ -110,6 +113,9 @@ cc.Class({
             // 爆炸道具
             999: self.explodePrefab
         };
+        rolePrefabArr = [this.player1Prefab,this.player2Prefab];
+        bombPrefabArr = [this.bomb1Prefab,this.bomb2Prefab];
+        monsterPrefabArr = [this.monster1Prefab,this.monster2Prefab];
 
         this.roleInit = this.roleInit.bind(this);
         this.roleMove = this.roleMove.bind(this);
@@ -212,18 +218,26 @@ cc.Class({
     */
     roleInit: function (){
         // TODO
-        const masterPos = cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y);
-        const challengerPos = cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y);
-        const monsterPos0 = cc.p(com.mapInfo.monsterStartPointArr[0].x,com.mapInfo.monsterStartPointArr[0].y);
-        const monsterPos1 = cc.p(com.mapInfo.monsterStartPointArr[1].x,com.mapInfo.monsterStartPointArr[1].y);
+        // const masterPos = cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y);
+        // const challengerPos = cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y);
+        // const monsterPos0 = cc.p(com.mapInfo.monsterStartPointArr[0].x,com.mapInfo.monsterStartPointArr[0].y);
+        // const monsterPos1 = cc.p(com.mapInfo.monsterStartPointArr[1].x,com.mapInfo.monsterStartPointArr[1].y);
+        // const rolePos = [];
 
-        roleObj["master"]  = this.spawnNewItem(masterPos,this.masterPrefab);
-        roleObj["monster0"] = this.spawnNewItem(monsterPos0,this.monsterPrefab);
-        roleObj["monster1"] = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
+        com.mapInfo.roleStartPointArr.forEach(function (item,index){
+            roleObj[item.guid] = this.spawnNewItem(cc.p(item.x,item.y),rolePrefabArr[index]);
+        });
 
-        if(com.userInfos.length > 1){
-            roleObj["challenger"] = this.spawnNewItem(challengerPos,this.challengerPrefab);
-        }
+        com.mapInfo.monsterStartPointArr.forEach(function (item,index){
+            monsterObj[index] = this.spawnNewItem(cc.p(item.x,item.y),monsterPrefabArr[index]);
+        });
+        // roleObj["master"]  = this.spawnNewItem(masterPos,this.masterPrefab);
+        // roleObj["monster0"] = this.spawnNewItem(monsterPos0,this.monsterPrefab);
+        // roleObj["monster1"] = this.spawnNewItem(monsterPos1,this.monsterGrayPrefab);
+
+        // if(com.userInfos.length > 1){
+        //     roleObj["challenger"] = this.spawnNewItem(challengerPos,this.challengerPrefab);
+        // }
     },
 
     /** 
@@ -272,6 +286,18 @@ cc.Class({
      * 在地图上生成新item
      */
     spawnNewItem: function (pos,prefab){
+        const item = cc.instantiate(prefab);
+
+        this.node.addChild(item);
+        item.setPosition(pos);
+
+        return item;
+    },
+
+    /**
+     * 在地图上生成新Role
+     */
+    spawnNewRole: function (pos,prefab){
         const item = cc.instantiate(prefab);
 
         this.node.addChild(item);
