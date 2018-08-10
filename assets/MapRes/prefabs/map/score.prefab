@@ -826,30 +826,28 @@
     "_atlas": null
   },
   {
-    "__type__": "cc.Widget",
+    "__type__": "419bb2ZDt9DcJnPdlmv0y2R",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "isAlignOnce": true,
-    "_target": null,
-    "_alignFlags": 9,
-    "_left": 0.03635416666666667,
-    "_right": 1.8943512900535289,
-    "_top": 0.05046875000000001,
-    "_bottom": 0,
-    "_verticalCenter": 0,
-    "_horizontalCenter": 0,
-    "_isAbsLeft": false,
-    "_isAbsRight": false,
-    "_isAbsTop": false,
-    "_isAbsBottom": true,
-    "_isAbsHorizontalCenter": true,
-    "_isAbsVerticalCenter": true,
-    "_originalWidth": 95,
-    "_originalHeight": 0
+    "bombAddLabel": {
+      "__id__": 4
+    },
+    "speedLabel": {
+      "__id__": 10
+    },
+    "strengthLabel": {
+      "__id__": 16
+    },
+    "scoreLabel": {
+      "__id__": 24
+    },
+    "scorePanel": {
+      "__id__": 1
+    }
   },
   {
     "__type__": "cc.PrefabInfo",

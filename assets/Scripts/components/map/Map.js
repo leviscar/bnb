@@ -16,6 +16,7 @@ const I_SCORE  = 104;
 const itemList = [];
 const roleObj = {};
 const monsterObj = {};
+const scoreObj = {};
 let rolePrefabArr = [];
 let bombPrefabArr = [];
 let monsterPrefabArr = [];
@@ -41,6 +42,8 @@ cc.Class({
         // 小怪物
         monster1Prefab: cc.Prefab,
         monster2Prefab: cc.Prefab,
+        // 得分面板
+        scorePrefab: cc.Prefab,
         // 爆炸资源
         explodePrefab: cc.Prefab,
         // 地面预制资源
@@ -129,7 +132,7 @@ cc.Class({
         this.socketHandle = this.socketHandle.bind(this);
         this.updatePanel = this.updatePanel.bind(this);
         this.updateTime = this.updateTime.bind(this);
-
+        this.initScorePanel = this.initScorePanel.bind(this);
         this.background.setScale(com.windowSize.width / 960,com.windowSize.height / 640);
         this.mapBG.width = com.mapInfo.arr[0].length * this.mapItemX;
         this.mapBG.height = com.mapInfo.arr.length * this.mapItemY;
@@ -137,6 +140,7 @@ cc.Class({
         this.socketHandle(roleObj,socket,self);
         this.drawMap(com.mapInfo.arr);
         this.roleInit(self);
+        this.initScorePanel(self);
         try {
             if(wx){
                 this.loadAvatar(com.userInfos);
@@ -189,17 +193,14 @@ cc.Class({
         this.node.setScale(originScale);
         this.cameraContatiner.setPosition(originPos);
         
-        if(com.isMaster){
-            cameraAction = cc.sequence(
-                cc.delayTime(delayTime),
-                cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[0].x,com.mapInfo.roleStartPointArr[0].y))
-            );
-        }else{
-            cameraAction = cc.sequence(
-                cc.delayTime(delayTime),
-                cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[1].x,com.mapInfo.roleStartPointArr[1].y))
-            );
-        }
+        com.userInfos.forEach(function (item){
+            if(item.guid === com.userInfo.guid){
+                cameraAction = cc.sequence(
+                    cc.delayTime(delayTime),
+                    cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[item.roleIndex].x,com.mapInfo.roleStartPointArr[item.roleIndex].y))
+                );
+            }
+        });
 
         com.moveMap = true;
         
@@ -215,15 +216,10 @@ cc.Class({
      * 角色位置初始化
     */
     roleInit: function (self){
-        // com.mapInfo.roleStartPointArr.forEach(function (item,index){
-        //     if(com.userInfos[index]){
-        //         roleObj[com.userInfos[index].guid] = self.spawnNewRole(cc.p(item.x,item.y),rolePrefabArr[index],com.userInfos[index].guid);
-        //     }
-        // });
         com.userInfos.forEach(function (item){
             const pos = cc.p(com.mapInfo.roleStartPointArr[item.roleIndex].x,com.mapInfo.roleStartPointArr[item.roleIndex].y);
             
-            roleObj[item.guid] = self.spawnNewRole(pos,rolePrefabArr[item.roleIndex],item.guid);
+            roleObj[item.guid] = self.spawnItemWithName(pos,rolePrefabArr[item.roleIndex],item.guid);
         });
 
         com.mapInfo.monsterStartPointArr.forEach(function (item,index){
@@ -288,7 +284,7 @@ cc.Class({
     /**
      * 在地图上生成新Role
      */
-    spawnNewRole: function (pos,prefab,name){
+    spawnItemWithName: function (pos,prefab,name){
         const item = cc.instantiate(prefab);
         
         item.name = name;
@@ -520,6 +516,17 @@ cc.Class({
         this.timerDisplay.string = this.transTime(parseInt(gameTime / 60)) + ":" + this.transTime(gameTime % 60);
     },
 
+    /**
+     * 生成得分面板
+     */
+    initScorePanel: function (self){
+        const posArr =  [cc.p(70,80),cc.p(890,80),cc.p(70,200),cc.p(890,200)];
+
+        com.userInfos.forEach(function (item){
+            scoreObj[item.guid] = self.spawnItemWithName(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");  
+        });
+
+    },
     /**
      * 更新得分面板
      */

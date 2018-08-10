@@ -613,6 +613,9 @@
     "monster2Prefab": {
       "__uuid__": "96d2a59b-7551-488d-a41b-68d30a313cab"
     },
+    "scorePrefab": {
+      "__uuid__": "4994a02d-ce32-4b70-b937-5b7ea2c6915c"
+    },
     "explodePrefab": {
       "__uuid__": "247fe362-d9bb-4308-b95c-5da62c846c02"
     },
