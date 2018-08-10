@@ -10,7 +10,7 @@ cc.Class({
 
     onLoad: function (){
         if(!com.socket){
-            const serverAdd = "http://" + com.host + ":" + com.port;
+            const serverAdd = com.host;
             const socket = window.io(serverAdd);
   
             com.socket = socket;
