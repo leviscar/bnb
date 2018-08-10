@@ -52,17 +52,19 @@ cc.Class({
      */
     socketHandle: function (self){
         com.socket.on("end",function (data){
+            const selfGuid = com.userInfo.guid;
             let result = "";
-
-            if(data.isTied){
+            
+            console.log(data);
+            if(data.tiedArr.indexOf(selfGuid) !== -1){
                 result = "平局";
-            }else{
-                data.winner === com.userInfo.guid ? (result = "你赢了") : (result = "你输了");
-            }
-            self.winnerGuid = data.winner;
-            if(data.winner === com.userInfo.guid){
+            }else if(data.winnerArr.indexOf(selfGuid) !== -1){
+                result = "你赢了";
                 com.isWinner = true;
+            }else if(data.loserArr.indexOf(selfGuid) !== -1){
+                result = "你输了";
             }
+
             self.resultPanel.string = result;
             self.show();
         });
