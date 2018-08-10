@@ -517,7 +517,7 @@ cc.Class({
      * 生成得分面板
      */
     initScorePanel: function (self){
-        const posArr =  [cc.p(70,540),cc.p(70,480),cc.p(70,420),cc.p(70,360)];
+        const posArr =  [cc.p(60,580),cc.p(900,580),cc.p(60,500),cc.p(900,500)];
 
         com.userInfos.forEach(function (item){
             scoreObj[item.guid] = self.spawnNewScore(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");

@@ -42,9 +42,9 @@ cc.Class({
     },
     
     setNum: function (bombAddNum,speedNum,strengthNum,scoreNum){
-        this.bombAddLabel.string = "X" + bombAddNum;
-        this.speedLabel.string = "X" + speedNum;
-        this.strengthLabel.string = "X" + strengthNum;
+        this.bombAddLabel.string = "X " + bombAddNum;
+        this.speedLabel.string = "X " + speedNum;
+        this.strengthLabel.string = "X " + strengthNum;
     },
 
     updateScore: function (score){
@@ -52,9 +52,11 @@ cc.Class({
     },
 
     updateAvatar: function (url){
+        const self = this;
+
         if(url){
             cc.loader.load(url + "?aaa=aa.png", function (err, tex){
-                this.avatar.spriteFrame = new cc.SpriteFrame(tex);
+                self.avatar.spriteFrame = new cc.SpriteFrame(tex);
             });
         }
     }
