@@ -147,11 +147,11 @@ cc.Class({
 
         com.socket.on("roomInfo",function (data){
             com.userInfos = data.userInfos;
-
+            console.log(data);
             cc.find("Canvas/waitPanel").emit("clearAvatar");
             if(data.code === successCode){
-                // TODO
                 cc.find("Canvas/addRoomPanel").emit("fade-out");
+                cc.find("Canvas/joinRoomScrollView").emit("fade-out");
                 cc.find("Canvas/waitPanel").emit("fade-in");
                 cc.find("Canvas/waitPanel").emit("clearAvatar");
                 cc.find("Canvas/waitPanel").emit("loadAvatar");
@@ -166,20 +166,6 @@ cc.Class({
                     cc.find("Canvas/waitPanel").emit("fade-in");
                     cc.find("Canvas/waitPanel").emit("clearAvatar");
                     cc.find("Canvas/waitPanel").emit("loadAvatar");
-                    // if(com.userInfos.length === 2) cc.find("Canvas/waitPanel").emit("loadChallengerAvatar");
-
-                    // com.userInfos.forEach(function (userInfo){  
-                    //     if(com.userInfo.guid === userInfo.guid){
-                    //         // TODO
-                    //         if(userInfo.isMaster){
-                    //             com.isMaster = true;
-                    //             com.socket.role = "master";
-                    //         }else{
-                    //             com.isMaster = false;
-                    //             com.socket.role = "challenger";
-                    //         }
-                    //     }
-                    // });
                 }
             });
             
