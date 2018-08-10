@@ -130,7 +130,6 @@ cc.Class({
         this.addItem = this.addItem.bind(this);
         this.addBoom = this.addBoom.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
-        this.updatePanel = this.updatePanel.bind(this);
         this.updateTime = this.updateTime.bind(this);
         this.initScorePanel = this.initScorePanel.bind(this);
         this.background.setScale(com.windowSize.width / 960,com.windowSize.height / 640);
@@ -219,7 +218,7 @@ cc.Class({
         com.userInfos.forEach(function (item){
             const pos = cc.p(com.mapInfo.roleStartPointArr[item.roleIndex].x,com.mapInfo.roleStartPointArr[item.roleIndex].y);
             
-            roleObj[item.guid] = self.spawnItemWithName(pos,rolePrefabArr[item.roleIndex],item.guid);
+            roleObj[item.guid] = self.spawnNewRole(pos,rolePrefabArr[item.roleIndex],item.guid);
         });
 
         com.mapInfo.monsterStartPointArr.forEach(function (item,index){
@@ -246,12 +245,12 @@ cc.Class({
                 roleObj[val.roleGuid].runAction(cc.moveTo((1 / com.FPS),position));
 
                 // TODO
-                val.name === "master" ? score[0] = val.score : score[1] = val.score;
+                // val.name === "master" ? score[0] = val.score : score[1] = val.score;
+                scoreObj[val.roleGuid].getComponent("Score").updateScore(val.score);
 
                 self.updateTime(val.gameTime >= 0 ? val.gameTime : 0);
             });
 
-            // TODO
             monsterInfos.forEach(function (val){
                 const position = cc.p(val.position.x,val.position.y);
 
@@ -284,13 +283,27 @@ cc.Class({
     /**
      * 在地图上生成新Role
      */
-    spawnItemWithName: function (pos,prefab,name){
+    spawnNewRole: function (pos,prefab,name){
         const item = cc.instantiate(prefab);
         
         item.name = name;
         this.node.addChild(item);
         item.setPosition(pos);
         
+        return item;
+    },
+
+    /**
+     * 在地图上生成新得分面板
+     */
+    spawnNewScore: function (pos,prefab,name){
+        const item = cc.instantiate(prefab);
+        
+        item.name = name;
+        cc.find("scorePanel").addChild(item);
+        // item.setPosition(pos);
+        item.getComponent("Score").init(pos);
+
         return item;
     },
 
@@ -417,27 +430,11 @@ cc.Class({
             });
     
             socket.on("itemEaten",function (data){
-                // TODO
-                const isMaster = data.role === "master";
-
-                if(data.role === "master" || data.role === "challenger"){
-                    cc.audioEngine.playEffect(self.giftAudio,false);
-                }
+                if(!data) return false;
+                cc.audioEngine.playEffect(self.giftAudio,false);
                 self.node.removeChild(itemList[data.x][data.y]);
                 itemList[data.x][data.y] = null;
-
-                switch(data.itemCode){
-                case I_PAOPAO:
-                    isMaster ? score[2] += 1 : score[3] += 1;
-                    break;
-                case I_SPEED:
-                    isMaster ? score[4] += 1 : score[5] += 1;
-                    break;
-                case I_POWER:
-                    isMaster ? score[6] += 1 : score[7] += 1;
-                    break;
-                }
-                self.updatePanel();
+                scoreObj[data.roleGuid].getComponent("Score").updateItemNum(data);
             });
     
             socket.on("boomInfo",function (data){
@@ -520,26 +517,13 @@ cc.Class({
      * 生成得分面板
      */
     initScorePanel: function (self){
-        const posArr =  [cc.p(70,80),cc.p(890,80),cc.p(70,200),cc.p(890,200)];
+        const posArr =  [cc.p(70,540),cc.p(70,480),cc.p(70,420),cc.p(70,360)];
 
         com.userInfos.forEach(function (item){
-            scoreObj[item.guid] = self.spawnItemWithName(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");  
+            scoreObj[item.guid] = self.spawnNewScore(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");
+            scoreObj[item.guid].getComponent("Score").updateAvatar(item.avatarUrl);
         });
 
-    },
-    /**
-     * 更新得分面板
-     */
-    updatePanel: function (){
-        // TODO
-        // this.masterScoreDisplay.string = score[0];
-        // this.challengerScoreDisplay.string = score[1];
-        // this.bombAddScoreMasterDisplay.string = score[2];
-        // this.bombAddScoreChallengerDisplay.string = score[3];
-        // this.speedScoreMasterDisplay.string = score[4];
-        // this.speedScoreChallengerDisplay.string = score[5];
-        // this.strengthScoreMasterDisplay.string = score[6];
-        // this.strengthScoreChallengerDisplay.string = score[7];
     },
 
     onDestroy: function (){

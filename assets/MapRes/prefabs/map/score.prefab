@@ -749,7 +749,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 61,
+      "width": 14,
       "height": 25
     },
     "_rotationX": 0,
@@ -784,7 +784,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "Label",
+    "_N$string": "0",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -847,6 +847,9 @@
     },
     "scorePanel": {
       "__id__": 1
+    },
+    "avatar": {
+      "__id__": 21
     }
   },
   {
