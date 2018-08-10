@@ -595,10 +595,10 @@
       "__id__": 7
     },
     "_enabled": true,
-    "masterPrefab": {
+    "player1Prefab": {
       "__uuid__": "dee5b7ed-8314-448b-95e6-2adbbc2f1e32"
     },
-    "challengerPrefab": {
+    "player2Prefab": {
       "__uuid__": "e69da005-b562-453f-b8c2-c9d56c02f76d"
     },
     "bomb1Prefab": {
@@ -606,6 +606,12 @@
     },
     "bomb2Prefab": {
       "__uuid__": "a24b23f9-49ce-4144-a8dd-c6edf70a1b7f"
+    },
+    "monster1Prefab": {
+      "__uuid__": "89f4f48b-dd8e-4709-8c0e-585d351c3a22"
+    },
+    "monster2Prefab": {
+      "__uuid__": "96d2a59b-7551-488d-a41b-68d30a313cab"
     },
     "explodePrefab": {
       "__uuid__": "247fe362-d9bb-4308-b95c-5da62c846c02"
@@ -630,12 +636,6 @@
     },
     "roleBoomPrefab": {
       "__uuid__": "28c2aa3a-51dc-46e2-9460-ecc0a387ec63"
-    },
-    "monsterPrefab": {
-      "__uuid__": "96d2a59b-7551-488d-a41b-68d30a313cab"
-    },
-    "monsterGrayPrefab": {
-      "__uuid__": "89f4f48b-dd8e-4709-8c0e-585d351c3a22"
     },
     "mapBG": {
       "__id__": 8

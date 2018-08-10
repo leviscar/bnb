@@ -113,7 +113,7 @@ cc.Class({
             // 爆炸道具
             999: self.explodePrefab
         };
-        rolePrefabArr = [this.player1Prefab,this.player2Prefab];
+        rolePrefabArr = [this.player1Prefab,this.player2Prefab,this.player1Prefab,this.player2Prefab];
         bombPrefabArr = [this.bomb1Prefab,this.bomb2Prefab];
         monsterPrefabArr = [this.monster1Prefab,this.monster2Prefab];
 
@@ -134,18 +134,16 @@ cc.Class({
         this.mapBG.width = com.mapInfo.arr[0].length * this.mapItemX;
         this.mapBG.height = com.mapInfo.arr.length * this.mapItemY;
 
+        this.socketHandle(roleObj,socket,self);
+        this.drawMap(com.mapInfo.arr);
+        this.roleInit(self);
         try {
-            this.socketHandle(roleObj,socket,self);
-            this.drawMap(com.mapInfo.arr);
-            this.roleInit();
             if(wx){
                 this.loadAvatar(com.userInfos);
             }
-            
         } catch (error){
             console.error(error);
         }
-
     },
 
     start: function (){
@@ -216,13 +214,20 @@ cc.Class({
     /** 
      * 角色位置初始化
     */
-    roleInit: function (){
-        com.mapInfo.roleStartPointArr.forEach(function (item,index){
-            roleObj[com.userInfos[index].guid] = this.spawnNewRole(cc.p(item.x,item.y),rolePrefabArr[index],com.userInfos[index].guid);
+    roleInit: function (self){
+        // com.mapInfo.roleStartPointArr.forEach(function (item,index){
+        //     if(com.userInfos[index]){
+        //         roleObj[com.userInfos[index].guid] = self.spawnNewRole(cc.p(item.x,item.y),rolePrefabArr[index],com.userInfos[index].guid);
+        //     }
+        // });
+        com.userInfos.forEach(function (item){
+            const pos = cc.p(com.mapInfo.roleStartPointArr[item.roleIndex].x,com.mapInfo.roleStartPointArr[item.roleIndex].y);
+            
+            roleObj[item.guid] = self.spawnNewRole(pos,rolePrefabArr[item.roleIndex],item.guid);
         });
 
         com.mapInfo.monsterStartPointArr.forEach(function (item,index){
-            monsterObj[index] = this.spawnNewItem(cc.p(item.x,item.y),monsterPrefabArr[index]);
+            monsterObj[index] = self.spawnNewItem(cc.p(item.x,item.y),monsterPrefabArr[index]);
         });
     },
 
@@ -254,8 +259,8 @@ cc.Class({
             monsterInfos.forEach(function (val){
                 const position = cc.p(val.position.x,val.position.y);
 
-                roleObj[val.monsterIndex].stopAllActions();
-                roleObj[val.monsterIndex].runAction(cc.moveTo((1 / com.FPS),position));
+                monsterObj[val.monsterIndex].stopAllActions();
+                monsterObj[val.monsterIndex].runAction(cc.moveTo((1 / com.FPS),position));
             });
         },1000 / com.FPS);  
     },
@@ -289,7 +294,7 @@ cc.Class({
         item.name = name;
         this.node.addChild(item);
         item.setPosition(pos);
-
+        
         return item;
     },
 
@@ -520,14 +525,14 @@ cc.Class({
      */
     updatePanel: function (){
         // TODO
-        this.masterScoreDisplay.string = score[0];
-        this.challengerScoreDisplay.string = score[1];
-        this.bombAddScoreMasterDisplay.string = score[2];
-        this.bombAddScoreChallengerDisplay.string = score[3];
-        this.speedScoreMasterDisplay.string = score[4];
-        this.speedScoreChallengerDisplay.string = score[5];
-        this.strengthScoreMasterDisplay.string = score[6];
-        this.strengthScoreChallengerDisplay.string = score[7];
+        // this.masterScoreDisplay.string = score[0];
+        // this.challengerScoreDisplay.string = score[1];
+        // this.bombAddScoreMasterDisplay.string = score[2];
+        // this.bombAddScoreChallengerDisplay.string = score[3];
+        // this.speedScoreMasterDisplay.string = score[4];
+        // this.speedScoreChallengerDisplay.string = score[5];
+        // this.strengthScoreMasterDisplay.string = score[6];
+        // this.strengthScoreChallengerDisplay.string = score[7];
     },
 
     onDestroy: function (){
