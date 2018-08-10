@@ -5,11 +5,14 @@ cc.Class({
 
     properties: {
         editbox: cc.EditBox,
-        createBtn:cc.Button
+        createBtn: cc.Button,
+        statusLabel: cc.Label
     },
 
     onLoad: function (){
         this.createBtn.node.on("touchend",this.addRoom,this);
+        this.statusLabel.node.color = cc.Color.RED;
+        this.node.on("failed",this.failed,this);
     },
 
     show: function (){
@@ -20,6 +23,11 @@ cc.Class({
 
     hide: function (){
         this.node.emit("fade-out");
+        this.statusLabel.string = "";
+    },
+
+    failed: function (){
+        this.statusLabel.string = "房间号已存在";
     },
 
     addRoom: function (){

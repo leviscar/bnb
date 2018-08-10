@@ -155,6 +155,8 @@ cc.Class({
                 cc.find("Canvas/waitPanel").emit("fade-in");
                 cc.find("Canvas/waitPanel").emit("clearAvatar");
                 cc.find("Canvas/waitPanel").emit("loadAvatar");
+            }else{
+                cc.find("Canvas/addRoomPanel").emit("failed");
             }
             
         });
