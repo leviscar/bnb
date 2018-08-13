@@ -103,8 +103,7 @@ cc.Class({
             if(res.query.roomName){
                 const roomId = res.query.roomName;
     
-                // com.socket.role = "challenger";
-                // com.isMaster = false;
+                com.socket.emit("deleteRoom");
                 com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
             }
         });
@@ -114,13 +113,11 @@ cc.Class({
         wx.onShow(res => {
             console.log("wx onshow");
             console.log(res);
-            // TODO
             if(res.query.roomName){
                 const roomId = res.query.roomName;
 
                 com.roomId = roomId;
-                // com.socket.role = "challenger";
-                // com.isMaster = false;
+                com.socket.emit("deleteRoom");
                 com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
             }
         });
