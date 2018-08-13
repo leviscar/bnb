@@ -91,7 +91,7 @@ module.exports = cc.Class({
         for(let i = 0; i < com.userInfos.length;i++){
             const tag = "Canvas/waitPanel/player" + (i + 1);
 
-            if(com.userInfos[i].avatarUrl){
+            if(com.userInfos[i] != null){
                 cc.loader.load(com.userInfos[i].avatarUrl + "?aaa=aa.png", function (err, tex){
                     cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
                 });
