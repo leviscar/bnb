@@ -31,7 +31,7 @@ cc.Class({
     
     initRoleAvatar: function (prefab){
         const item = cc.instantiate(prefab);
-        const pos = cc.p(-60,10);
+        const pos = cc.p(-70,10);
         
         this.node.addChild(item);
         item.setPosition(pos);
