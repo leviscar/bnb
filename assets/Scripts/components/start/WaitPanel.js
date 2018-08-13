@@ -19,9 +19,24 @@ module.exports = cc.Class({
         this.node.on("clearAvatar",this.clearAvatar,this);
 
         com.socket.on("deleteRoom",function (data){
+            let isDel = true;
+
             console.log("deleteRoom client");
-            self.node.emit("fade-out");
-            com.userInfos = [];
+            com.userInfos = data.userInfos;
+            // console.log(com.userInfos);
+            if (com.userInfos != null)
+                com.userInfos.forEach(function (item){
+                    if(item != null){
+                        if(item.guid && com.userInfo.guid === item.guid){
+                            isDel = false;
+                        }
+                    }
+                });
+            if(isDel){
+                self.node.emit("fade-out");
+                com.userInfos = [];
+            }
+            
         });
     },
 

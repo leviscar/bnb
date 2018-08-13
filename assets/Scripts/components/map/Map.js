@@ -452,11 +452,12 @@ cc.Class({
             socket.on("roleBoom",function (data){
                 cc.audioEngine.playEffect(self.roleBoomAudio,false);
                 self.addRoleBoom(data);
+                self.node.removeChild(roleObj[data.roleGuid]);
             });
 
             socket.on("monsterBoom",function (data){
                 cc.audioEngine.playEffect(self.monsterBoomAudio,false);
-                self.node.removeChild(roleObj[data.name]);
+                self.node.removeChild(monsterObj[data.monsterIndex]);
             });
 
         } catch (error){
