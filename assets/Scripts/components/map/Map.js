@@ -531,11 +531,12 @@ cc.Class({
      * 生成得分面板
      */
     initScorePanel: function (self){
-        const posArr =  [cc.p(60,580),cc.p(900,580),cc.p(60,500),cc.p(900,500)];
+        const posArr =  [cc.p(80,560),cc.p(900,560),cc.p(80,480),cc.p(900,480)];
 
         com.userInfos.forEach(function (item){
             scoreObj[item.guid] = self.spawnNewScore(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");
             scoreObj[item.guid].getComponent("Score").updateAvatar(item.avatarUrl);
+            scoreObj[item.guid].getComponent("Score").initRoleAvatar(rolePrefabArr[item.roleIndex]);
         });
 
     },
