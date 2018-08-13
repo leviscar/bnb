@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bombItem",
+    "_name": "master",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -45,8 +45,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 22,
-      "height": 28
+      "width": 32,
+      "height": 32
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -54,8 +54,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 324.3,
-      "y": 382.8
+      "x": 0,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -66,7 +66,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "particleFire",
+    "_name": "title",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -94,22 +94,22 @@
     "_cascadeOpacityEnabled": true,
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 0.5,
+      "y": 0.5
     },
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 0
+      "height": 40
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0.2,
-    "_scaleY": 0.2,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -2,
-      "y": 25
+      "x": 20,
+      "y": 60
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -119,95 +119,26 @@
     "groupIndex": 0
   },
   {
-    "__type__": "cc.ParticleSystem",
+    "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
     },
     "_enabled": true,
-    "_custom": false,
-    "_file": {
-      "__uuid__": "b2687ac4-099e-403c-a192-ff477686f4f5"
-    },
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "playOnLoad": true,
-    "_autoRemoveOnFinish": false,
-    "_totalParticles": 150,
-    "_duration": -1,
-    "_emissionRate": 10,
-    "_life": 1,
-    "_lifeVar": 0,
-    "_startColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_startColorVar": {
-      "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
-      "a": 255
-    },
-    "_endColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 0
-    },
-    "_endColorVar": {
-      "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
-      "a": 0
-    },
-    "_angle": 90,
-    "_angleVar": 20,
-    "_startSize": 50,
-    "_startSizeVar": 0,
-    "_endSize": 0,
-    "_endSizeVar": 0,
-    "_startSpin": 0,
-    "_startSpinVar": 0,
-    "_endSpin": 0,
-    "_endSpinVar": 0,
-    "_sourcePos": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_posVar": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_positionType": 0,
-    "_emitterMode": 0,
-    "_gravity": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_speed": 180,
-    "_speedVar": 50,
-    "_tangentialAccel": 80,
-    "_tangentialAccelVar": 0,
-    "_radialAccel": 0,
-    "_radialAccelVar": 0,
-    "_rotationIsDir": false,
-    "_startRadius": 0,
-    "_startRadiusVar": 0,
-    "_endRadius": 0,
-    "_endRadiusVar": 0,
-    "_rotatePerS": 0,
-    "_rotatePerSVar": 0,
-    "_N$preview": true
+    "_useOriginalSize": false,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
+    "_lineHeight": 40,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_N$string": "",
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -215,9 +146,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a24b23f9-49ce-4144-a8dd-c6edf70a1b7f"
+      "__uuid__": "2c5b91d9-3ffb-4b18-b297-08c00c3096e1"
     },
-    "fileId": "b5kgQsP31G24mYc+h6D/Ep",
+    "fileId": "49gN3KX3tD5amHtMFMl/nE",
     "sync": false
   },
   {
@@ -229,7 +160,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "25a28ac9-64ae-4737-9e32-5550212b8fd8"
+      "__uuid__": "c659d2d5-9468-4105-aa26-3cc294cc7225"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -252,9 +183,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a24b23f9-49ce-4144-a8dd-c6edf70a1b7f"
+      "__uuid__": "2c5b91d9-3ffb-4b18-b297-08c00c3096e1"
     },
-    "fileId": "b5oCUTH4ZIjbFnFujU7pkd",
+    "fileId": "52lhCZrm5BbLZZi0tNN+jF",
     "sync": false
   }
 ]

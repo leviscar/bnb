@@ -36,9 +36,13 @@ cc.Class({
         // 角色
         player1Prefab: cc.Prefab,
         player2Prefab: cc.Prefab,
+        player3Prefab: cc.Prefab,
+        player4Prefab: cc.Prefab,
         // 炸弹预制资源
         bomb1Prefab: cc.Prefab,
         bomb2Prefab: cc.Prefab,
+        bomb3Prefab: cc.Prefab,
+        bomb4Prefab: cc.Prefab,
         // 小怪物
         monster1Prefab: cc.Prefab,
         monster2Prefab: cc.Prefab,
@@ -116,8 +120,8 @@ cc.Class({
             // 爆炸道具
             999: self.explodePrefab
         };
-        rolePrefabArr = [this.player1Prefab,this.player2Prefab,this.player1Prefab,this.player2Prefab];
-        bombPrefabArr = [this.bomb1Prefab,this.bomb2Prefab];
+        rolePrefabArr = [this.player1Prefab,this.player2Prefab,this.player3Prefab,this.player4Prefab];
+        bombPrefabArr = [this.bomb1Prefab,this.bomb2Prefab,this.bomb3Prefab,this.bomb4Prefab];
         monsterPrefabArr = [this.monster1Prefab,this.monster2Prefab];
 
         this.roleInit = this.roleInit.bind(this);
@@ -194,6 +198,7 @@ cc.Class({
         
         com.userInfos.forEach(function (item){
             if(item.guid === com.userInfo.guid){
+                com.roleIndex = item.roleIndex;
                 cameraAction = cc.sequence(
                     cc.delayTime(delayTime),
                     cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[item.roleIndex].x,com.mapInfo.roleStartPointArr[item.roleIndex].y))
@@ -358,9 +363,15 @@ cc.Class({
      * 添加炸弹
      */
     addBoom: function (obj){
+        let boomPrefab = null;
+
         if(!obj) return false;
-        // TODO
-        const boomPrefab = obj.name === "master" ? this.bomb1Prefab : this.bomb2Prefab;
+        com.userInfos.forEach(function (item,index){
+            if(item.guid === obj.roleGuid){
+                boomPrefab = bombPrefabArr[index];
+            }
+        });
+        
         const axisObj = this.transAxis(this.mapDataLen,obj.position.x,obj.position.y);
         const pos = cc.p(this.mapItemX * axisObj.x,this.mapItemY * axisObj.y);
 

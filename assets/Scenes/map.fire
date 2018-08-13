@@ -599,16 +599,28 @@
     },
     "_enabled": true,
     "player1Prefab": {
-      "__uuid__": "dee5b7ed-8314-448b-95e6-2adbbc2f1e32"
+      "__uuid__": "404a55e4-ec49-4ffb-bf76-cb5466f143be"
     },
     "player2Prefab": {
-      "__uuid__": "e69da005-b562-453f-b8c2-c9d56c02f76d"
+      "__uuid__": "225a5c7a-d3b5-4233-b298-b76dc568f270"
+    },
+    "player3Prefab": {
+      "__uuid__": "ef8eee9d-8dd0-4062-a72c-e84b5c897b0f"
+    },
+    "player4Prefab": {
+      "__uuid__": "2c5b91d9-3ffb-4b18-b297-08c00c3096e1"
     },
     "bomb1Prefab": {
       "__uuid__": "51e71db2-16bb-4798-bf6e-8808d1fd9a9d"
     },
     "bomb2Prefab": {
       "__uuid__": "a24b23f9-49ce-4144-a8dd-c6edf70a1b7f"
+    },
+    "bomb3Prefab": {
+      "__uuid__": "386ed2a6-2e0a-436e-9649-a2156f111722"
+    },
+    "bomb4Prefab": {
+      "__uuid__": "d7166f69-f1ec-4cfd-9af3-b1c7b2c8bbba"
     },
     "monster1Prefab": {
       "__uuid__": "89f4f48b-dd8e-4709-8c0e-585d351c3a22"

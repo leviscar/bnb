@@ -23,7 +23,6 @@ module.exports = cc.Class({
 
             console.log("deleteRoom client");
             com.userInfos = data.userInfos;
-            // console.log(com.userInfos);
             if (com.userInfos != null)
                 com.userInfos.forEach(function (item){
                     if(item != null){
