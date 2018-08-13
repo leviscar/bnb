@@ -14,7 +14,6 @@ module.exports = cc.Class({
 
         this.shareBtn.node.on("click",this.wxShare,this);
         this.startBtn.node.on("click",this.gameStart,this);
-        // TODO
         this.node.on("loadAvatar",this.loadAvatar,this);
         this.node.on("clearAvatar",this.clearAvatar,this);
 
@@ -34,6 +33,9 @@ module.exports = cc.Class({
             if(isDel){
                 self.node.emit("fade-out");
                 com.userInfos = [];
+            }else{
+                self.node.emit("clearAvatar");
+                self.node.emit("loadAvatar");
             }
             
         });
