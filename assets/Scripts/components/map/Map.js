@@ -431,7 +431,9 @@ cc.Class({
     
             socket.on("itemEaten",function (data){
                 if(!data) return false;
-                cc.audioEngine.playEffect(self.giftAudio,false);
+                if(data.roleGuid !== null){
+                    cc.audioEngine.playEffect(self.giftAudio,false);
+                }
                 self.node.removeChild(itemList[data.x][data.y]);
                 itemList[data.x][data.y] = null;
                 scoreObj[data.roleGuid].getComponent("Score").updateItemNum(data);
