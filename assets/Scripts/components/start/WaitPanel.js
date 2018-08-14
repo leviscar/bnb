@@ -22,14 +22,19 @@ module.exports = cc.Class({
 
             console.log("deleteRoom client");
             com.userInfos = data.userInfos;
-            if (com.userInfos != null)
-                com.userInfos.forEach(function (item){
-                    if(item != null){
-                        if(item.guid && com.userInfo.guid === item.guid){
-                            isDel = false;
+            try {
+                if (com.userInfos != null)
+                    com.userInfos.forEach(function (item){
+                        if(item != null){
+                            if(item.guid && com.userInfo.guid === item.guid){
+                                isDel = false;
+                            }
                         }
-                    }
-                });
+                    });
+            } catch (error){
+                console.error(error);
+            }
+
             if(isDel){
                 self.node.emit("fade-out");
                 com.userInfos = [];
@@ -93,18 +98,28 @@ module.exports = cc.Class({
     },
 
     loadAvatar: function (){
-        try {
-            for(let i = 0; i < com.userInfos.length;i++){
-                const tag = "Canvas/waitPanel/player" + (i + 1);
-    
-                if(com.userInfos[i] != null){
-                    cc.loader.load(com.userInfos[i].avatarUrl + "?aaa=aa.png", function (err, tex){
-                        cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-                    });
+        for(let i = 0; i < com.userInfos.length;i++){
+            const tag = "Canvas/waitPanel/player" + (i + 1);
+
+            if(com.userInfos[i] != null){
+                if(window.wx != undefined){
+                    try {
+                        cc.loader.load(com.userInfos[i].avatarUrl + "?aaa=aa.png", function (err, tex){
+                            cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
+                        });
+                    } catch (error){
+                        console.error(error);
+                    }
+                }else{
+                    try {
+                        cc.loader.loadRes("nullAvatar.jpg", function (err, tex){
+                            self.avatar.spriteFrame = new cc.SpriteFrame(tex);
+                        });
+                    } catch (error){
+                        console.error(error);
+                    }
                 }
             }
-        } catch (error){
-            console.error(error);
         }
     }
 });

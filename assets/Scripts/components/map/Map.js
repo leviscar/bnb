@@ -199,12 +199,14 @@ cc.Class({
         this.cameraContatiner.setPosition(originPos);
         
         com.userInfos.forEach(function (item){
-            if(item.guid === com.userInfo.guid){
-                com.roleIndex = item.roleIndex;
-                cameraAction = cc.sequence(
-                    cc.delayTime(delayTime),
-                    cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[item.roleIndex].x,com.mapInfo.roleStartPointArr[item.roleIndex].y))
-                );
+            if(item != null){
+                if(item.guid === com.userInfo.guid){
+                    com.roleIndex = item.roleIndex;
+                    cameraAction = cc.sequence(
+                        cc.delayTime(delayTime),
+                        cc.moveTo(duration,cc.p(com.mapInfo.roleStartPointArr[item.roleIndex].x,com.mapInfo.roleStartPointArr[item.roleIndex].y))
+                    );
+                }
             }
         });
 
@@ -223,6 +225,7 @@ cc.Class({
     */
     roleInit: function (self){
         com.userInfos.forEach(function (item){
+            if( item == null) return false;
             const pos = cc.p(com.mapInfo.roleStartPointArr[item.roleIndex].x,com.mapInfo.roleStartPointArr[item.roleIndex].y);
             
             roleObj[item.guid] = self.spawnNewRole(pos,rolePrefabArr[item.roleIndex],item.guid);
@@ -367,6 +370,8 @@ cc.Class({
 
         if(!obj) return false;
         com.userInfos.forEach(function (item,index){
+            if( item == null) return false;
+
             if(item.guid === obj.roleGuid){
                 boomPrefab = bombPrefabArr[index];
             }
@@ -549,6 +554,8 @@ cc.Class({
         const posArr =  [cc.p(80,560),cc.p(930,560),cc.p(80,480),cc.p(930,480)];
 
         com.userInfos.forEach(function (item){
+            if( item == null) return false;
+            
             scoreObj[item.guid] = self.spawnNewScore(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");
             scoreObj[item.guid].getComponent("Score").updateAvatar(item.avatarUrl);
             scoreObj[item.guid].getComponent("Score").initRoleAvatar(rolePrefabArr[item.roleIndex]);
