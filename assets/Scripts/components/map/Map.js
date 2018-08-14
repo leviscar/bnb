@@ -544,6 +544,8 @@ cc.Class({
      * 返回大厅
      */
     backStart: function (){
+        com.socket = null;
+        com.userInfo.guid = null;
         cc.director.loadScene("start");
     },
 
@@ -555,7 +557,7 @@ cc.Class({
 
         com.userInfos.forEach(function (item){
             if( item == null) return false;
-            
+
             scoreObj[item.guid] = self.spawnNewScore(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");
             scoreObj[item.guid].getComponent("Score").updateAvatar(item.avatarUrl);
             scoreObj[item.guid].getComponent("Score").initRoleAvatar(rolePrefabArr[item.roleIndex]);
