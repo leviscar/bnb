@@ -74,10 +74,22 @@ cc.Class({
     updateAvatar: function (url){
         const self = this;
 
-        if(url){
-            cc.loader.load(url + "?aaa=aa.png", function (err, tex){
-                self.avatar.spriteFrame = new cc.SpriteFrame(tex);
-            });
+        try {
+            if(url){
+                cc.loader.load(url + "?aaa=aa.png", function (err, tex){
+                    self.avatar.spriteFrame = new cc.SpriteFrame(tex);
+                });
+            }else{
+                // console.log(this.avatar.spriteFrame);
+                // console.log(this.avatar);
+                // console.log(self.avatar);
+                // this.avatar.spriteFrame.setTexture(cc.url.raw("resources/nullAvatar.jpg"));
+                cc.loader.loadRes("nullAvatar.jpg", function (err, tex){
+                    self.avatar.spriteFrame = new cc.SpriteFrame(tex);
+                });
+            }
+        } catch (error){
+            console.error(error);
         }
     }
 });
