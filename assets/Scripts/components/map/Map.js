@@ -383,10 +383,17 @@ cc.Class({
      * 增加角色爆炸效果
      */
     addRoleBoom: function (obj){
+        const delay = 3;
+
         if(!obj) return false;
         const pos = cc.p(obj.x,obj.y);
 
-        this.spawnNewItem(pos,prefabList[998]);
+        const roleBoom = this.spawnNewItem(pos,prefabList[998]);
+
+        this.scheduleOnce(function (){
+            this.node.removeChild(roleBoom);
+        }, delay);
+        
     },
 
     /**
