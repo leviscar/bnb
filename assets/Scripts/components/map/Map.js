@@ -473,6 +473,7 @@ cc.Class({
                 cc.audioEngine.playEffect(self.roleBoomAudio,false);
                 self.addRoleBoom(data);
                 self.node.removeChild(roleObj[data.roleGuid]);
+                scoreObj[data.roleGuid].getComponent("Score").setImageGray();
             });
 
             socket.on("monsterBoom",function (data){

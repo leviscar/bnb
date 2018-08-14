@@ -80,22 +80,30 @@ module.exports = cc.Class({
 
     // TODO
     clearAvatar: function (){
-        for(let i = 1; i < 5;i++){
-            const tag = "Canvas/waitPanel/player" + i;
-
-            cc.find(tag).getComponent(cc.Sprite).spriteFrame = null;
+        try {
+            for(let i = 1; i < 5;i++){
+                const tag = "Canvas/waitPanel/player" + i;
+    
+                cc.find(tag).getComponent(cc.Sprite).spriteFrame = null;
+            }
+        } catch (error){
+            console.error(error);
         }
     },
 
     loadAvatar: function (){
-        for(let i = 0; i < com.userInfos.length;i++){
-            const tag = "Canvas/waitPanel/player" + (i + 1);
-
-            if(com.userInfos[i] != null){
-                cc.loader.load(com.userInfos[i].avatarUrl + "?aaa=aa.png", function (err, tex){
-                    cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-                });
+        try {
+            for(let i = 0; i < com.userInfos.length;i++){
+                const tag = "Canvas/waitPanel/player" + (i + 1);
+    
+                if(com.userInfos[i] != null){
+                    cc.loader.load(com.userInfos[i].avatarUrl + "?aaa=aa.png", function (err, tex){
+                        cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
+                    });
+                }
             }
+        } catch (error){
+            console.error(error);
         }
     }
 });

@@ -2,7 +2,6 @@ const I_PAOPAO = 101;
 const I_SPEED  = 102;
 const I_POWER  = 103;
 const I_SCORE  = 104;
-// let roleObj = {};
 
 cc.Class({
     extends: cc.Component,
@@ -14,10 +13,6 @@ cc.Class({
         scoreLabel: cc.Label,
         scorePanel: cc.Node,
         avatar: cc.Sprite,
-        // player1Prefab: cc.Prefab,
-        // player2Prefab: cc.Prefab,
-        // player3Prefab: cc.Prefab,
-        // player4Prefab: cc.Prefab,
     },
 
     init: function (pos){
@@ -35,8 +30,18 @@ cc.Class({
         
         this.node.addChild(item);
         item.setPosition(pos);
-        
+        this.roleAvatarItem = item;
+
         return item;
+    },
+
+    setImageGray: function (){
+        this.roleAvatarItem.getComponent(cc.Sprite)._sgNode.setState(1);
+        try {
+            this.avatar.getComponent(cc.Sprite)._sgNode.setState(1);
+        } catch (error){
+            console.error(error);
+        }
     },
 
     updateItemNum: function (data){
