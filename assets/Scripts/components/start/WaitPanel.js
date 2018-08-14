@@ -43,6 +43,7 @@ module.exports = cc.Class({
 
     hide: function (){
         com.socket.emit("deleteRoom");
+        cc.find("Canvas/background").resumeSystemEvents(true);
     },
     
     wxShare: function (){

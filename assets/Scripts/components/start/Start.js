@@ -5,7 +5,9 @@ cc.Class({
 
     properties: {
         background: cc.Node,
-        rankBtn: cc.Button
+        rankBtn: cc.Button,
+        addRoomBtn: cc.Button,
+        joinRoomBtn: cc.Button
     },
 
     onLoad: function (){
@@ -25,6 +27,8 @@ cc.Class({
         this.wxHandle = this.wxHandle.bind(this);
         this.socketHandle = this.socketHandle.bind(this);
         this.rankBtn.node.on("click",this.showRankList,this);
+        this.addRoomBtn.node.on("click",this.showAddRoomPanel,this);
+        this.joinRoomBtn.node.on("click",this.showJoinRoomPanel,this);
 
         cc.director.preloadScene("map", function (){ cc.log("map scene preloaded"); }); 
 
@@ -137,6 +141,14 @@ cc.Class({
 
     showRankList: function (){
         cc.find("Canvas/rankListPanel").emit("fade-in");
+    },
+
+    showAddRoomPanel: function (){
+        cc.find("Canvas/addRoomPanel").emit("show");
+    },
+
+    showJoinRoomPanel: function (){
+        cc.find("Canvas/joinRoomScrollView").emit("show");
     },
 
     socketHandle: function (){

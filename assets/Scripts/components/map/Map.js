@@ -251,8 +251,6 @@ cc.Class({
                 roleObj[val.roleGuid].stopAllActions();
                 roleObj[val.roleGuid].runAction(cc.moveTo((1 / com.FPS),position));
 
-                // TODO
-                // val.name === "master" ? score[0] = val.score : score[1] = val.score;
                 scoreObj[val.roleGuid].getComponent("Score").updateScore(val.score);
 
                 self.updateTime(val.gameTime >= 0 ? val.gameTime : 0);

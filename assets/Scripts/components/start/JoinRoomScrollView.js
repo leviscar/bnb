@@ -48,11 +48,13 @@ cc.Class({
     show: function (){
         this.node.active = true;
         this.node.emit("fade-in");
+        cc.find("Canvas/background").pauseSystemEvents(true);
     },
 
     hide: function (){
         this.node.active = false;
         this.node.emit("fade-out");
+        cc.find("Canvas/background").resumeSystemEvents(true);
     },
 
     onEnable: function (){
