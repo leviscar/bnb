@@ -71,6 +71,7 @@ cc.Class({
         background: cc.Node,
         // 放置炸弹按钮
         bombBtn: cc.Button,
+        backBtn: cc.Button,
         // Labels
         timerDisplay:cc.Label,
         // 背景音乐
@@ -136,6 +137,7 @@ cc.Class({
         this.socketHandle = this.socketHandle.bind(this);
         this.updateTime = this.updateTime.bind(this);
         this.initScorePanel = this.initScorePanel.bind(this);
+        this.backBtn.node.on("click",this.backStart,this);
         this.background.setScale(com.windowSize.width / 960,com.windowSize.height / 640);
         this.mapBG.width = com.mapInfo.arr[0].length * this.mapItemX;
         this.mapBG.height = com.mapInfo.arr.length * this.mapItemY;
@@ -533,6 +535,13 @@ cc.Class({
     */
     updateTime: function (gameTime){
         this.timerDisplay.string = this.transTime(parseInt(gameTime / 60)) + ":" + this.transTime(gameTime % 60);
+    },
+
+    /**
+     * 返回大厅
+     */
+    backStart: function (){
+        cc.director.loadScene("start");
     },
 
     /**
