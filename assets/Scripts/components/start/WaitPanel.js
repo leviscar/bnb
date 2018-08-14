@@ -113,7 +113,7 @@ module.exports = cc.Class({
                 }else{
                     try {
                         cc.loader.loadRes("nullAvatar.jpg", function (err, tex){
-                            self.avatar.spriteFrame = new cc.SpriteFrame(tex);
+                            cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
                         });
                     } catch (error){
                         console.error(error);
