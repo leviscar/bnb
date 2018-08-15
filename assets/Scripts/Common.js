@@ -8,6 +8,7 @@ module.exports = {
     moveMap: false, // 是否正在移动地图
     isMaster: false, // 是否是房主
     isWinner: false,
+    isDead: false,
     socket: null,
     windowSize:null, // 界面尺寸缓存
     userInfos: [], // 角色信息
