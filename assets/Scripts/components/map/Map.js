@@ -557,7 +557,14 @@ cc.Class({
      * 生成得分面板
      */
     initScorePanel: function (self){
-        const posArr =  [cc.p(80,560),cc.p(930,560),cc.p(80,480),cc.p(930,480)];
+        console.log(com.windowSize);
+        const x1 = 80 / 960 * com.windowSize.width;
+        const x2 = 930 / 960 * com.windowSize.width;
+        const y1 = 560 / 640 * com.windowSize.height;
+        const y2 = 480 / 640 * com.windowSize.height;
+        const y3 = 400 / 640 * com.windowSize.height;
+        const y4 = 320 / 640 * com.windowSize.height;
+        const posArr =  [cc.p(x1,y1),cc.p(x1,y2),cc.p(x1,y3),cc.p(x1,y4)];
         let index = 0;
 
         com.userInfos.forEach(function (item){
