@@ -405,7 +405,7 @@ cc.Class({
     /**
      * 爆炸动作
      */
-    boomAction: function (arr){
+    boomAction: function (arr,item){
         let pos,axisObj;
 
         if(!arr || arr.length === 0) return false;
@@ -416,6 +416,7 @@ cc.Class({
         }
         this.scheduleOnce(function (){
             this.dropItem(arr);
+            this.addItem(item);
         }, 0.2);
         
     },
@@ -465,10 +466,10 @@ cc.Class({
     
             socket.on("boomInfo",function (data){
                 cc.audioEngine.playEffect(self.paopaoBoomAudio,false);
+                data.boomXYArr = data.boomXYArr.concat(data.boomBoxArr);
                 self.dropItem(data.boomPaopaoArr);
                 self.dropItem(data.boomBoxArr);
-                self.addItem(data.itemArr);
-                self.boomAction(data.boomXYArr);
+                self.boomAction(data.boomXYArr,data.itemArr);
             });
     
             socket.on("paopaoCreated",function (data){
@@ -557,7 +558,6 @@ cc.Class({
      * 生成得分面板
      */
     initScorePanel: function (self){
-        console.log(com.windowSize);
         const x1 = 80 / 960 * com.windowSize.width;
         const x2 = 930 / 960 * com.windowSize.width;
         const y1 = 560 / 640 * com.windowSize.height;
