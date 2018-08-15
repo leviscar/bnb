@@ -3,7 +3,8 @@ cc.Class({
 
     properties: {
         duration: 0,
-        rankListPanel: cc.Sprite
+        rankListPanel: cc.Sprite,
+        titleLabel: cc.Label
     },
 
     onLoad: function (){
@@ -13,6 +14,7 @@ cc.Class({
 
     start: function (){
         if (CC_WECHATGAME){
+            this.titleLabel.string = "";
             this.tex = new cc.Texture2D();
             window.sharedCanvas.width = 720;
             window.sharedCanvas.height = 1280;
