@@ -558,10 +558,11 @@ cc.Class({
      */
     initScorePanel: function (self){
         const posArr =  [cc.p(80,560),cc.p(930,560),cc.p(80,480),cc.p(930,480)];
+        let index = 0;
 
         com.userInfos.forEach(function (item){
             if( item != null){ 
-                scoreObj[item.guid] = self.spawnNewScore(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");
+                scoreObj[item.guid] = self.spawnNewScore(posArr[index++],self.scorePrefab,item.guid + "score");
                 scoreObj[item.guid].getComponent("Score").updateAvatar(item.avatarUrl);
                 scoreObj[item.guid].getComponent("Score").initRoleAvatar(rolePrefabArr[item.roleIndex]);
             }
