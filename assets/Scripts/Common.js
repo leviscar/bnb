@@ -1,9 +1,9 @@
 module.exports = {
     roomId: 0,
     FPS: 30, // 数据刷新帧率
-    host: "http://localhost:4000",
-    // host:"wss://www.x-lab.ac",
-    // port: 4000,
+    // host: "http://localhost:4000",
+    host:"wss://www.x-lab.ac",
+    port: 4000,
     showImgUrl: "https://www.x-lab.ac/pic/share.png",
     moveMap: false, // 是否正在移动地图
     isMaster: false, // 是否是房主

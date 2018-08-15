@@ -171,6 +171,7 @@ cc.Class({
     */
     loadAvatar: function (userInfos){
         for (const index in userInfos){
+            if(userInfos[index] == null ) continue;
             const tag = "score" + (parseInt(index) + 1) + "/avatar";
 
             cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex){
@@ -370,10 +371,10 @@ cc.Class({
 
         if(!obj) return false;
         com.userInfos.forEach(function (item,index){
-            if( item == null) return false;
-
-            if(item.guid === obj.roleGuid){
-                boomPrefab = bombPrefabArr[index];
+            if( item != null){
+                if(item.guid === obj.roleGuid){
+                    boomPrefab = bombPrefabArr[index];
+                }
             }
         });
         
@@ -558,11 +559,12 @@ cc.Class({
         const posArr =  [cc.p(80,560),cc.p(930,560),cc.p(80,480),cc.p(930,480)];
 
         com.userInfos.forEach(function (item){
-            if( item == null) return false;
-
-            scoreObj[item.guid] = self.spawnNewScore(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");
-            scoreObj[item.guid].getComponent("Score").updateAvatar(item.avatarUrl);
-            scoreObj[item.guid].getComponent("Score").initRoleAvatar(rolePrefabArr[item.roleIndex]);
+            if( item != null){ 
+                scoreObj[item.guid] = self.spawnNewScore(posArr[item.roleIndex],self.scorePrefab,item.guid + "score");
+                scoreObj[item.guid].getComponent("Score").updateAvatar(item.avatarUrl);
+                scoreObj[item.guid].getComponent("Score").initRoleAvatar(rolePrefabArr[item.roleIndex]);
+            }
+            
         });
 
     },
