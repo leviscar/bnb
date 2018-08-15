@@ -544,8 +544,10 @@ cc.Class({
      * 返回大厅
      */
     backStart: function (){
-        com.socket = null;
-        com.userInfo.guid = null;
+        if(com.socket){
+            com.socket.disconnect();
+            com.socket = null;
+        }
         cc.director.loadScene("start");
     },
 
