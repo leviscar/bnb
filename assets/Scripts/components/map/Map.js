@@ -480,6 +480,7 @@ cc.Class({
                 self.addRoleBoom(data);
                 self.node.removeChild(roleObj[data.roleGuid]);
                 scoreObj[data.roleGuid].getComponent("Score").setImageGray();
+                if(data.roleGuid === com.userInfo.guid) com.isDead = true;
             });
 
             socket.on("monsterBoom",function (data){
