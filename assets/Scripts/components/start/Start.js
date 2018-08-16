@@ -103,12 +103,14 @@ cc.Class({
         wx.getLaunchOptionsSync(res => {
             console.log("wx getLaunchOptionsSync");
             console.log(res);
-            // TODO
             if(res.query.roomName){
                 const roomId = res.query.roomName;
     
                 com.socket.emit("deleteRoom");
                 com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
+                cc.find("Canvas/waitPanel").emit("fade-in");
+                cc.find("Canvas/waitPanel").emit("clearAvatar");
+                cc.find("Canvas/waitPanel").emit("loadAvatar");
             }
         });
     },
@@ -123,6 +125,9 @@ cc.Class({
                 com.roomId = roomId;
                 com.socket.emit("deleteRoom");
                 com.socket.emit("joinRoom",{roomId:roomId,userInfo:com.userInfo});
+                cc.find("Canvas/waitPanel").emit("fade-in");
+                cc.find("Canvas/waitPanel").emit("clearAvatar");
+                cc.find("Canvas/waitPanel").emit("loadAvatar");
             }
         });
     },

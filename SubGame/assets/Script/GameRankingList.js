@@ -22,9 +22,10 @@ cc.Class({
                 } else if (data.messageType == 2){ // 提交得分
                     // this.submitScore(data.MAIN_MENU_NUM, data.score);
                 }else if(data.messageType == 3){ // 绘制横向排行榜
+                    this.addWinCount(0);
                     this.gameOverRank(data.MAIN_MENU_NUM);
                 }else if (data.messageType == 4){// 获胜更新排行榜
-                    this.addWinCount();
+                    this.addWinCount(1);
                     this.gameOverRank(data.MAIN_MENU_NUM);
                 }
             });
@@ -33,7 +34,7 @@ cc.Class({
         }
     },
 
-    addWinCount: function (){
+    addWinCount: function (score){
         if (CC_WECHATGAME){
             window.wx.getUserCloudStorage({
                 // 以key/value形式存储
@@ -51,7 +52,7 @@ cc.Class({
                     // 对用户托管数据进行写数据操作
                     window.wx.setUserCloudStorage({
                         KVDataList: [
-                            {key: "win", value: parseInt(historyWinCount) + 1 + ""},
+                            {key: "win", value: parseInt(historyWinCount) + parseInt(score) + ""},
                             {key: "lose", value: parseInt(historyLoseCount) + ""}
                         ],
                         success: function (res){
