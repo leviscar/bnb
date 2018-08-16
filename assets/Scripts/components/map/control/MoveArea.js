@@ -23,8 +23,12 @@ cc.Class({
     onTouchMove: function (event){
         const touchPos = this.node.convertToNodeSpaceAR(event.getLocation());
         const changePos = cc.v2(this.previousPos.x + touchPos.x - this.startTouchPos.x,this.previousPos.y + touchPos.y - this.startTouchPos.y);
+        const lowPos = -280;
+        const lowHt  = -190;
 
-        this.cameraContatiner.position = cc.v2(changePos.x,changePos.y);
+        if( changePos.x > lowPos && changePos.x < com.windowSize.width * 3 / 4  && changePos.y < com.windowSize.height * 3 / 4 && changePos.y > lowHt ){
+            this.cameraContatiner.position = cc.v2(changePos.x,changePos.y);
+        }
     },
 
     onTouchEnd: function (){

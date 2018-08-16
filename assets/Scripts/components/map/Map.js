@@ -89,7 +89,7 @@ cc.Class({
         this.mapItemX = 32;
         this.mapItemY = 32;
         this.gameTime = 0;
-
+        com.isDead = false;
         roleInfos = [];
         score = [0,0,0,0,0,0,0,0];
         prefabList = {
