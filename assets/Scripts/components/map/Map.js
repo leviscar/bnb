@@ -146,13 +146,6 @@ cc.Class({
         this.drawMap(com.mapInfo.arr);
         this.roleInit(self);
         this.initScorePanel(self);
-        try {
-            if(wx){
-                this.loadAvatar(com.userInfos);
-            }
-        } catch (error){
-            console.error(error);
-        }
     },
 
     start: function (){
@@ -164,21 +157,6 @@ cc.Class({
         this.mapInit();
         this.keyInit();
         this.roleMove(self);  
-    },
-
-    /** 
-     * 加载头像
-    */
-    loadAvatar: function (userInfos){
-        for (const index in userInfos){
-            if(userInfos[index] == null ) continue;
-            const tag = "score" + (parseInt(index) + 1) + "/avatar";
-
-            cc.loader.load(userInfos[index].avatarUrl + "?aaa=aa.png", function (err, tex){
-                cc.find(tag).getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(tex);
-            });
-        }
-        
     },
 
     /** 
