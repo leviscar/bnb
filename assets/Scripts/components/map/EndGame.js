@@ -58,11 +58,13 @@ cc.Class({
             console.log(data);
             if(data.tiedArr.indexOf(selfGuid) !== -1){
                 result = "平局";
+                com.isWinner = false;
             }else if(data.winnerArr.indexOf(selfGuid) !== -1){
                 result = "你赢了";
                 com.isWinner = true;
             }else if(data.loserArr.indexOf(selfGuid) !== -1){
                 result = "你输了";
+                com.isWinner = false;
             }
 
             self.resultPanel.string = result;
