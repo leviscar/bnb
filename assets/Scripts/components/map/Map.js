@@ -385,7 +385,7 @@ cc.Class({
     /**
      * 爆炸动作
      */
-    boomAction: function (arr,item){
+    boomAction: function (arr){
         let pos,axisObj;
 
         if(!arr || arr.length === 0) return false;
@@ -396,8 +396,7 @@ cc.Class({
         }
         this.scheduleOnce(function (){
             this.dropItem(arr);
-            this.addItem(item);
-        }, 0.05);
+        }, 0.1);
         
     },
 
@@ -418,7 +417,28 @@ cc.Class({
 
         return data < 10 ? "0" + data : data;  
     },
+    /**
+     * 二维数组减法 
+     * @params arr1 arr2
+     * @return arr1 - arr2
+     */
+    distinct: function (arr1,arr2){
+        if(arr2 == null || arr2.length == 0) return arr1;
+        const arr = arr1.filter(function (item){
+            let flag = false;
+            
+            arr2.forEach(function (itemArr){
+                if(item.x !== itemArr.x || item.y !== itemArr.y)
+                    flag = true;
+            });
 
+            return flag;
+
+        });
+
+        return arr;
+    },
+    
     /**
      * socket事件
      */
@@ -449,10 +469,13 @@ cc.Class({
     
             socket.on("boomInfo",function (data){
                 cc.audioEngine.playEffect(self.paopaoBoomAudio,false);
-                data.boomXYArr = data.boomXYArr.concat(data.boomBoxArr);
+                const arr = self.distinct(data.boomBoxArr,data.itemArr);
+
+                data.boomXYArr = data.boomXYArr.concat(arr);
                 self.dropItem(data.boomPaopaoArr);
                 self.dropItem(data.boomBoxArr);
-                self.boomAction(data.boomXYArr,data.itemArr);
+                self.boomAction(data.boomXYArr);
+                self.addItem(data.itemArr);
             });
     
             socket.on("paopaoCreated",function (data){
