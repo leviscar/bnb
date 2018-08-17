@@ -422,14 +422,15 @@ cc.Class({
      * @params arr1 arr2
      * @return arr1 - arr2
      */
-    distinct: function (arr1,arr2){
+    distinct: function distinct (arr1,arr2){
         if(arr2 == null || arr2.length == 0) return arr1;
         const arr = arr1.filter(function (item){
-            let flag = false;
-            
+            let flag = true;
+
             arr2.forEach(function (itemArr){
-                if(item.x !== itemArr.x || item.y !== itemArr.y)
-                    flag = true;
+                if(item.x == itemArr.x && item.y == itemArr.y){
+                    flag = false;
+                }
             });
 
             return flag;
