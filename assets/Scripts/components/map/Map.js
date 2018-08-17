@@ -141,7 +141,7 @@ cc.Class({
         this.background.setScale(com.windowSize.width / 960,com.windowSize.height / 640);
         this.mapBG.width = com.mapInfo.arr[0].length * this.mapItemX;
         this.mapBG.height = com.mapInfo.arr.length * this.mapItemY;
-        this.roleMoveInterval = 1;
+        this.roleMoveInterval = false;
 
         this.socketHandle(roleObj,socket,self);
         this.drawMap(com.mapInfo.arr);
@@ -226,6 +226,7 @@ cc.Class({
 
             if(roleData == null || roleData.length == 0){
                 clearInterval(self.roleMoveInterval);
+                self.roleMoveInterval = false;
             }
 
             roleData.forEach(function (val){
@@ -427,7 +428,7 @@ cc.Class({
         try {
             socket.on("roleInfo",function (data){
                 roleInfos = data;
-                if(self.roleMoveInterval == 1){
+                if(self.roleMoveInterval === false){
                     self.roleMove(self);
                 }
             });
